@@ -75,7 +75,6 @@ $show_complete_tasks = rand(0, 1);
                     </nav>
 
                     <label class="checkbox">
-                        <!--добавить сюда аттрибут "checked", если переменная $show_complete_tasks равна единице-->
                         <input class="checkbox__input visually-hidden show_completed" type="checkbox" <?php if ($show_complete_tasks === 1): ?> checked <?php endif; ?>>
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
@@ -96,7 +95,7 @@ $show_complete_tasks = rand(0, 1);
 
                         <td class="task__date"></td>
                     </tr>
-                    <!--показывать следующий тег <tr/>, если переменная $show_complete_tasks равна единице-->         <?php if ($show_complete_tasks === 1): ?>
+                    <?php if ($show_complete_tasks === 1): ?>
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
