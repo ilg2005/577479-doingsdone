@@ -3,7 +3,38 @@
 $show_complete_tasks = rand(0, 1);
 
 $projects = ['Входящие', 'Учеба', 'Работа', 'Домашние дела', 'Авто'];
-
+$tasks = [
+    [
+        'title' => 'Собеседование в IT компании',
+        'implementationDate' => '01.12.2019',
+        'projectCategory' => 'Работа',
+        'isDone' => 'Нет'
+    ],
+    [
+        'title' => 'Выполнить тестовое задание',
+        'implementationDate' => '25.12.2019',
+        'projectCategory' => 'Работа',
+        'isDone' => 'Нет'
+    ],
+    [
+        'title' => 'Встреча с другом',
+        'implementationDate' => '22.12.2019',
+        'projectCategory' => 'Входящие',
+        'isDone' => 'Нет'
+    ],
+    [
+        'title' => 'Купить корм для кота',
+        'implementationDate' => 'Нет',
+        'projectCategory' => 'Домашние дела',
+        'isDone' => 'Нет'
+    ],
+    [
+        'title' => 'Заказать пиццу',
+        'implementationDate' => 'Нет',
+        'projectCategory' => 'Домашние дела',
+        'isDone' => 'Нет'
+    ]
+];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
