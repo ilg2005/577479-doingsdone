@@ -128,7 +128,8 @@ $tasks = [
                     <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
+                                    <?= ($v['isDone'] === 'Да' && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
                                 <span class="checkbox__text"><?= $v['title']; ?></span>
                             </label>
                         </td>
