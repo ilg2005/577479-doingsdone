@@ -45,11 +45,10 @@ $tasks = [
 $countTasks4Projects = function ($tasksArray, $projectName) {
     $count = 0;
     foreach ($tasksArray as $item) {
-     ($item['projectCategory'] === $projectName) ? ($count++) : '';
-   }
+        ($item['projectCategory'] === $projectName) ? ($count++) : '';
+    }
     return $count;
 };
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -73,7 +72,8 @@ $countTasks4Projects = function ($tasksArray, $projectName) {
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить
+                    задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__image">
@@ -96,10 +96,11 @@ $countTasks4Projects = function ($tasksArray, $projectName) {
                 <nav class="main-navigation">
                     <ul class="main-navigation__list">
                         <?php foreach ($projects as $value): ?>
-                        <li class="main-navigation__list-item">
-                            <a class="main-navigation__list-item-link" href="#"><?= $value; ?></a>
-                            <span class="main-navigation__list-item-count"><?= $countTasks4Projects($tasks, $value)?></span>
-                        </li>
+                            <li class="main-navigation__list-item">
+                                <a class="main-navigation__list-item-link" href="#"><?= $value; ?></a>
+                                <span class="main-navigation__list-item-count"><?= $countTasks4Projects($tasks,
+                                        $value) ?></span>
+                            </li>
                         <?php endforeach; ?>
                     </ul>
                 </nav>
@@ -133,28 +134,28 @@ $countTasks4Projects = function ($tasksArray, $projectName) {
                 </div>
 
                 <table class="tasks">
-                <?php foreach ($tasks as $k => $v): ?>
-                    <?php if($v['isDone'] === 'Да' && !$show_complete_tasks) {
-                        continue;
-                    } ?>
-                    <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                                    <?= ($v['isDone'] === 'Да' && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
-                                <span class="checkbox__text"><?= $v['title']; ?></span>
-                            </label>
-                        </td>
+                    <?php foreach ($tasks as $k => $v): ?>
+                        <?php if ($v['isDone'] === 'Да' && !$show_complete_tasks) {
+                            continue;
+                        } ?>
+                        <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
+                            <td class="task__select">
+                                <label class="checkbox task__checkbox">
+                                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
+                                        <?= ($v['isDone'] === 'Да' && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
+                                    <span class="checkbox__text"><?= $v['title']; ?></span>
+                                </label>
+                            </td>
 
-<!--                        <td class="task__file">-->
-<!--                            <a class="download-link" href="#"></a>-->
-<!--                        </td>-->
+                            <!--                        <td class="task__file">-->
+                            <!--                            <a class="download-link" href="#"></a>-->
+                            <!--                        </td>-->
 
-                        <td class="task__date"><?= $v['implementationDate']; ?></td>
-                        <td class="task__controls">
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+                            <td class="task__date"><?= $v['implementationDate']; ?></td>
+                            <td class="task__controls">
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </table>
             </main>
         </div>
