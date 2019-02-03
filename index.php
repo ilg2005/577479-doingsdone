@@ -11,6 +11,12 @@ $tasks = [
         'isDone' => 'Нет'
     ],
     [
+        'title' => 'Сделать задание первого раздела',
+        'implementationDate' => '21.12.2019',
+        'projectCategory' => 'Учеба',
+        'isDone' => 'Да'
+    ],
+    [
         'title' => 'Выполнить тестовое задание',
         'implementationDate' => '25.12.2019',
         'projectCategory' => 'Работа',
@@ -118,20 +124,22 @@ $tasks = [
                 </div>
 
                 <table class="tasks">
-                    <tr class="tasks__item task">
+                <?php foreach ($tasks as $k => $v): ?>
+                    <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
                                 <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                <span class="checkbox__text">Сделать главную страницу Дела в порядке</span>
+                                <span class="checkbox__text"><?= $v['title']; ?></span>
                             </label>
                         </td>
 
-                        <td class="task__file">
-                            <a class="download-link" href="#">Home.psd</a>
-                        </td>
+<!--                        <td class="task__file">-->
+<!--                            <a class="download-link" href="#"></a>-->
+<!--                        </td>-->
 
-                        <td class="task__date"></td>
+                        <td class="task__date"><?= $v['implementationDate']; ?></td>
                     </tr>
+                    <?php endforeach; ?>
                     <?php if ($show_complete_tasks === 1): ?>
                     <tr class="tasks__item task task--completed">
                         <td class="task__select">
