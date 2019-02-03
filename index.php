@@ -125,6 +125,9 @@ $tasks = [
 
                 <table class="tasks">
                 <?php foreach ($tasks as $k => $v): ?>
+                    <?php if($v['isDone'] === 'Да' && !$show_complete_tasks) {
+                        continue;
+                    } ?>
                     <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
                         <td class="task__select">
                             <label class="checkbox task__checkbox">
@@ -139,22 +142,10 @@ $tasks = [
 <!--                        </td>-->
 
                         <td class="task__date"><?= $v['implementationDate']; ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <?php if ($show_complete_tasks === 1): ?>
-                    <tr class="tasks__item task task--completed">
-                        <td class="task__select">
-                            <label class="checkbox task__checkbox">
-                                <input class="checkbox__input visually-hidden" type="checkbox" checked>
-                                <span class="checkbox__text">Записаться на интенсив "Базовый PHP"</span>
-                            </label>
-                        </td>
-                        <td class="task__date">10.10.2019</td>
-
                         <td class="task__controls">
                         </td>
                     </tr>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </table>
             </main>
         </div>
