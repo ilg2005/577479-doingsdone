@@ -145,7 +145,7 @@ $tasks = [
                         <td class="task__controls">
                         </td>
                     </tr>
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
                 </table>
             </main>
         </div>
