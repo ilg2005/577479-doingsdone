@@ -8,37 +8,37 @@ $tasks = [
         'title' => 'Собеседование в IT компании',
         'implementationDate' => '01.12.2019',
         'projectCategory' => 'Работа',
-        'isDone' => 'Нет'
+        'isDone' => false
     ],
     [
         'title' => 'Сделать задание первого раздела',
         'implementationDate' => '21.12.2019',
         'projectCategory' => 'Учеба',
-        'isDone' => 'Да'
+        'isDone' => true
     ],
     [
         'title' => 'Выполнить тестовое задание',
         'implementationDate' => '25.12.2019',
         'projectCategory' => 'Работа',
-        'isDone' => 'Нет'
+        'isDone' => false
     ],
     [
         'title' => 'Встреча с другом',
         'implementationDate' => '22.12.2019',
         'projectCategory' => 'Входящие',
-        'isDone' => 'Нет'
+        'isDone' => false
     ],
     [
         'title' => 'Купить корм для кота',
         'implementationDate' => 'Нет',
         'projectCategory' => 'Домашние дела',
-        'isDone' => 'Нет'
+        'isDone' => false
     ],
     [
         'title' => 'Заказать пиццу',
         'implementationDate' => 'Нет',
         'projectCategory' => 'Домашние дела',
-        'isDone' => 'Нет'
+        'isDone' => false
     ]
 ];
 
@@ -135,14 +135,14 @@ $countTasks4Projects = function ($tasksArray, $projectName) {
 
                 <table class="tasks">
                     <?php foreach ($tasks as $k => $v): ?>
-                        <?php if ($v['isDone'] === 'Да' && !$show_complete_tasks) {
+                        <?php if ($v['isDone'] && !$show_complete_tasks) {
                             continue;
                         } ?>
-                        <tr class="tasks__item task <?= ($v['isDone'] === 'Да') ? 'task--completed' : ''; ?>">
+                        <tr class="tasks__item task <?= $v['isDone'] ? 'task--completed' : ''; ?>">
                             <td class="task__select">
                                 <label class="checkbox task__checkbox">
                                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                                        <?= ($v['isDone'] === 'Да' && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
+                                        <?= ($v['isDone'] && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
                                     <span class="checkbox__text"><?= $v['title']; ?></span>
                                 </label>
                             </td>
