@@ -22,16 +22,16 @@
 </div>
 
 <table class="tasks">
-    <?php foreach ($tasks as $k => $v): ?>
-        <?php if ($v['isDone'] && !$show_complete_tasks) {
+    <?php foreach ($tasks as $task): ?>
+        <?php if ($task['isDone'] && !$show_complete_tasks) {
             continue;
         } ?>
-        <tr class="tasks__item task <?= $v['isDone'] ? 'task--completed' : ''; ?>">
+        <tr class="tasks__item task <?= $task['isDone'] ? 'task--completed' : ''; ?>">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                        <?= ($v['isDone'] && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
-                    <span class="checkbox__text"><?= $v['title']; ?></span>
+                        <?= ($task['isDone'] && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
+                    <span class="checkbox__text"><?= $task['title']; ?></span>
                 </label>
             </td>
 
@@ -39,7 +39,7 @@
             <!--                            <a class="download-link" href="#"></a>-->
             <!--                        </td>-->
 
-            <td class="task__date"><?= $v['implementationDate']; ?></td>
+            <td class="task__date"><?= $task['implementationDate']; ?></td>
             <td class="task__controls">
             </td>
         </tr>
