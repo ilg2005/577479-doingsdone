@@ -17,10 +17,10 @@ $includeTemplate = function ($name, $data) {
 };
 
 $countTasks4Projects = function ($tasksArray, $projectName) {
-$count = 0;
-foreach ($tasksArray as $item) {
-($item['projectCategory'] === $projectName) ? ($count++) : '';
-}
-return $count;
+    $count = 0;
+    foreach ($tasksArray as $item) {
+        ($item['projectCategory'] === $projectName) ? ($count++) : '';
+    }
+    return $count;
 };
 ?>
