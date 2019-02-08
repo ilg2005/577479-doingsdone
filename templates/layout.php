@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $config['pageTitle'] ?></title>
+    <title><?= $pageTitle ?></title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/flatpickr.min.css">
@@ -46,8 +46,7 @@
                         <?php foreach ($projects as $project): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?= $project; ?></a>
-                                <span class="main-navigation__list-item-count"><?= $countTasks4Projects($tasks,
-                                        $project) ?></span>
+                                <span class="main-navigation__list-item-count"></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
