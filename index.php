@@ -1,24 +1,21 @@
 <?php
 require_once('functions.php');
-require_once('config.php');
 require_once('data.php');
 
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
-$pageTitle = $config['pageTitle'];
+$tasks = filterUserInput($tasks);
+$mainContent = includeTemplate('index.php', [
+    'tasks' => $tasks,
+    'show_complete_tasks' => $show_complete_tasks
+]);
 
-if ($config['enable']) {
-    $mainContent = $includeTemplate('main.php', [
-        'tasks' => $tasks,
-        'show_complete_tasks' => $show_complete_tasks
-    ]);
+$layout = includeTemplate('layout.php', [
+    'pageTitle' => $pageTitle,
+    'userName' => $userName,
+    'projects' => $projects,
+    'tasks' => $tasks,
+    'mainContent' => $mainContent
+]);
 
-    $layout = $includeTemplate('layout.php', [
-        'pageTitle' => $pageTitle,
-        'projects' => $projects,
-        'mainContent' => $mainContent,
-    ]);
-}
 print($layout);
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-$includeTemplate = function ($name, $data) {
+function includeTemplate($name, $data) {
     $name = 'templates/' . $name;
     $result = '';
 
@@ -14,13 +14,24 @@ $includeTemplate = function ($name, $data) {
     $result = ob_get_clean();
 
     return $result;
-};
+}
 
-$countTasks4Projects = function ($tasksArray, $projectName) {
+function countTasks4Projects($tasksArray, $projectName) {
     $count = 0;
-    foreach ($tasksArray as $item) {
-        ($item['projectCategory'] === $projectName) ? ($count++) : '';
+    foreach ($tasksArray as $task) {
+        if ($task['projectCategory'] === $projectName) {
+            ++$count;
+        }
     }
     return $count;
-};
+}
+
+function filterUserInput($tasksArray) {
+    $filteredArray = [];
+    foreach($tasksArray as $task) {
+        $filteredTask = array_map('htmlspecialchars', $task);
+        $filteredArray[] = $filteredTask;
+    }
+    return $filteredArray;
+}
 ?>

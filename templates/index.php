@@ -1,6 +1,6 @@
 <h2 class="content__main-heading">Список задач</h2>
 
-<form class="search-form" action="main.php" method="post">
+<form class="search-form" action="index.php" method="post">
     <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
 
     <input class="search-form__submit" type="submit" name="" value="Искать">
@@ -16,7 +16,7 @@
 
     <label class="checkbox">
         <input class="checkbox__input visually-hidden show_completed"
-               type="checkbox" <?= ($show_complete_tasks === 1) ? 'checked' : ''; ?>>
+               type="checkbox" <?= $show_complete_tasks !== 1 ?: 'checked'; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
 </div>
@@ -26,11 +26,11 @@
         <?php if ($task['isDone'] && !$show_complete_tasks) {
             continue;
         } ?>
-        <tr class="tasks__item task <?= $task['isDone'] ? 'task--completed' : ''; ?>">
+        <tr class="tasks__item task <?= !$task['isDone'] ?: 'task--completed'; ?>">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                        <?= ($task['isDone'] && $show_complete_tasks === 1) ? 'checked' : ''; ?>>
+                        <?= !($task['isDone'] && $show_complete_tasks === 1) ?: 'checked'; ?>>
                     <span class="checkbox__text"><?= $task['title']; ?></span>
                 </label>
             </td>
