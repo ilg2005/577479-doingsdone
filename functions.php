@@ -34,4 +34,9 @@ function filterUserInput($tasksArray) {
     }
     return $filteredArray;
 }
+
+function checkTaskImportant($deadline) {
+    $secondsPerDay = 86400;
+    return (abs(strtotime($deadline) - time()) <= $secondsPerDay);
+}
 ?>
