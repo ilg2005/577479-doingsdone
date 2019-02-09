@@ -1,7 +1,7 @@
 # Личный проект «Дела в Порядке»
 
 * Студент: [Игорь Гольдфарб](https://up.htmlacademy.ru/php/8/user/577479).
-* Наставник: [Сергей Зубов](https://htmlacademy.ru/profile/serj).
+* Наставник: [Александр Пасунько](https://htmlacademy.ru/profile/id702351).
 
 ---
 
