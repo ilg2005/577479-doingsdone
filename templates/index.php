@@ -26,7 +26,10 @@
         <?php if ($task['isDone'] && !$show_complete_tasks) {
             continue;
         } ?>
-        <tr class="tasks__item task <?= !$task['isDone'] ?: 'task--completed'; ?>">
+        <tr class="tasks__item task
+        <?= !$task['isDone'] ?: 'task--completed'; ?>
+        <?= !(checkTaskImportant($task['implementationDate'])) ?: 'task--important'; ?>
+        ">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
