@@ -1,4 +1,6 @@
 <?php
+const SECONDS_PER_DAY = 86400;
+
 function includeTemplate($name, $data) {
     $name = 'templates/' . $name;
     $result = '';

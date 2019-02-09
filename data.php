@@ -1,5 +1,4 @@
 <?php
-const SECONDS_PER_DAY = 86400;
 
 $pageTitle = 'Дела в порядке';
 $userName = 'Константин';
