@@ -1,5 +1,8 @@
 <?php
-function includeTemplate($name, $data) {
+const SECONDS_PER_DAY = 86400;
+
+function includeTemplate($name, $data)
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -16,7 +19,8 @@ function includeTemplate($name, $data) {
     return $result;
 }
 
-function countTasks4Projects($tasksArray, $projectName) {
+function countTasks4Projects($tasksArray, $projectName)
+{
     $count = 0;
     foreach ($tasksArray as $task) {
         if ($task['projectCategory'] === $projectName) {
@@ -26,12 +30,22 @@ function countTasks4Projects($tasksArray, $projectName) {
     return $count;
 }
 
-function filterUserInput($tasksArray) {
+function filterUserInput($tasksArray)
+{
     $filteredArray = [];
-    foreach($tasksArray as $task) {
+    foreach ($tasksArray as $task) {
         $filteredTask = array_map('htmlspecialchars', $task);
         $filteredArray[] = $filteredTask;
     }
     return $filteredArray;
 }
+
+function checkTaskImportant($deadline)
+{
+    if (strtotime($deadline)) {
+        $timeRemaining = strtotime($deadline) - time();
+        return ($timeRemaining <= SECONDS_PER_DAY);
+    }
+}
+
 ?>
