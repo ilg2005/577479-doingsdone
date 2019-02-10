@@ -42,7 +42,7 @@ function filterUserInput($tasksArray)
 
 function checkTaskImportant($deadline)
 {
-    if ($deadline !== 'Нет') {
+    if (strtotime($deadline)) {
         $timeRemaining = strtotime($deadline) - time();
         return ($timeRemaining <= SECONDS_PER_DAY);
     }
