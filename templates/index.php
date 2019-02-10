@@ -30,7 +30,7 @@
         <?php if ($task['isDone']) {
             echo 'task--completed';
         }?>
-        <?php if (checkTaskImportant($task['implementationDate'])) {
+        <?php if (checkTaskImportant($task['deadline'])) {
             echo 'task--important';
         } ?>
         ">
@@ -48,7 +48,7 @@
             <!--                            <a class="download-link" href="#"></a>-->
             <!--                        </td>-->
 
-            <td class="task__date"><?= $task['implementationDate']; ?></td>
+            <td class="task__date"><?= $task['deadline']; ?></td>
             <td class="task__controls">
             </td>
         </tr>
