@@ -27,13 +27,19 @@
             continue;
         } ?>
         <tr class="tasks__item task
-        <?= !$task['isDone'] ?: 'task--completed'; ?>
-        <?= !(checkTaskImportant($task['implementationDate'])) ?: 'task--important'; ?>
+        <?php if ($task['isDone']) {
+            echo 'task--completed';
+        }?>
+        <?php if (checkTaskImportant($task['implementationDate'])) {
+            echo 'task--important';
+        } ?>
         ">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                        <?= !($task['isDone'] && $show_complete_tasks === 1) ?: 'checked'; ?>>
+                        <?php if ($task['isDone'] && $show_complete_tasks === 1) {
+                            echo 'checked';
+                        } ?>>
                     <span class="checkbox__text"><?= $task['title']; ?></span>
                 </label>
             </td>
