@@ -29,8 +29,7 @@
         <tr class="tasks__item task
         <?php if ($task['isDone']) {
             echo 'task--completed';
-        } ?>
-        <?php if (checkTaskImportant($task['deadline'])) {
+        } else if (checkTaskImportant($task['deadline'])) {
             echo 'task--important';
         } ?>
         ">
