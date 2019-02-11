@@ -33,13 +33,13 @@ create index users_registration_date_index
 CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
-  creation_date       DATETIME     DEFAULT TIMESTAMP,
+  creation_date       DATETIME     DEFAULT CURRENT_TIMESTAMP,
   implementation_date DATETIME,
   isDone              TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
   file_name           VARCHAR(32),
   file_path           VARCHAR(128),
-  deadline            DATETIME     NOT NULL,
+  deadline            DATETIME,
   user_id             int,
   project_id          int
 );

@@ -2,12 +2,12 @@ USE doingsdone;
 
 # Добавление названий проектов
 
-INSERT INTO projects (name)
-VALUES ('Входящие'),
-       ('Учеба'),
-       ('Работа'),
-       ('Домашние дела'),
-       ('Авто');
+INSERT INTO projects (name, user_id)
+VALUES ('Входящие', 2),
+       ('Учеба', 1),
+       ('Работа', 1),
+       ('Домашние дела', 3),
+       ('Авто', 3);
 
 # Добавление пользователей
 
@@ -20,5 +20,10 @@ VALUES ('igor@mail.ru', 'Игорь', 'password1'),
 # Добавление задач
 
 INSERT INTO tasks
-(creation_date, implementation_date, isDone, name, file_name, file_path, deadline, user_id, project_id)
-VALUES ()
+(name, deadline, project_id, user_id, isDone)
+VALUES ('Собеседование в IT компании', '10.02.2019', 3, 1, 0),
+       ('Сделать задание первого раздела', '21.12.2019', 2, 1, 1),
+       ('Выполнить тестовое задание', '25.12.2019', 3, 2, 0),
+       ('Встреча с другом', '22.12.2019', 1, 2, 0),
+       ('Купить корм для кота', 'Нет', 4, 3, 0),
+       ('Заказать пиццу', 'Нет', 4, 3, 0);
