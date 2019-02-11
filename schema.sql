@@ -6,7 +6,7 @@ CREATE TABLE projects
 (
   id      int AUTO_INCREMENT PRIMARY KEY,
   name    varchar(128) NOT NULL,
-  user_id int         NOT NULL
+  user_id int          NOT NULL
 );
 
 create index projects_name_index
@@ -16,7 +16,7 @@ create index projects_name_index
 CREATE TABLE users
 (
   id                int AUTO_INCREMENT PRIMARY KEY,
-  registration_date DATETIME     DEFAULT CURRENT_TIMESTAMP,
+  registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   email             VARCHAR(128) NOT NULL,
   name              CHAR         NOT NULL,
   password          VARCHAR(128) NOT NULL
