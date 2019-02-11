@@ -5,7 +5,7 @@ USE doingsdone;
 CREATE TABLE projects
 (
   id      int AUTO_INCREMENT PRIMARY KEY,
-  name    varchar(128) NOT NULL,
+  name    VARCHAR(128) NOT NULL,
   user_id int          NOT NULL
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE users
   id                int AUTO_INCREMENT PRIMARY KEY,
   registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   email             VARCHAR(128) NOT NULL,
-  name              CHAR         NOT NULL,
+  name              VARCHAR(64)  NOT NULL,
   password          VARCHAR(128) NOT NULL
 );
 
@@ -33,15 +33,15 @@ create index users_registration_date_index
 CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
-  creation_date       DATETIME NOT NULL,
-  implementation_date DATETIME NOT NULL,
-  isDone              BINARY(1) DEFAULT 0,
-  name                CHAR     NOT NULL,
-  file_name           CHAR,
-  file_path           CHAR,
-  deadline            DATETIME NOT NULL,
-  user_id             int      NOT NULL,
-  project_id          int      NOT NULL
+  creation_date       DATETIME     NOT NULL,
+  implementation_date DATETIME     NOT NULL,
+  isDone              TINYINT(1) DEFAULT 0,
+  name                VARCHAR(128) NOT NULL,
+  file_name           VARCHAR(32),
+  file_path           VARCHAR(128),
+  deadline            DATETIME     NOT NULL,
+  user_id             int          NOT NULL,
+  project_id          int          NOT NULL
 );
 
 create index tasks_deadline_index
