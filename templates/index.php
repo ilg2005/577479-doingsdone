@@ -28,16 +28,16 @@
         <?php endif; ?>
         <tr class="tasks__item task
             <?php if ($task['isDone']) : ?>
-                <?= 'task--completed'; ?>
+                task--completed
             <?php elseif (checkTaskImportant($task['deadline'])) : ?>
-                <?= 'task--important'; ?>
+                task--important
             <?php endif; ?>
         ">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
                         <?php if ($task['isDone'] && $show_complete_tasks === 1) : ?>
-                            <?= 'checked'; ?>
+                           checked
                         <?php endif; ?>>
                     <span class="checkbox__text"><?= $task['title']; ?></span>
                 </label>
