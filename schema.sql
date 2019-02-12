@@ -18,7 +18,7 @@ create index projects_name_index
 CREATE TABLE users
 (
   id                int AUTO_INCREMENT PRIMARY KEY,
-  registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   email             VARCHAR(128) NOT NULL,
   name              VARCHAR(64)  NOT NULL,
   password          VARCHAR(128) NOT NULL
@@ -35,13 +35,13 @@ create index users_registration_date_index
 CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
-  creation_date       DATETIME   DEFAULT CURRENT_TIMESTAMP,
-  implementation_date DATETIME,
+  creation_date       TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+  implementation_date TIMESTAMP,
   isDone              TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
   file_name           VARCHAR(32),
   file_path           VARCHAR(128),
-  deadline            DATETIME,
+  deadline            TIMESTAMP,
   user_id             int NOT NULL ,
   project_id          int NOT NULL
 );
