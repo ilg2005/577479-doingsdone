@@ -8,7 +8,7 @@ CREATE TABLE projects
 (
   id      int AUTO_INCREMENT PRIMARY KEY,
   name    VARCHAR(128) NOT NULL,
-  user_id int
+  user_id int NOT NULL
 );
 
 create index projects_name_index
@@ -42,8 +42,8 @@ CREATE TABLE tasks
   file_name           VARCHAR(32),
   file_path           VARCHAR(128),
   deadline            DATETIME,
-  user_id             int,
-  project_id          int
+  user_id             int NOT NULL ,
+  project_id          int NOT NULL
 );
 
 create index tasks_deadline_index
