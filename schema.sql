@@ -1,4 +1,6 @@
-CREATE DATABASE doingsdone;
+CREATE DATABASE doingsdone
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
 
 USE doingsdone;
 
@@ -33,7 +35,7 @@ create index users_registration_date_index
 CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
-  creation_date       DATETIME     DEFAULT CURRENT_TIMESTAMP,
+  creation_date       DATETIME   DEFAULT CURRENT_TIMESTAMP,
   implementation_date DATETIME,
   isDone              TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
