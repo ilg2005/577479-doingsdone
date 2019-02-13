@@ -25,15 +25,32 @@ VALUES ('Собеседование в IT компании', STR_TO_DATE('10.02.
        ('Купить корм для кота', NULL, 4, 3, 0),
        ('Заказать пиццу', NULL, 4, 3, 0);
 
-# Получить список проектов, отсортированный по id пользователя
-SELECT name, user_id
-FROM projects
-ORDER BY user_id ASC;
-
 # Получить список из всех проектов для одного пользователя
 SELECT name
 FROM projects
 WHERE user_id = 1;
+
+# Получить список из всех задач для одного проекта
+SELECT name
+FROM tasks
+WHERE project_id = 3;
+
+# Пометить задачу как выполненную
+UPDATE tasks
+SET isDone = 1
+WHERE name = 'Собеседование в IT компании';
+
+
+# Обновить название задачи по ее идентификатору
+UPDATE tasks
+SET name = 'Заказать вкусную пиццу'
+WHERE id = 6;
+
+# Дополнительные запросы:
+# Получить список проектов, отсортированный по id пользователя
+SELECT name, user_id
+FROM projects
+ORDER BY user_id ASC;
 
 # Получить список задач, отсортированный по id проекта
 SELECT name, project_id
@@ -47,22 +64,3 @@ FROM tasks t
             ON p.id = t.project_id
        JOIN users u
             ON u.id = t.user_id;
-
-# Получить список из всех задач для одного проекта
-SELECT name
-FROM tasks
-WHERE project_id = 3;
-
-# Пометить задачу как выполненную
-UPDATE tasks
-SET isDone = 1
-WHERE name = 'Собеседование в IT компании';
-# и записать для нее дату выполнения
-UPDATE tasks
-SET implementation_date = CURRENT_DATE
-WHERE name = 'Собеседование в IT компании';
-
-# Обновить название задачи по ее идентификатору
-UPDATE tasks
-SET name = 'Заказать вкусную пицу'
-WHERE id = 6;
