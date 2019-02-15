@@ -17,7 +17,7 @@ VALUES ('igor@mail.ru', 'Игорь', 'password1'),
 
 # Добавление задач
 INSERT INTO tasks
-  (name, deadline, project_id, user_id, isDone)
+  (name, deadline, project_id, user_id, is_done)
 VALUES ('Собеседование в IT компании', STR_TO_DATE('10.02.2019', '%d.%m.%Y'), 3, 1, 0),
        ('Сделать задание первого раздела', STR_TO_DATE('21.12.2019', '%d.%m.%Y'), 2, 1, 1),
        ('Выполнить тестовое задание', STR_TO_DATE('25.12.2019', '%d.%m.%Y'), 3, 2, 0),
@@ -37,7 +37,7 @@ WHERE project_id = 3;
 
 # Пометить задачу как выполненную
 UPDATE tasks
-SET isDone = 1
+SET is_done = 1
 WHERE name = 'Собеседование в IT компании';
 
 

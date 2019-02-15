@@ -37,7 +37,7 @@ CREATE TABLE tasks
   id                  int AUTO_INCREMENT PRIMARY KEY,
   creation_date       TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
   implementation_date TIMESTAMP,
-  isDone              TINYINT(1) DEFAULT 0,
+  is_done              TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
   file_name           VARCHAR(32),
   file_path           VARCHAR(128),
@@ -52,8 +52,8 @@ create index tasks_file_name_index
   on tasks (file_name);
 create index tasks_name_index
   on tasks (name);
-create index tasks_isDone_index
-  on tasks (isDone);
+create index tasks_is_done_index
+  on tasks (is_done);
 create index tasks_implementation_date_index
   on tasks (implementation_date);
 create index tasks_creation_date_index
