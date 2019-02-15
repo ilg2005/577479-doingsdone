@@ -35,9 +35,9 @@ SELECT name
 FROM tasks
 WHERE project_id = 3;
 
-# Пометить задачу как выполненную
+# Пометить задачу как выполненную, и записать дату и время выполнения
 UPDATE tasks
-SET is_done = 1
+SET is_done = 1, implementation_date = CURRENT_TIMESTAMP
 WHERE name = 'Собеседование в IT компании';
 
 
