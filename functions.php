@@ -92,10 +92,28 @@ function getSelectedUserProjects($link, $selectedUserID)
     checkDatabaseErrors($link, $result);
     $projectsArray = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $projectNames = [];
-    foreach ($projectsArray as $project){
+    foreach ($projectsArray as $project) {
         $projectNames[] = $project['name'];
     }
     return $projectNames;
+}
+
+function getSelectedUserTasks($link, $selectedUserID)
+{
+    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.project_id, tasks.is_done FROM tasks WHERE user_id = ' . $selectedUserID;
+    $result = mysqli_query($link, $query);
+    checkDatabaseErrors($link, $result);
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $tasks = [];
+    foreach ($rows as $row) {
+        $tasks[] = [
+            'title' => $row['name'],
+            'deadline' => $row['deadline'],
+            'projectCategory' => $row['project_id'],
+            'isDone' => $row['is_done']
+        ];
+    }
+    return $tasks;
 }
 
 ?>

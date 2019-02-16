@@ -8,6 +8,7 @@ $userID = 4;
 if ($connection) {
     $userName = getSelectedUserName($connection, $userID);
     $projects = getSelectedUserProjects($connection, $userID);
+    $tasks = getSelectedUserTasks($connection, $userID);
 }
 
 $tasks = filterUserInput($tasks);
