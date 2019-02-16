@@ -5,7 +5,9 @@ require_once('data.php');
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 $userID = 4;
-
+if ($connection) {
+    $userName = getSelectedUserName($connection, $userID);
+}
 
 $tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [
