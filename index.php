@@ -3,6 +3,7 @@ require_once('functions.php');
 require_once('data.php');
 
 $connector = mysqli_connect('localhost', 'root', '', 'doingsdone');
+mysqli_set_charset($connector, 'utf8');
 if (!$connector) {
     print('Ошибка подключения: ' . mysqli_connect_error());
 } else {
