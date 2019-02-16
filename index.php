@@ -2,9 +2,10 @@
 require_once('functions.php');
 require_once('data.php');
 
-$connection = db_connect('localhost', 'root', '', 'doingsdone');
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 $userID = 4;
+
 
 $tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [

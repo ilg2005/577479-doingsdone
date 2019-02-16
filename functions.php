@@ -48,7 +48,8 @@ function checkTaskImportant($deadline)
     }
 }
 
-function db_connect($hostName, $userName, $pwd, $dbName) {
+
+function connect2Database($hostName, $userName, $pwd, $dbName) {
     $connector = mysqli_connect($hostName, $userName, $pwd, $dbName);
     mysqli_set_charset($connector, 'utf8');
     if (!$connector) {
@@ -58,7 +59,7 @@ function db_connect($hostName, $userName, $pwd, $dbName) {
     return $connector;
 }
 
-function db_fetch_data($link, $sql, $data = []) {
+function fetchData($link, $sql, $data = []) {
     $result = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
@@ -68,5 +69,6 @@ function db_fetch_data($link, $sql, $data = []) {
     }
     return $result;
 }
+
 
 ?>
