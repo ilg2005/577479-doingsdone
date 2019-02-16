@@ -7,8 +7,14 @@ mysqli_set_charset($connector, 'utf8');
 if (!$connector) {
     print('Ошибка подключения: ' . mysqli_connect_error());
 } else {
-    print('Соединение установлено');
-    // Выполнение запросов
+    $selectUser = 'SELECT name FROM users';
+    $result = mysqli_query($connector, $selectUser);
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    print($rows[1]);
+    if (!$result) {
+        $error = mysqli_error($connector);
+        print('Ошибка MySQL: . $error');
+    }
 }
 
 $tasks = filterUserInput($tasks);
