@@ -8,7 +8,7 @@ CREATE TABLE projects
 (
   id      int AUTO_INCREMENT PRIMARY KEY,
   name    VARCHAR(128) NOT NULL,
-  user_id int NOT NULL
+  user_id int          NOT NULL
 );
 
 create index projects_name_index
@@ -35,15 +35,15 @@ create index users_registration_date_index
 CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
-  creation_date       TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+  creation_date       TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
   implementation_date TIMESTAMP,
-  is_done              TINYINT(1) DEFAULT 0,
+  is_done             TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
   file_name           VARCHAR(32),
   file_path           VARCHAR(128),
   deadline            TIMESTAMP,
-  user_id             int NOT NULL ,
-  project_id          int NOT NULL
+  user_id             int          NOT NULL,
+  project_id          int          NOT NULL
 );
 
 create index tasks_deadline_index
