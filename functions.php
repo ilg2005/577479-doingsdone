@@ -100,7 +100,7 @@ function getSelectedUserProjects($link, $selectedUserID)
 
 function getSelectedUserTasks($link, $selectedUserID)
 {
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.project_id, tasks.is_done FROM tasks WHERE user_id = ' . $selectedUserID;
+    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . $selectedUserID;
     $result = mysqli_query($link, $query);
     checkDatabaseErrors($link, $result);
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -109,7 +109,7 @@ function getSelectedUserTasks($link, $selectedUserID)
         $tasks[] = [
             'title' => $row['name'],
             'deadline' => $row['deadline'],
-            'projectCategory' => $row['project_id'],
+            'projectCategory' => $row['project_name'],
             'isDone' => $row['is_done']
         ];
     }
