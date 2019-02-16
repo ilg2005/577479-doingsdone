@@ -2,6 +2,14 @@
 require_once('functions.php');
 require_once('data.php');
 
+$connector = mysqli_connect('localhost', 'root', '', 'doingsdone');
+if (!$connector) {
+    print('Ошибка подключения: ' . mysqli_connect_error());
+} else {
+    print('Соединение установлено');
+    // Выполнение запросов
+}
+
 $tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [
     'tasks' => $tasks,
