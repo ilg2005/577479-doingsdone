@@ -7,6 +7,7 @@ $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $userID = 4;
 if ($connection) {
     $userName = getSelectedUserName($connection, $userID);
+    $projects = getSelectedUserProjects($connection, $userID);
 }
 
 $tasks = filterUserInput($tasks);

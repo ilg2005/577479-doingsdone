@@ -85,4 +85,17 @@ function getSelectedUserName($link, $selectedUserID)
     return $names[0];
 }
 
+function getSelectedUserProjects($link, $selectedUserID)
+{
+    $query = 'SELECT name FROM projects WHERE user_id = ' . $selectedUserID;
+    $result = mysqli_query($link, $query);
+    checkDatabaseErrors($link, $result);
+    $projectsArray = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $projectNames = [];
+    foreach ($projectsArray as $project){
+        $projectNames[] = $project['name'];
+    }
+    return $projectNames;
+}
+
 ?>
