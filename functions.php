@@ -48,14 +48,17 @@ function checkTaskImportant($deadline)
     }
 }
 
+function checkDatabaseErrors($result, $link) {
+    if (!$result) {
+        print('Ошибка MySQL ' . mysqli_error($link));
+        die();
+    }
+}
 
 function connect2Database($hostName, $userName, $pwd, $dbName) {
     $connector = mysqli_connect($hostName, $userName, $pwd, $dbName);
     mysqli_set_charset($connector, 'utf8');
-    if (!$connector) {
-        print('Ошибка пожключения к MySQL ' . mysqli_connect_error());
-        die();
-    }
+    checkDatabaseErrors($connector, $connector);
     return $connector;
 }
 
