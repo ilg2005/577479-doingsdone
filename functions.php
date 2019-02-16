@@ -48,7 +48,7 @@ function checkTaskImportant($deadline)
     }
 }
 
-function checkDatabaseErrors($result, $link) {
+function checkDatabaseErrors($link, $result) {
     if (!$result) {
         print('Ошибка MySQL ' . mysqli_error($link));
         die();
@@ -56,10 +56,10 @@ function checkDatabaseErrors($result, $link) {
 }
 
 function connect2Database($hostName, $userName, $pwd, $dbName) {
-    $connector = mysqli_connect($hostName, $userName, $pwd, $dbName);
-    mysqli_set_charset($connector, 'utf8');
-    checkDatabaseErrors($connector, $connector);
-    return $connector;
+    $link = mysqli_connect($hostName, $userName, $pwd, $dbName);
+    mysqli_set_charset($link, 'utf8');
+    checkDatabaseErrors($link, $link);
+    return $link;
 }
 
 function fetchData($link, $sql, $data = []) {
@@ -73,5 +73,10 @@ function fetchData($link, $sql, $data = []) {
     return $result;
 }
 
+function getSelectedUserName($link, $selectedUserID) {
+    $query = 'SELECT name FROM users';
+    fetchData($link, $query, )
 
+
+}
 ?>
