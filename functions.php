@@ -52,7 +52,7 @@ function checkTaskImportant($deadline)
     }
 }
 
-function checkDatabaseErrors($link, $result)
+function checkDatabaseError($link, $result)
 {
     if (!$result) {
         print('Ошибка MySQL ' . mysqli_error($link));
@@ -64,7 +64,7 @@ function connect2Database($hostName, $userName, $pwd, $dbName)
 {
     $link = mysqli_connect($hostName, $userName, $pwd, $dbName);
     mysqli_set_charset($link, 'utf8');
-    checkDatabaseErrors($link, $link);
+    checkDatabaseError($link, $link);
     return $link;
 }
 
@@ -74,7 +74,7 @@ function fetchData($link, $sql, $data = [])
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
-    checkDatabaseErrors($link, $res);
+    checkDatabaseError($link, $res);
     if ($res) {
         $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
