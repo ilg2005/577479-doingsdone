@@ -101,11 +101,7 @@ function getSelectedUserProjects($link, $selectedUserID)
 function getSelectedUserTasks($link, $selectedUserID)
 {
     $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . '?';
-    $tasksArray = fetchData($link, $query, [$selectedUserID]);
-    foreach ($tasksArray as $task) {
-        $tasks[] = $task;
-    }
-    return $tasks;
+    return fetchData($link, $query, [$selectedUserID]);
 }
 
 ?>
