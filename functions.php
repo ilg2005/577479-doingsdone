@@ -92,7 +92,6 @@ function getSelectedUserProjects($link, $selectedUserID)
 {
     $query = 'SELECT name FROM projects WHERE user_id = ' . '?';
     $projects = fetchData($link, $query, [$selectedUserID]);
-    $projectNames = [];
     foreach ($projects as $project) {
         $projectNames[] = $project['name'];
     }
