@@ -27,7 +27,7 @@ function countTasks4Projects($tasksArray, $projectName)
 {
     $count = 0;
     foreach ($tasksArray as $task) {
-        if ($task['projectCategory'] === $projectName) {
+        if ($task['project_name'] === $projectName) {
             ++$count;
         }
     }
@@ -103,12 +103,7 @@ function getSelectedUserTasks($link, $selectedUserID)
     $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . '?';
     $tasksArray = fetchData($link, $query, [$selectedUserID]);
     foreach ($tasksArray as $task) {
-        $tasks[] = [
-            'title' => $task['name'],
-            'deadline' => $task['deadline'],
-            'projectCategory' => $task['project_name'],
-            'isDone' => $task['is_done']
-        ];
+        $tasks[] = $task;
     }
     return $tasks;
 }
