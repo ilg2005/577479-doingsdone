@@ -74,6 +74,7 @@ function fetchData($link, $sql, $data = [])
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
+    checkDatabaseErrors($link, $res);
     if ($res) {
         $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
@@ -82,21 +83,17 @@ function fetchData($link, $sql, $data = [])
 
 function getSelectedUserName($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM users WHERE id = ' . $selectedUserID;
-    $result = mysqli_query($link, $query);
-    checkDatabaseErrors($link, $result);
-    $names = mysqli_fetch_row($result);
-    return $names[0];
+    $query = 'SELECT name FROM users WHERE id = ' . '?';
+    $names = fetchData($link, $query, [$selectedUserID]);
+    return $names[0]['name'];
 }
 
 function getSelectedUserProjects($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM projects WHERE user_id = ' . $selectedUserID;
-    $result = mysqli_query($link, $query);
-    checkDatabaseErrors($link, $result);
-    $projectsArray = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $query = 'SELECT name FROM projects WHERE user_id = ' . '?';
+    $projects = fetchData($link, $query, [$selectedUserID]);
     $projectNames = [];
-    foreach ($projectsArray as $project) {
+    foreach ($projects as $project) {
         $projectNames[] = $project['name'];
     }
     return $projectNames;
@@ -104,17 +101,14 @@ function getSelectedUserProjects($link, $selectedUserID)
 
 function getSelectedUserTasks($link, $selectedUserID)
 {
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . $selectedUserID;
-    $result = mysqli_query($link, $query);
-    checkDatabaseErrors($link, $result);
-    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    $tasks = [];
-    foreach ($rows as $row) {
+    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . '?';
+    $tasksArray = fetchData($link, $query, [$selectedUserID]);
+    foreach ($tasksArray as $task) {
         $tasks[] = [
-            'title' => $row['name'],
-            'deadline' => $row['deadline'],
-            'projectCategory' => $row['project_name'],
-            'isDone' => $row['is_done']
+            'title' => $task['name'],
+            'deadline' => $task['deadline'],
+            'projectCategory' => $task['project_name'],
+            'isDone' => $task['is_done']
         ];
     }
     return $tasks;
