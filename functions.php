@@ -91,11 +91,11 @@ function getSelectedUserName($link, $selectedUserID)
 function getSelectedUserProjects($link, $selectedUserID)
 {
     $query = 'SELECT name FROM projects WHERE user_id = ' . '?';
-    $projects = fetchData($link, $query, [$selectedUserID]);
-    foreach ($projects as $project) {
-        $projectNames[] = $project['name'];
+    $projectsArray = fetchData($link, $query, [$selectedUserID]);
+    foreach ($projectsArray as $project) {
+        $projects[] = $project['name'];
     }
-    return $projectNames;
+    return $projects;
 }
 
 function getSelectedUserTasks($link, $selectedUserID)
