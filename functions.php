@@ -23,14 +23,6 @@ function includeTemplate($name, $data)
     return $result;
 }
 
-function countTasks4Projects($link, $selectedUserID, $projectID)
-{
-    $query = 'SELECT COUNT(projects.id) FROM projects LEFT JOIN tasks ON tasks.project_id = projects.id WHERE projects.user_id = ? AND projects.id = ?';
-    $count = fetchData($link, $query, [$selectedUserID, $projectID]);
-    print_r($count);
-    return $count;
-}
-
 function filterUserInput($tasksArray)
 {
     $filteredArray = [];
