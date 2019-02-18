@@ -94,11 +94,7 @@ function isUserExist($link, $selectedUserID)
 function getSelectedUserProjects($link, $selectedUserID)
 {
     $query = 'SELECT name FROM projects WHERE user_id = ?';
-    $projectsArray = fetchData($link, $query, [$selectedUserID]);
-    foreach ($projectsArray as $project) {
-        $projects[] = $project['name'];
-    }
-    return $projects;
+    return fetchData($link, $query, [$selectedUserID]);;
 }
 
 function getSelectedUserTasks($link, $selectedUserID)

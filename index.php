@@ -5,13 +5,15 @@ require_once('functions.php');
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-$userID = 14;
+$userID = 4;
 $userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {
     $userName = $userData['name'];
     $projects = getSelectedUserProjects($connection, $userData['id']);
     $tasks = getSelectedUserTasks($connection, $userData['id']);
+} else {
+    die('Произошла ошибка!');
 }
 
 $tasks = filterUserInput($tasks);
