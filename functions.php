@@ -85,7 +85,10 @@ function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
     $result= fetchData($link, $query, [$selectedUserID]);
-    return ($result !== []) ? $result[0] : (print('Пользователя нет в БД'));
+    if ($result !== []){
+        return $result[0];
+    }
+    return null;
 }
 
 function getSelectedUserProjects($link, $selectedUserID)
