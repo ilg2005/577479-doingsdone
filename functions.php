@@ -81,11 +81,10 @@ function fetchData($link, $sql, $data = [])
     return $result;
 }
 
-function getSelectedUserName($link, $selectedUserID)
+function isUserExist($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM users WHERE id = ?';
-    $names = fetchData($link, $query, [$selectedUserID]);
-    return $names[0]['name'];
+    $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
+    return (fetchData($link, $query, [$selectedUserID])[0]) ?? (print('Пользователя нет в БД'));
 }
 
 function getSelectedUserProjects($link, $selectedUserID)

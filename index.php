@@ -6,10 +6,12 @@ require_once('functions.php');
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 $userID = 4;
-if ($connection) {
-    $userName = getSelectedUserName($connection, $userID);
-    $projects = getSelectedUserProjects($connection, $userID);
-    $tasks = getSelectedUserTasks($connection, $userID);
+$userData = isUserExist($connection, $userID);
+
+if ($connection && $userData) {
+    $userName = $userData['name'];
+    $projects = getSelectedUserProjects($connection, $userData['id']);
+    $tasks = getSelectedUserTasks($connection, $userData['id']);
 }
 
 $tasks = filterUserInput($tasks);
