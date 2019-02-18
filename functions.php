@@ -83,14 +83,14 @@ function fetchData($link, $sql, $data = [])
 
 function getSelectedUserName($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM users WHERE id = ' . '?';
+    $query = 'SELECT name FROM users WHERE id = ?';
     $names = fetchData($link, $query, [$selectedUserID]);
     return $names[0]['name'];
 }
 
 function getSelectedUserProjects($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM projects WHERE user_id = ' . '?';
+    $query = 'SELECT name FROM projects WHERE user_id = ?';
     $projectsArray = fetchData($link, $query, [$selectedUserID]);
     foreach ($projectsArray as $project) {
         $projects[] = $project['name'];
@@ -100,7 +100,7 @@ function getSelectedUserProjects($link, $selectedUserID)
 
 function getSelectedUserTasks($link, $selectedUserID)
 {
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ' . '?';
+    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ?';
     return fetchData($link, $query, [$selectedUserID]);
 }
 
