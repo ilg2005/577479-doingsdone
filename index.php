@@ -5,7 +5,7 @@ require_once('functions.php');
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-$userID = 4;
+$userID = 14;
 $userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {
