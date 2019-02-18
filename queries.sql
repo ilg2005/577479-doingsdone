@@ -73,3 +73,12 @@ FROM tasks t
             ON p.id = t.project_id
        JOIN users u
             ON u.id = t.user_id;
+
+# Для текущего пользователя вывести один проект и все его задачи
+SELECT * FROM projects LEFT JOIN tasks ON tasks.project_id = projects.id WHERE projects.user_id = 4 AND projects.id = 7;
+
+# Выводит число строк по условию
+SELECT COUNT(projects.id) FROM projects LEFT JOIN tasks ON tasks.project_id = projects.id WHERE projects.user_id = 4  AND projects.id = 7;
+
+#Подсчет числа задач
+SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t ON t.project_id = p.id WHERE p.user_id = 4 GROUP BY p.id;

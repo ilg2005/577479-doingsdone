@@ -23,14 +23,11 @@ function includeTemplate($name, $data)
     return $result;
 }
 
-function countTasks4Projects($tasksArray, $projectName)
+function countTasks4Projects($link, $selectedUserID, $projectID)
 {
-    $count = 0;
-    foreach ($tasksArray as $task) {
-        if ($task['project_name'] === $projectName) {
-            ++$count;
-        }
-    }
+    $query = 'SELECT COUNT(projects.id) FROM projects LEFT JOIN tasks ON tasks.project_id = projects.id WHERE projects.user_id = ? AND projects.id = ?';
+    $count = fetchData($link, $query, [$selectedUserID, $projectID]);
+    print_r($count);
     return $count;
 }
 
@@ -93,8 +90,8 @@ function isUserExist($link, $selectedUserID)
 
 function getSelectedUserProjects($link, $selectedUserID)
 {
-    $query = 'SELECT name FROM projects WHERE user_id = ?';
-    return fetchData($link, $query, [$selectedUserID]);;
+    $query = 'SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t ON t.project_id = p.id WHERE p.user_id = ? GROUP BY p.id';
+    return fetchData($link, $query, [$selectedUserID]);
 }
 
 function getSelectedUserTasks($link, $selectedUserID)
