@@ -23,11 +23,11 @@
 
 <table class="tasks">
     <?php foreach ($tasks as $task): ?>
-        <?php if ($task['isDone'] && !$show_complete_tasks) : ?>
+        <?php if ($task['is_done'] && !$show_complete_tasks) : ?>
             <?php continue; ?>
         <?php endif; ?>
         <tr class="tasks__item task
-            <?php if ($task['isDone']) : ?>
+            <?php if ($task['is_done']) : ?>
                 task--completed
             <?php elseif (checkTaskImportant($task['deadline'])) : ?>
                 task--important
@@ -36,10 +36,10 @@
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
-                        <?php if ($task['isDone'] && $show_complete_tasks === 1) : ?>
+                        <?php if ($task['is_done'] && $show_complete_tasks === 1) : ?>
                            checked
                         <?php endif; ?>>
-                    <span class="checkbox__text"><?= $task['title']; ?></span>
+                    <span class="checkbox__text"><?= $task['name']; ?></span>
                 </label>
             </td>
 

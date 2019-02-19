@@ -1,6 +1,20 @@
 <?php
+require_once('mysql_helper.php');
 require_once('functions.php');
-require_once('data.php');
+/*require_once('data.php');*/
+
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+$userID = 4;
+$userData = isUserExist($connection, $userID);
+
+if ($connection && $userData) {
+    $userName = $userData['name'];
+    $projects = getSelectedUserProjects($connection, $userData['id']);
+    $tasks = getSelectedUserTasks($connection, $userData['id']);
+} else {
+    die('Произошла ошибка!');
+}
 
 $tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [
