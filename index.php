@@ -11,7 +11,12 @@ $userData = isUserExist($connection, $userID);
 if ($connection && $userData) {
     $userName = $userData['name'];
     $projects = getSelectedUserProjects($connection, $userData['id']);
-    $tasks = getSelectedUserTasks($connection, $userData['id']);
+
+    if (isset($_GET['project_id'])) {
+        $tasks = getTasks4Project($connection, $userData['id'], $_GET['project_id']);
+    } else {
+        $tasks = getSelectedUserTasks($connection, $userData['id']);
+    }
 } else {
     die('Произошла ошибка!');
 }
