@@ -88,3 +88,6 @@ SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects
 
 #Проверка существования строки
 SELECT * FROM projects WHERE projects.id = 9;
+
+#Получить все id проектов для данного пользователя
+SELECT projects.id FROM projects WHERE user_id = 4;

@@ -13,7 +13,7 @@ if ($connection && $userData) {
     $projects = getSelectedUserProjects($connection, $userData['id']);
 
     if (isset($_GET['project_id'])) {
-        $result = mysqli_query($connection, 'SELECT * FROM projects WHERE projects.id = ' . $_GET['project_id']);
+        $result = mysqli_query($connection, 'SELECT * FROM projects WHERE projects.id = ' . htmlspecialchars($_GET['project_id']));
         if ($_GET['project_id'] === '' || !mysqli_fetch_row($result)) {
             die('Код ответа 404');
         }
