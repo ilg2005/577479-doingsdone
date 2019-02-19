@@ -85,3 +85,6 @@ SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t
 
 #Выбор задач, соответствующих проекту
 SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = 4 AND projects.id = 8;
+
+#Проверка существования строки
+SELECT * FROM projects WHERE projects.id = 9;
