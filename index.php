@@ -15,7 +15,8 @@ if ($connection && $userData) {
     if (isset($_GET['project_id'])) {
         $result = mysqli_query($connection, 'SELECT * FROM projects WHERE projects.id = ' . htmlspecialchars($_GET['project_id']));
         if ($_GET['project_id'] === '' || !mysqli_fetch_row($result)) {
-            die('Код ответа 404');
+            header('HTTP/1.0 404 Not Found');
+            die();
         }
         $tasks = getTasks4Project($connection, $userData['id'], $_GET['project_id']);
     } else {
