@@ -13,8 +13,8 @@ if ($connection && $userData) {
     $projects = getSelectedUserProjects($connection, $userData['id']);
 
     if (isset($_GET['project_id'])) {
-        $result = mysqli_query($connection, 'SELECT * FROM projects WHERE user_id = ' . $userData['id'] . ' AND projects.id = ' . htmlspecialchars($_GET['project_id']));
-        if ($_GET['project_id'] === '' || !mysqli_fetch_row($result)) {
+        $query = 'SELECT * FROM projects WHERE user_id = ? AND projects.id = ?';
+        if ($_GET['project_id'] === '' || !fetchData($connection, $query, [$userData['id'], $_GET['project_id']])) {
             header('HTTP/1.0 404 Not Found');
             die();
         }
