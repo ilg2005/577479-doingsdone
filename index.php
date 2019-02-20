@@ -15,7 +15,7 @@ if ($connection && $userData) {
     if (isset($_GET['project_id'])) {
         $query = 'SELECT * FROM projects WHERE user_id = ? AND projects.id = ?';
         if ($_GET['project_id'] === '' || !fetchData($connection, $query, [$userData['id'], $_GET['project_id']])) {
-            header('HTTP/1.0 404 Not Found');
+            header('HTTP/1.1 404 Not Found');
             die();
         }
         $tasks = getTasks4Project($connection, $userData['id'], $_GET['project_id']);
