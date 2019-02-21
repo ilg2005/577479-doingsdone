@@ -92,4 +92,10 @@ function getSelectedUserTasks($link, $selectedUserID)
     return fetchData($link, $query, [$selectedUserID]);
 }
 
+function getTasks4Project($link, $selectedUserID, $projectID)
+{
+    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?';
+    return fetchData($link, $query, [$selectedUserID, $projectID]);
+}
+
 ?>
