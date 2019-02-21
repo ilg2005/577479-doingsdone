@@ -73,29 +73,37 @@ function fetchData($link, $sql, $data = [])
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
-    $result= fetchData($link, $query, [$selectedUserID]);
-    if ($result !== []){
+    $result = fetchData($link, $query, [$selectedUserID]);
+    if ($result !== []) {
         return $result[0];
     }
     return null;
 }
 
-function getSelectedUserProjects($link, $selectedUserID)
+function getProjects($link, $selectedUserID)
 {
     $query = 'SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t ON t.project_id = p.id WHERE p.user_id = ? GROUP BY p.id';
     return fetchData($link, $query, [$selectedUserID]);
 }
 
-function getSelectedUserTasks($link, $selectedUserID)
+function getTasks($link, $selectedUserID)
 {
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ?';
-    return fetchData($link, $query, [$selectedUserID]);
-}
+    $query = [
+        'allTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?',
+        'projectSpecificTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?',
+    ];
 
-function getTasks4Project($link, $selectedUserID, $projectID)
-{
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?';
-    return fetchData($link, $query, [$selectedUserID, $projectID]);
+    if (isset($_GET['project_id'])) {
+        $tasks = fetchData($link, $query['projectSpecificTasks'], [$selectedUserID, $_GET['project_id']]);
+        if (!$tasks || $_GET['project_id'] === '') {
+            header('HTTP/1.1 404 Not Found');
+            die();
+        }
+    } else {
+        $tasks = fetchData($link, $query['allTasks'], [$selectedUserID]);
+    }
+
+    return $tasks;
 }
 
 ?>
