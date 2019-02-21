@@ -88,19 +88,17 @@ function getProjects($link, $selectedUserID)
 
 function getTasks($link, $selectedUserID)
 {
-    $query = [
-        'allTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?',
-        'projectSpecificTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?'
-    ];
+    $allTasks = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
+    $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
 
     if (isset($_GET['project_id'])) {
-        $tasks = fetchData($link, $query['projectSpecificTasks'], [$selectedUserID, $_GET['project_id']]);
+        $tasks = fetchData($link, $projectSpecificTasks, [$selectedUserID, $_GET['project_id']]);
         if (!$tasks || $_GET['project_id'] === '') {
             header('HTTP/1.1 404 Not Found');
             die();
         }
     } else {
-        $tasks = fetchData($link, $query['allTasks'], [$selectedUserID]);
+        $tasks = fetchData($link, $allTasks, [$selectedUserID]);
     }
 
     return $tasks;
