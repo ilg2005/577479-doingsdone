@@ -11,7 +11,7 @@ $userData = isUserExist($connection, $userID);
 if ($connection && $userData) {
     $userName = $userData['name'];
     $projects = getProjects($connection, $userData['id']);
-    $tasks = getTasks($connection,$userData['id']);
+    $tasks = getTasks($connection, $userData['id']);
 } else {
     die('Произошла ошибка!');
 }

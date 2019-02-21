@@ -90,7 +90,7 @@ function getTasks($link, $selectedUserID)
 {
     $query = [
         'allTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?',
-        'projectSpecificTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?',
+        'projectSpecificTasks' => 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?'
     ];
 
     if (isset($_GET['project_id'])) {
