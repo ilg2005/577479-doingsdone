@@ -93,7 +93,7 @@ function showNotFound() {
 
 function getTasks($link, $selectedUserID)
 {
-    $isDataExist = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
+    $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
     $allTasks = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
     $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
 
@@ -101,7 +101,7 @@ function getTasks($link, $selectedUserID)
         if (is_int($_GET['project_id']) || $_GET['project_id'] === '') {
             showNotFound();
         }
-        if (!fetchData($link, $isDataExist, [$selectedUserID, $_GET['project_id']])) {
+        if (!fetchData($link, $projectData, [$selectedUserID, $_GET['project_id']])) {
             showNotFound();
         }
         $tasks = fetchData($link, $projectSpecificTasks, [$selectedUserID, $_GET['project_id']]);
