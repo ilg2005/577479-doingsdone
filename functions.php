@@ -93,7 +93,7 @@ function showNotFound() {
 
 function getTasks($link, $selectedUserID)
 {
-    global $projectDataByID;
+    $projectDataByID = NULL;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
     $allTasks = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
     $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
