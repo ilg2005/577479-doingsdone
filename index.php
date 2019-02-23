@@ -10,8 +10,8 @@ $userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {
     $userName = $userData['name'];
-    $projects = getSelectedUserProjects($connection, $userData['id']);
-    $tasks = getSelectedUserTasks($connection, $userData['id']);
+    $projects = getProjects($connection, $userData['id']);
+    $tasks = getTasks($connection, $userData['id']);
 } else {
     die('Произошла ошибка!');
 }
