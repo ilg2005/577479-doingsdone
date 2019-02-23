@@ -73,29 +73,44 @@ function fetchData($link, $sql, $data = [])
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
-    $result= fetchData($link, $query, [$selectedUserID]);
-    if ($result !== []){
+    $result = fetchData($link, $query, [$selectedUserID]);
+    if ($result !== []) {
         return $result[0];
     }
     return null;
 }
 
-function getSelectedUserProjects($link, $selectedUserID)
+function getProjects($link, $selectedUserID)
 {
     $query = 'SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t ON t.project_id = p.id WHERE p.user_id = ? GROUP BY p.id';
     return fetchData($link, $query, [$selectedUserID]);
 }
 
-function getSelectedUserTasks($link, $selectedUserID)
-{
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, projects.name AS project_name, tasks.is_done FROM tasks JOIN projects ON projects.id = tasks.project_id WHERE tasks.user_id = ?';
-    return fetchData($link, $query, [$selectedUserID]);
+function showNotFound() {
+    header('HTTP/1.1 404 Not Found');
+    die();
 }
 
-function getTasks4Project($link, $selectedUserID, $projectID)
+function getTasks($link, $selectedUserID)
 {
-    $query = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.is_done FROM tasks WHERE tasks.user_id = ? AND tasks.project_id = ?';
-    return fetchData($link, $query, [$selectedUserID, $projectID]);
+    $projectDataByID = NULL;
+    $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
+    $allTasks = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
+    $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
+
+    if (isset($_GET['project_id'])) {
+        if (!is_numeric($_GET['project_id']) || $_GET['project_id'] === '') {
+            showNotFound();
+        }
+        if (!($projectDataByID = fetchData($link, $projectData, [$selectedUserID, $_GET['project_id']]))) {
+            showNotFound();
+        }
+        $tasks = fetchData($link, $projectSpecificTasks, [$selectedUserID, $_GET['project_id']]);
+    } else {
+        $tasks = fetchData($link, $allTasks, [$selectedUserID]);
+    }
+
+    return $tasks;
 }
 
 ?>
