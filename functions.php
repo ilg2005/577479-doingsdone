@@ -98,10 +98,10 @@ function getTasks($link, $selectedUserID)
     $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
 
     if (isset($_GET['project_id'])) {
-        if (is_int($_GET['project_id']) || $_GET['project_id'] === '') {
+        if (!is_numeric($_GET['project_id']) || $_GET['project_id'] === '') {
             showNotFound();
         }
-        if (!fetchData($link, $projectData, [$selectedUserID, $_GET['project_id']])) {
+        if (!($project = fetchData($link, $projectData, [$selectedUserID, $_GET['project_id']]))) {
             showNotFound();
         }
         $tasks = fetchData($link, $projectSpecificTasks, [$selectedUserID, $_GET['project_id']]);
