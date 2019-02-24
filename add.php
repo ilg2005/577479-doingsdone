@@ -27,8 +27,7 @@ $layout = includeTemplate('layout.php', [
 
 print($layout);
 
-if (isset($_POST['name'])) {
-    $task = htmlspecialchars($_POST['name']);
-}
+$task = htmlspecialchars($_POST['name']) ?? '';
+$date = htmlspecialchars($_POST['date']) ?? '';
 
 ?>
