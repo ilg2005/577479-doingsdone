@@ -26,7 +26,6 @@ $layout = includeTemplate('layout.php', [
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
-    'tasks' => $tasks,
     'mainContent' => $mainContent
 ]);
 
