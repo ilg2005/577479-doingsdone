@@ -14,8 +14,18 @@ if ($connection && $userData) {
     die('Произошла ошибка!');
 }
 
+if (isset($_POST['name']) && isset($_POST['date'])) {
+    $task = htmlspecialchars($_POST['name']) ?? '';
+    $date = htmlspecialchars($_POST['date']) ?? '';
+} else {
+    $task = '';
+    $date = '';
+}
+
 $mainContent = includeTemplate('add.php', [
     'projects' => $projects,
+    'task' => $task,
+    'date' => $date
 ]);
 
 $layout = includeTemplate('layout.php', [
@@ -27,7 +37,5 @@ $layout = includeTemplate('layout.php', [
 
 print($layout);
 
-$task = htmlspecialchars($_POST['name']) ?? '';
-$date = htmlspecialchars($_POST['date']) ?? '';
 
 ?>
