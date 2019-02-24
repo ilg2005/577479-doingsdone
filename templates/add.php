@@ -5,7 +5,7 @@
                     <div class="form__row">
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
-                        <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название">
+                        <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите название" required>
                     </div>
 
                     <div class="form__row">

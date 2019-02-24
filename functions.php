@@ -113,7 +113,7 @@ function getTasks($link, $selectedUserID)
     return $tasks;
 }
 
-function check_date_format($date) {
+function checkDateFormat($date) {
     $result = false;
     $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
     if (preg_match($regexp, $date, $parts) && count($parts) == 4) {
@@ -122,4 +122,9 @@ function check_date_format($date) {
     return $result;
 }
 
+function checkTaskNameNotEmpty($taskName) {
+    $regexp = '/^$/';
+    $result = !preg_match($regexp, trim($taskName));
+    return $result;
+}
 ?>

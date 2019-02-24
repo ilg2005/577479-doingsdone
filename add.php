@@ -15,7 +15,7 @@ if ($connection && $userData) {
 }
 
 $mainContent = includeTemplate('add.php', [
-    'projects' => $projects
+    'projects' => $projects,
 ]);
 
 $layout = includeTemplate('layout.php', [
@@ -26,4 +26,9 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
+
+if (isset($_POST['name'])) {
+    $task = htmlspecialchars($_POST['name']);
+}
+
 ?>
