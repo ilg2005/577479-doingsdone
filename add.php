@@ -15,6 +15,7 @@ if ($connection && $userData) {
 }
 
 $mainContent = includeTemplate('add.php', [
+    'projects' => $projects
 ]);
 
 $layout = includeTemplate('layout.php', [
