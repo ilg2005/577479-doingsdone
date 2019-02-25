@@ -5,7 +5,10 @@
                     <div class="form__row">
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
-                        <input class="form__input" type="text" name="name" id="name" value="<?= $newTaskName; ?>" placeholder="Введите название" required>
+                        <input class="form__input <?php if($errors['newTaskName']) : ?>form__input--error<?php endif; ?>" type="text" name="name" id="name" value="<?= $newTaskName; ?>" placeholder="Введите название">
+                        <?php if($errors['newTaskName']) : ?>
+                        <p class="form__message"><?= $errors['newTaskName']; ?></p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="form__row">

@@ -112,9 +112,9 @@ function checkDateFormat($date) {
     return $result;
 }
 
-function checkFieldNotEmpty($field) {
+function checkFieldEmpty($field) {
     $regexp = '/^$/';
-    $result = !preg_match($regexp, trim($field));
+    $result = preg_match($regexp, trim($field));
     return $result;
 }
 ?>

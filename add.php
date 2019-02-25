@@ -19,17 +19,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskProject = $_POST['project'] ?? '';
     $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
 
+    $errors = [];
+    if (checkFieldEmpty($newTaskName)) {
+        $errors['newTaskName'] = 'Название задачи не может быть пустым';
+    }
+
 } else {
     $newTaskName = '';
     $newTaskProject = '';
     $newTaskDate = '';
+    $errors['newTaskName'] = '';
 }
 
 $mainContent = includeTemplate('add.php', [
     'projects' => $projects,
     'newTaskName' => $newTaskName,
     'newTaskProject' => $newTaskProject,
-    'newTaskDate' => $newTaskDate
+    'newTaskDate' => $newTaskDate,
+    'errors' => $errors
 ]);
 
 $layout = includeTemplate('layout.php', [
