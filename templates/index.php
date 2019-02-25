@@ -37,15 +37,15 @@
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
                         <?php if ($task['is_done'] && $show_complete_tasks === 1) : ?>
-                           checked
+                            checked
                         <?php endif; ?>>
                     <span class="checkbox__text"><?= $task['name']; ?></span>
                 </label>
             </td>
 
-            <!--                        <td class="task__file">-->
-            <!--                            <a class="download-link" href="#"></a>-->
-            <!--                        </td>-->
+            <td class="task__file">
+                <a class="download-link" href="#"></a>
+            </td>
 
             <td class="task__date"><?= $task['deadline']; ?></td>
             <td class="task__controls">
