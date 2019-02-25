@@ -113,7 +113,7 @@ function checkDateFormat($date) {
 }
 
 function checkFutureDate($futureDate) {
-    return (strtotime($futureDate) >= mktime(0,0,0));
+    return (strtotime($futureDate) >= mktime(0,0,0) || $futureDate === '');
 }
 
 function checkFieldEmpty($field) {
