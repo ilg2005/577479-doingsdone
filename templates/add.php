@@ -22,7 +22,7 @@
                     <div class="form__row">
                         <label class="form__label" for="date">Дата выполнения</label>
 
-                        <input class="form__input form__input--date" type="date" name="date" id="date" value="<?= $newTaskDate; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+                        <input class="form__input form__input--date" type="text" name="date" id="date" value="<?= $newTaskDate; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
                     </div>
 
                     <div class="form__row">
