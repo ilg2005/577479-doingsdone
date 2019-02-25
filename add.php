@@ -16,7 +16,7 @@ if ($connection && $userData) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = htmlspecialchars($_POST['name']) ?? '';
-    $newTaskProject = $_POST['project'] ?? '';
+    $newTaskProjectID = $_POST['project'] ?? '';
     $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
 
     $errors = [];
@@ -43,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if(!count($errors)) {
-        $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, $newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData["id"])';
+        $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, $newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData["id"], $newTaskProjectID)';
 
     }
 
 } else {
     $newTaskName = '';
-    $newTaskProject = '';
+    $newTaskProjectID = '';
     $newTaskDate = '';
     $errors['newTaskName'] = '';
     $errors['newTaskDate'] = '';
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $mainContent = includeTemplate('add.php', [
     'projects' => $projects,
     'newTaskName' => $newTaskName,
-    'newTaskProject' => $newTaskProject,
+    'newTaskProjectID' => $newTaskProjectID,
     'newTaskDate' => $newTaskDate,
     'errors' => $errors
 ]);

@@ -16,8 +16,8 @@
 
                         <select class="form__input form__input--select" name="project" id="project">
                             <?php foreach ($projects as $project) : ?>
-                            <option value="<?= $project['name']; ?>"
-                            <?php if($project['name'] === $newTaskProject) : ?>
+                            <option value="<?= $project['id']; ?>"
+                            <?php if($project['id'] === $newTaskProjectID) : ?>
                                 selected
                             <?php endif; ?>
                             ><?= $project['name']; ?></option>
