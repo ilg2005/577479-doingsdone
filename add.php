@@ -42,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePath);
     }
 
+    if(!count($errors)) {
+        $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, $newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData["id"])';
+
+    }
+
 } else {
     $newTaskName = '';
     $newTaskProject = '';
