@@ -44,7 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!count($errors)) {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, $newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData["id"], $newTaskProjectID)';
-
+        mysqli_query($connection, $addNewTask);
+        header('Location: index.php');
     }
 
 } else {
