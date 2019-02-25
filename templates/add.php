@@ -13,7 +13,11 @@
 
                         <select class="form__input form__input--select" name="project" id="project">
                             <?php foreach ($projects as $project) : ?>
-                            <option value=""><?= $project['name']; ?></option>
+                            <option value="<?= $project['name']; ?>"
+                            <?php if($project['name'] === $newTaskProject) : ?>
+                                selected
+                            <?php endif; ?>
+                            ><?= $project['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
 

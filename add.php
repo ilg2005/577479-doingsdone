@@ -16,16 +16,19 @@ if ($connection && $userData) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = htmlspecialchars($_POST['name']) ?? '';
+    $newTaskProject = $_POST['project'] ?? '';
     $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
 
 } else {
     $newTaskName = '';
+    $newTaskProject = '';
     $newTaskDate = '';
 }
 
 $mainContent = includeTemplate('add.php', [
     'projects' => $projects,
     'newTaskName' => $newTaskName,
+    'newTaskProject' => $newTaskProject,
     'newTaskDate' => $newTaskDate
 ]);
 
