@@ -14,18 +14,19 @@ if ($connection && $userData) {
     die('Произошла ошибка!');
 }
 
-if (isset($_POST['name']) && isset($_POST['date'])) {
-    $task = htmlspecialchars($_POST['name']) ?? '';
-    $date = htmlspecialchars($_POST['date']) ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $newTaskName = htmlspecialchars($_POST['name']) ?? '';
+    $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
+
 } else {
-    $task = '';
-    $date = '';
+    $newTaskName = '';
+    $newTaskDate = '';
 }
 
 $mainContent = includeTemplate('add.php', [
     'projects' => $projects,
-    'task' => $task,
-    'date' => $date
+    'newTaskName' => $newTaskName,
+    'newTaskDate' => $newTaskDate
 ]);
 
 $layout = includeTemplate('layout.php', [
