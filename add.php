@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
     if (checkFieldEmpty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
+    } else {
+        $errors['newTaskName'] = '';
     }
 
 } else {
