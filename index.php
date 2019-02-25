@@ -16,7 +16,6 @@ if ($connection && $userData) {
     die('Произошла ошибка!');
 }
 
-$tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [
     'tasks' => $tasks,
     'show_complete_tasks' => $show_complete_tasks

@@ -23,16 +23,6 @@ function includeTemplate($name, $data)
     return $result;
 }
 
-function filterUserInput($tasksArray)
-{
-    $filteredArray = [];
-    foreach ($tasksArray as $task) {
-        $filteredTask = array_map('htmlspecialchars', $task);
-        $filteredArray[] = $filteredTask;
-    }
-    return $filteredArray;
-}
-
 function checkTaskImportant($deadline)
 {
     if (strtotime($deadline)) {
