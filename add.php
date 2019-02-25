@@ -25,12 +25,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $errors['newTaskName'] = '';
     }
+    if (checkDateFormat($newTaskDate)) {
+        $errors['newTaskDate'] = '';
+    } else {
+        $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
+    }
+    if (checkFutureDate($newTaskDate)) {
+        $errors['newTaskDate'] = '';
+    } else {
+        $errors['newTaskDate'] = 'Дата не может быть раньше сегодняшнего дня';
+    }
 
 } else {
     $newTaskName = '';
     $newTaskProject = '';
     $newTaskDate = '';
     $errors['newTaskName'] = '';
+    $errors['newTaskDate'] = '';
 }
 
 $mainContent = includeTemplate('add.php', [

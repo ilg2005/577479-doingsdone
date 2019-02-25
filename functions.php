@@ -112,6 +112,10 @@ function checkDateFormat($date) {
     return $result;
 }
 
+function checkFutureDate($futureDate) {
+    return (strtotime($futureDate) >= mktime(0,0,0));
+}
+
 function checkFieldEmpty($field) {
     $regexp = '/^$/';
     $result = preg_match($regexp, trim($field));
