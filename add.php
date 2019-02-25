@@ -36,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['newTaskDate'] = 'Дата не может быть раньше сегодняшнего дня';
     }
 
+    if (isset($_FILES['preview'])) {
+    $file_path = __DIR__ . '/' .$_FILES['preview']['name'];
+    move_uploaded_file($_FILES['preview']['tmp_name'], $file_path);
+    }
+
 } else {
     $newTaskName = '';
     $newTaskProject = '';
