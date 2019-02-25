@@ -112,9 +112,9 @@ function checkDateFormat($date) {
     return $result;
 }
 
-function checkTaskNameNotEmpty($taskName) {
+function checkFieldNotEmpty($field) {
     $regexp = '/^$/';
-    $result = !preg_match($regexp, trim($taskName));
+    $result = !preg_match($regexp, trim($field));
     return $result;
 }
 ?>
