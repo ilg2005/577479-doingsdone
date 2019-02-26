@@ -76,14 +76,15 @@ function getProjects($link, $selectedUserID)
     return fetchData($link, $query, [$selectedUserID]);
 }
 
-function showNotFound() {
+function showNotFound()
+{
     header('HTTP/1.1 404 Not Found');
     die();
 }
 
 function getTasks($link, $selectedUserID)
 {
-    $projectDataByID = NULL;
+    $projectDataByID = null;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
     $allTasks = 'SELECT tasks.name, tasks.file_path, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
     $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
@@ -103,7 +104,8 @@ function getTasks($link, $selectedUserID)
     return $tasks;
 }
 
-function checkDateFormat($date) {
+function checkDateFormat($date)
+{
     $result = false;
     $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
     if (preg_match($regexp, $date, $parts) && count($parts) == 4) {
@@ -112,13 +114,28 @@ function checkDateFormat($date) {
     return $result;
 }
 
-function checkFutureDate($futureDate) {
-    return (strtotime($futureDate) >= mktime(0,0,0) || $futureDate === '');
+function checkFutureDate($futureDate)
+{
+    return (strtotime($futureDate) >= mktime(0, 0, 0) || $futureDate === '');
 }
 
-function checkFieldEmpty($field) {
+function checkFieldEmpty($field)
+{
     $regexp = '/^$/';
     $result = preg_match($regexp, trim($field));
     return $result;
 }
+
+function checkTaskExist($tasksArray, $taskName)
+{
+    $result = false;
+    foreach($tasksArray as $task) {
+        if ($task['name'] === $taskName) {
+            $result = true;
+            break;
+        }
+    }
+    return $result;
+}
+
 ?>

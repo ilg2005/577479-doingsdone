@@ -10,6 +10,7 @@ $userData = isUserExist($connection, $userID);
 if ($connection && $userData) {
     $userName = $userData['name'];
     $projects = getProjects($connection, $userData['id']);
+    $tasks = getTasks($connection, $userData['id']);
 } else {
     die('Произошла ошибка!');
 }
@@ -24,6 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     } else {
         $errors['newTaskName'] = '';
+    }
+    if (checkTaskExist($tasks, $newTaskName)) {
+        $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
+    } else {
+        $errors['newTaskNameRepeat'] = '';
     }
     if (checkDateFormat($newTaskDate)) {
         $errors['newTaskDate'] = '';
@@ -43,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
     }
 
-    if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '') {
+    if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '' && $errors['newTaskNameRepeat'] === '') {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?, ?)';
         $newTaskDate = date('Y-m-d', strtotime($newTaskDate));
         $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData['id'], $newTaskProjectID ]);
@@ -56,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskProjectID = '';
     $newTaskDate = '';
     $errors['newTaskName'] = '';
+    $errors['newTaskNameRepeat'] = '';
     $errors['newTaskDate'] = '';
 }
 
