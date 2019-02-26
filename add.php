@@ -16,22 +16,19 @@ if ($connection && $userData) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $newTaskName = htmlspecialchars($_POST['name']) ?? '';
+    $newTaskName = trim($_POST['name']) ?? '';
+    $newTaskName = htmlspecialchars($newTaskName);
     $newTaskProjectID = $_POST['project'] ?? '';
     $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
 
     $errors = [];
-    if (checkFieldEmpty($newTaskName)) {
+    if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
-    } else {
-        $errors['newTaskName'] = '';
     }
     if (checkTaskExist($tasks, $newTaskName)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
-    } else {
-        $errors['newTaskNameRepeat'] = '';
     }
-    if (checkDateFormat($newTaskDate)) {
+    /*if (checkDateFormat($newTaskDate)) {
         $errors['newTaskDate'] = '';
     } else {
         $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
@@ -40,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['newTaskDate'] = '';
     } else {
         $errors['newTaskDate'] = 'Дата не может быть раньше сегодняшнего дня';
-    }
+    }*/
 
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];
@@ -48,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
     }
 
-    if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '' && $errors['newTaskNameRepeat'] === '') {
+    if(empty($errors)) {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
         if ($newTaskDate) {
             $newTaskDate = date('Ymd', strtotime($newTaskDate));
@@ -64,9 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = '';
     $newTaskProjectID = '';
     $newTaskDate = '';
-    $errors['newTaskName'] = '';
-    $errors['newTaskNameRepeat'] = '';
-    $errors['newTaskDate'] = '';
+    $errors = [];
 }
 
 $mainContent = includeTemplate('add.php', [

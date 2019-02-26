@@ -5,11 +5,11 @@
                     <div class="form__row">
                         <label class="form__label" for="name">Название <sup>*</sup></label>
 
-                        <input class="form__input <?php if($errors['newTaskName'] || $errors['newTaskNameRepeat']) : ?>form__input--error<?php endif; ?>" type="text" name="name" id="name" value="<?= $newTaskName; ?>" placeholder="Введите название">
-                        <?php if($errors['newTaskName']) : ?>
+                        <input class="form__input <?php if(isset($errors['newTaskName']) || isset($errors['newTaskNameRepeat'])) : ?>form__input--error<?php endif; ?>" type="text" name="name" id="name" value="<?= $newTaskName; ?>" placeholder="Введите название">
+                        <?php if(isset($errors['newTaskName'])) : ?>
                         <p class="form__message"><?= $errors['newTaskName']; ?></p>
                         <?php endif; ?>
-                        <?php if($errors['newTaskNameRepeat']) : ?>
+                        <?php if(isset($errors['newTaskNameRepeat'])) : ?>
                             <p class="form__message"><?= $errors['newTaskNameRepeat']; ?></p>
                         <?php endif; ?>
                     </div>
@@ -32,8 +32,8 @@
                     <div class="form__row">
                         <label class="form__label" for="date">Дата выполнения</label>
 
-                        <input class="form__input form__input--date <?php if($errors['newTaskDate']) : ?>form__input--error<?php endif; ?>" type="text" name="date" id="date" value="<?= $newTaskDate; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
-                        <?php if($errors['newTaskDate']) : ?>
+                        <input class="form__input form__input--date <?php if(isset($errors['newTaskDate'])) : ?>form__input--error<?php endif; ?>" type="text" name="date" id="date" value="<?= $newTaskDate; ?>" placeholder="Введите дату в формате ДД.ММ.ГГГГ">
+                        <?php if(isset($errors['newTaskDate'])) : ?>
                             <p class="form__message"><?= $errors['newTaskDate']; ?></p>
                         <?php endif; ?>
                     </div>

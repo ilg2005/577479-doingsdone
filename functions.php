@@ -119,13 +119,6 @@ function checkFutureDate($futureDate)
     return (strtotime($futureDate) >= mktime(0, 0, 0) || $futureDate === '');
 }
 
-function checkFieldEmpty($field)
-{
-    $regexp = '/^$/';
-    $result = preg_match($regexp, trim($field));
-    return $result;
-}
-
 function checkTaskExist($tasksArray, $taskName)
 {
     $result = false;
