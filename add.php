@@ -38,8 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];
-        $newTaskFilePath = __DIR__ . '/' . $newTaskFileName;
-        move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePath);
+        $newTaskFilePathFull = __DIR__ . '/' . $newTaskFileName;
+        $newTaskFilePath = '/doingsdone/' . $newTaskFileName;
+        move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
     }
 
     if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '') {

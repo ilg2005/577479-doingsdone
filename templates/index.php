@@ -42,10 +42,11 @@
                     <span class="checkbox__text"><?= $task['name']; ?></span>
                 </label>
             </td>
-
+        <?php if($task['file_path']) : ?>
             <td class="task__file">
-                <a class="download-link" href="#"></a>
+                <a class="download-link" href="<?= $task['file_path']; ?>"></a>
             </td>
+        <?php endif; ?>
 
             <td class="task__date"><?= $task['deadline']; ?></td>
             <td class="task__controls">
