@@ -42,9 +42,9 @@
                     <span class="checkbox__text"><?= $task['name']; ?></span>
                 </label>
             </td>
-        <?php if($task['file_path']) : ?>
+        <?php if($task['file_name']) : ?>
             <td class="task__file">
-                <a class="download-link" href="<?= $task['file_path']; ?>"></a>
+                <a class="download-link" href="<?= '/doingsdone/' . $task['file_name']; ?>"></a>
             </td>
             <?php else : ?>
             <td></td>

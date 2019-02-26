@@ -45,14 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];
         $newTaskFilePathFull = __DIR__ . '/' . $newTaskFileName;
-        $newTaskFilePath = '/doingsdone/' . $newTaskFileName;
         move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
     }
 
     if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '' && $errors['newTaskNameRepeat'] === '') {
-        $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?, ?)';
+        $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
         $newTaskDate = date('Y-m-d', strtotime($newTaskDate));
-        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData['id'], $newTaskProjectID ]);
+        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID ]);
         mysqli_stmt_execute($stmt);
         header('Location: index.php');
     }
