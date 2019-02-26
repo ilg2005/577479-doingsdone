@@ -31,11 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (checkWrongDateFormat($newTaskDate)) {
         $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
     }
-    /*if (checkFutureDate($newTaskDate)) {
-        $errors['newTaskDate'] = '';
-    } else {
+    if (checkPastDate($newTaskDate)) {
         $errors['newTaskDate'] = 'Дата не может быть раньше сегодняшнего дня';
-    }*/
+    }
 
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];

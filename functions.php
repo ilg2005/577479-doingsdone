@@ -117,9 +117,9 @@ function checkWrongDateFormat($date)
     }
 }
 
-function checkFutureDate($futureDate)
+function checkPastDate($date)
 {
-    return (strtotime($futureDate) >= mktime(0, 0, 0) || $futureDate === '');
+    return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
 }
 
 function checkTaskExist($tasksArray, $taskName)
