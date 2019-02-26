@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '' && $errors['newTaskNameRepeat'] === '') {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
         if ($newTaskDate) {
-            $newTaskDate = date('Y-m-d', strtotime($newTaskDate));
+            $newTaskDate = date('Ymd', strtotime($newTaskDate));
         } else {
             $newTaskDate = 0;
         }
