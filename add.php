@@ -2,9 +2,14 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
+$newTaskName = '';
+$newTaskProjectID = '';
+$newTaskDate = '';
+$errors = [];
+$userID = 4;
+
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-$userID = 4;
 $userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {
@@ -41,23 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
     }
 
-    if(empty($errors)) {
+    if (empty($errors)) {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
         if ($newTaskDate) {
             $newTaskDate = date('Ymd', strtotime($newTaskDate));
         } else {
             $newTaskDate = 0;
         }
-        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID ]);
+        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
         mysqli_stmt_execute($stmt);
         header('Location: index.php');
     }
-
-} else {
-    $newTaskName = '';
-    $newTaskProjectID = '';
-    $newTaskDate = '';
-    $errors = [];
 }
 
 $mainContent = includeTemplate('add.php', [
@@ -76,6 +75,5 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
-
 
 ?>
