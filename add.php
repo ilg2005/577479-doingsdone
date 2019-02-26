@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
         if ($newTaskDate) {
             $newTaskDate = date('Y-m-d', strtotime($newTaskDate));
+        } else {
+            $newTaskDate = 0;
         }
         $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID ]);
         mysqli_stmt_execute($stmt);

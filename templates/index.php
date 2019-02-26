@@ -50,7 +50,9 @@
             <td></td>
         <?php endif; ?>
 
-            <td class="task__date"><?= $task['deadline']; ?></td>
+            <td class="task__date"><?= ($task['deadline'] != 0)? $task['deadline'] : ''; ?>
+            </td>
+
             <td class="task__controls">
             </td>
         </tr>
