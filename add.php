@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if($errors['newTaskName'] === '' && $errors['newTaskDate'] === '') {
         $addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, file_path, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?, ?)';
+        $newTaskDate = date('Y-m-d', strtotime($newTaskDate));
         $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskFilePath, $newTaskDate, $userData['id'], $newTaskProjectID ]);
         mysqli_stmt_execute($stmt);
         header('Location: index.php');
