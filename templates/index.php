@@ -46,6 +46,8 @@
             <td class="task__file">
                 <a class="download-link" href="<?= $task['file_path']; ?>"></a>
             </td>
+            <?php else : ?>
+            <td></td>
         <?php endif; ?>
 
             <td class="task__date"><?= $task['deadline']; ?></td>
