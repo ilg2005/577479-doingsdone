@@ -17,13 +17,22 @@ if ($connection && $userData) {
 }*/
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $requiredFields = ['email', 'password', 'name'];
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $name = htmlspecialchars($_POST['name']) ?? '';
 
-    $userEmail = trim($_POST['email']) ?? '';
-    $userPassword = $_POST['password'] ?? '';
-    $userName = htmlspecialchars($_POST['name']) ?? '';
+    $requiredFields = [
+        'email' => $email,
+        'password' => $password,
+        'name' => $name
+    ];
 
     $errors = [];
+    foreach ($requiredFields as $key => $value) {
+        if (empty(trim($value))) {
+            $errors[$key] = 'Это поле нужно заполнить';
+        }
+    }
     /*if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     }
@@ -50,7 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$mainContent = includeTemplate('registration.php', []);
+$mainContent = includeTemplate('registration.php', [
+    'errors' => $errors
+]);
 
 $layout = includeTemplate('layout.php', [
     'pageTitle' => $pageTitle,
