@@ -3,6 +3,9 @@ require_once('mysql_helper.php');
 require_once('functions.php');
 
 $isProjectsTasksPage = false;
+$email = '';
+$password = '';
+$userName = '';
 $errors = [];
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
@@ -19,12 +22,12 @@ if ($connection && $userData) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-    $name = htmlspecialchars($_POST['name']) ?? '';
+    $userName = $_POST['name'] ?? '';
 
     $requiredFields = [
         'email' => $email,
         'password' => $password,
-        'name' => $name
+        'name' => $userName
     ];
 
     $errors = [];
@@ -60,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $mainContent = includeTemplate('registration.php', [
+    'email' => $email,
+    'password' => $password,
+    'userName' => $userName,
     'errors' => $errors
 ]);
 
