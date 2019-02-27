@@ -2,6 +2,8 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
+$isProjectsTasksPage = true;
+
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
@@ -71,7 +73,8 @@ $layout = includeTemplate('layout.php', [
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
-    'mainContent' => $mainContent
+    'mainContent' => $mainContent,
+    'isProjectsTasksPage' => $isProjectsTasksPage
 ]);
 
 print($layout);

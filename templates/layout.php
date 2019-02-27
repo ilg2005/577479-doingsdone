@@ -20,40 +20,53 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
-                    задачу</a>
+                <?php if ($isProjectsTasksPage) : ?>
+                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
+                        задачу</a>
 
-                <div class="main-header__side-item user-menu">
-                    <div class="user-menu__image">
-                        <img src="img/user.png" width="40" height="40" alt="Пользователь">
+                    <div class="main-header__side-item user-menu">
+                        <div class="user-menu__image">
+                            <img src="img/user.png" width="40" height="40" alt="Пользователь">
+                        </div>
+
+                        <div class="user-menu__data">
+                            <p><?= $userName; ?></p>
+
+                            <a href="#">Выйти</a>
+                        </div>
                     </div>
-
-                    <div class="user-menu__data">
-                        <p><?= $userName; ?></p>
-
-                        <a href="#">Выйти</a>
-                    </div>
-                </div>
+                <?php else : ?>
+                    <a class="main-header__side-item button button--transparent"
+                       href="form-authorization.html">Войти</a>
+                <?php endif; ?>
             </div>
         </header>
 
         <div class="content">
             <section class="content__side">
-                <h2 class="content__side-heading">Проекты</h2>
+                <?php if ($isProjectsTasksPage) : ?>
+                    <h2 class="content__side-heading">Проекты</h2>
 
-                <nav class="main-navigation">
-                    <ul class="main-navigation__list">
-                        <?php foreach ($projects as $project): ?>
-                            <li class="main-navigation__list-item">
-                                <a class="main-navigation__list-item-link" href="<?= '?project_id=' . $project['id']; ?>"><?= $project['name']; ?></a>
-                                <span class="main-navigation__list-item-count"><?= $project['task_count']; ?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </nav>
+                    <nav class="main-navigation">
+                        <ul class="main-navigation__list">
+                            <?php foreach ($projects as $project): ?>
+                                <li class="main-navigation__list-item">
+                                    <a class="main-navigation__list-item-link"
+                                       href="<?= '?project_id=' . $project['id']; ?>"><?= $project['name']; ?></a>
+                                    <span class="main-navigation__list-item-count"><?= $project['task_count']; ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </nav>
 
-                <a class="button button--transparent button--plus content__side-button"
-                   href="pages/form-project.html" target="project_add">Добавить проект</a>
+                    <a class="button button--transparent button--plus content__side-button"
+                       href="pages/form-project.html" target="project_add">Добавить проект</a>
+                <?php else : ?>
+                    <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
+
+                    <a class="button button--transparent content__side-button" href="form-authorization.html">Войти</a>
+
+                <?php endif; ?>
             </section>
 
             <main class="content__main">
@@ -71,7 +84,9 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+        <?php if ($isProjectsTasksPage) : ?>
+            <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+        <?php endif; ?>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
