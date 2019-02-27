@@ -50,6 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }*/
 
     if (empty($errors)) {
+        if (!isEmailValid($email)) {
+            $errors['email'] = 'E-mail введен некорректно';
+        }
+
         $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
         $result = fetchData($connection, $sql, [$email]);
         if ($result) {

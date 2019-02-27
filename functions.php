@@ -106,7 +106,7 @@ function getTasks($link, $selectedUserID)
 
 function checkWrongDateFormat($date)
 {
-    if($date === '') {
+    if ($date === '') {
         return false;
     } else {
         $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
@@ -125,13 +125,18 @@ function checkPastDate($date)
 function checkTaskExist($tasksArray, $taskName)
 {
     $result = false;
-    foreach($tasksArray as $task) {
+    foreach ($tasksArray as $task) {
         if ($task['name'] === $taskName) {
             $result = true;
             break;
         }
     }
     return $result;
+}
+
+function isEmailValid($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 ?>
