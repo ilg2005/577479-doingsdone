@@ -10,15 +10,6 @@ $errors = [];
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-/*$userID = 4;
-$userData = isUserExist($connection, $userID);
-
-if ($connection && $userData) {
-    $userName = $userData['name'];
-} else {
-    die('Произошла ошибка!');
-}*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -36,18 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[$key] = 'Это поле нужно заполнить';
         }
     }
-    /*if (empty($newTaskName)) {
-        $errors['newTaskName'] = 'Название задачи не может быть пустым';
-    }
-    if (checkTaskExist($tasks, $newTaskName)) {
-        $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
-    }
-    if (checkWrongDateFormat($newTaskDate)) {
-        $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
-    }
-    if (checkPastDate($newTaskDate)) {
-        $errors['newTaskDate'] = 'Дата не может быть раньше сегодняшнего дня';
-    }*/
 
     if (empty($errors)) {
         if (!isEmailValid($email)) {
@@ -60,17 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
         }
     }
-    /*$addNewTask = 'INSERT INTO tasks (creation_date, is_done, name, file_name, deadline, user_id, project_id) VALUES (CURRENT_TIMESTAMP, 0, ?, ?, ?, ?, ?)';
-    if ($newTaskDate) {
-        $newTaskDate = date('Ymd', strtotime($newTaskDate));
-    } else {
-        $newTaskDate = 0;
-    }
-    $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
-    mysqli_stmt_execute($stmt);*/
 
     if (empty($errors)) {
-        header('Location: index.php');
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        $addNewUser = 'INSERT INTO users (registration_date, email, name, password) VALUES (NOW(), ?, ?, ?)';
+        $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: index.php');
+        }
     }
 }
 

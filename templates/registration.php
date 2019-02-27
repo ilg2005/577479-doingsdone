@@ -1,6 +1,8 @@
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
-
+    <?php if (!empty($errors)) : ?>
+        <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
+    <?php endif; ?>
     <form class="form" action="registration.php" method="post">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
@@ -32,7 +34,6 @@
         </div>
 
         <div class="form__row form__row--controls">
-            <p class="error-message">Пожалуйста, исправьте ошибки в форме</p>
 
             <input class="button" type="submit" name="" value="Зарегистрироваться">
         </div>
