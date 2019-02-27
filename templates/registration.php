@@ -1,7 +1,7 @@
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="index.html" method="post">
+    <form class="form" action="registration.php" method="post">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
@@ -19,7 +19,7 @@
         <div class="form__row">
             <label class="form__label" for="name">Имя <sup>*</sup></label>
 
-            <input class="form__input" type="password" name="name" id="name" value="" placeholder="Введите пароль">
+            <input class="form__input" type="password" name="name" id="name" value="" placeholder="Введите имя">
         </div>
 
         <div class="form__row form__row--controls">
