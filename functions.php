@@ -114,15 +114,10 @@ function checkPastDate($date)
     return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
 }
 
-function checkTaskExist($tasksArray, $taskName)
+function checkTaskExist($link, $taskName)
 {
-    $result = false;
-    foreach ($tasksArray as $task) {
-        if ($task['name'] === $taskName) {
-            $result = true;
-            break;
-        }
-    }
+    $sql = 'SELECT id FROM tasks WHERE name = ? LIMIT 1';
+    $result = fetchData($link, $sql, [$taskName]);
     return $result;
 }
 
