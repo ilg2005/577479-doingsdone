@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (checkTaskExist($tasks, $newTaskName)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
-    if (checkWrongDateFormat($newTaskDate)) {
+    if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
         $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
     }
     if (checkPastDate($newTaskDate)) {

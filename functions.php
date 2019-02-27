@@ -104,17 +104,9 @@ function getTasks($link, $selectedUserID)
     return $tasks;
 }
 
-function checkWrongDateFormat($date)
+function isCorrectDateFormat($format, $date)
 {
-    if ($date === '') {
-        return false;
-    } else {
-        $regexp = '/(\d{2})\.(\d{2})\.(\d{4})/m';
-        if (preg_match($regexp, $date, $parts) && count($parts) == 4) {
-            $result = !checkdate($parts[2], $parts[1], $parts[3]);
-            return $result;
-        }
-    }
+    return (!$date || date_create_from_format($format, $date));
 }
 
 function checkPastDate($date)
