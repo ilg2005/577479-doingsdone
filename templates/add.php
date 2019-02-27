@@ -47,7 +47,7 @@
                             <label class="button button--transparent" for="preview">
                                 <span>Выберите файл</span>
                             </label>
-                            <?php if(isset($errors['newTaskDate'])) : ?>
+                            <?php if(isset($errors['fileSave'])) : ?>
                                 <p class="form__message"><?= $errors['fileSave']; ?></p>
                             <?php endif; ?>
                         </div>
