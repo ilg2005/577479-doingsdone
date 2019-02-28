@@ -43,8 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_FILES['preview'])) {
-        $newTaskFileName = date('YmdHis') . '_' . $_FILES['preview']['name'];
-        $newTaskFilePathFull = __DIR__ . '/' . $newTaskFileName;
+        $newTaskFileName = $_FILES['preview']['name'];
+        $uniqueFileName = date('YmdHis') . '_' . $newTaskFileName;
+        $newTaskFilePathFull = __DIR__ . '\\' . $uniqueFileName;
         $res = move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
         if ($newTaskFileName && !$res) {
             $errors['fileSave'] = 'Файл не загружен';
@@ -58,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $newTaskDate = 0;
         }
-        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $newTaskFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
+        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
         }
