@@ -4,21 +4,62 @@ require_once('functions.php');
 
 $guestPage = false;
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+$email = '';
+$password = '';
 $user = [];
 $userName = '';
 $projects = [];
+$errors = [];
 
-//$userData = isUserExist($connection, $userID);
+session_start();
 
-/*if ($connection && $userData) {
-    $userName = $userData['name'];
-    $projects = getProjects($connection, $userData['id']);
-    $tasks = getTasks($connection, $userData['id']);
-} else {
-    die('Произошла ошибка!');
-}*/
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $form = $_POST;
+    $email = $form['email'] ?? '';
+    $password = $form['password'] ?? '';
+    $errors = [];
 
-$mainContent = includeTemplate('auth.php', []);
+    $requiredFields = [
+        'email' => $email,
+        'password' => $password
+    ];
+
+    foreach ($requiredFields as $key => $value) {
+        if (empty(trim($value))) {
+            $errors[$key] = 'Это поле нужно заполнить';
+        }
+    }
+
+    $email = mysqli_real_escape_string($connection, $form['email']);
+
+    if (empty($errors)) {
+        if (!isEmailValid($email)) {
+            $errors['email'] = 'E-mail введен некорректно';
+        }
+    }
+
+    if (empty($errors)) {
+        $userSearch = 'SELECT * FROM users WHERE email = ? LIMIT 1';
+        $user = fetchData($connection, $userSearch, [$email]);
+
+        if (!$user) {
+            $errors['email'] = 'Такой пользователь не найден';
+        } else {
+            if (password_verify($form['password'], $user['password'])) {
+                $_SESSION['user'] = $user;
+                header('Location: index.php');
+            } else {
+                $errors['password'] = 'Неверный пароль';
+            }
+        }
+    }
+}
+
+$mainContent = includeTemplate('auth.php', [
+    'email' => $email,
+    'password' => $password,
+    'errors' => $errors
+]);
 
 $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,
@@ -30,4 +71,5 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
+
 ?>
