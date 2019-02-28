@@ -104,6 +104,22 @@ function getTasks($link, $selectedUserID)
     return $tasks;
 }
 
+function changeTaskStatusInDatabase()
+{
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    if (isset($_GET['task_id']) && isset($_GET['check'])) {
+        $taskID = $_GET['task_id'];
+        $status = $_GET['check'];
+
+        $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
+        $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: index.php');
+        }
+    }
+}
+
 function isCorrectDateFormat($format, $date)
 {
     return (!$date || date_create_from_format($format, $date));
