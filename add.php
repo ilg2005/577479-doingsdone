@@ -53,7 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];
-        $uniqueFileName = date('YmdHis') . '_' . $newTaskFileName;
+        if ($newTaskFileName) {
+            $uniqueFileName = date('YmdHis') . '_' . $newTaskFileName;
+        } else {
+            $uniqueFileName = '';
+        }
         $newTaskFilePathFull = __DIR__ . '\\' . $uniqueFileName;
         $res = move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
         if ($newTaskFileName && !$res) {
