@@ -39,7 +39,7 @@ CREATE TABLE tasks
   implementation_date TIMESTAMP,
   is_done             TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
-  file_name           VARCHAR(32),
+  file_name           VARCHAR(128),
   deadline            int,
   user_id             int          NOT NULL,
   project_id          int          NOT NULL
