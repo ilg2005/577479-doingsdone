@@ -86,8 +86,8 @@ function getTasks($link, $selectedUserID)
 {
     $projectDataByID = null;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
-    $allTasks = 'SELECT tasks.name, tasks.file_name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
-    $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
+    $allTasks = 'SELECT t.id, t.name, t.file_name, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ?';
+    $projectSpecificTasks = $allTasks . ' AND t.project_id = ?';
 
     if (isset($_GET['project_id'])) {
         if (!is_numeric($_GET['project_id']) || $_GET['project_id'] === '') {

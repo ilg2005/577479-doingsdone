@@ -35,7 +35,7 @@
         ">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
-                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox"
+                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" name="task_id" value="<?= $task['id']?>"
                         <?php if ($task['is_done'] && $show_complete_tasks === 1) : ?>
                             checked
                         <?php endif; ?>>
