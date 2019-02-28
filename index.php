@@ -3,11 +3,18 @@ require_once('mysql_helper.php');
 require_once('functions.php');
 
 $guestPage = false;
-$user = [4];
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+} else {
+    header('Location: guest.php');
+    exit();
+}
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-$userID = 4;
+$userID = $user['id'];
 $userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {

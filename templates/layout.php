@@ -32,7 +32,7 @@
                         <div class="user-menu__data">
                             <p><?= $userName; ?></p>
 
-                            <a href="#">Выйти</a>
+                            <a href="/doingsdone/logout.php">Выйти</a>
                         </div>
                     </div>
                 <?php else : ?>

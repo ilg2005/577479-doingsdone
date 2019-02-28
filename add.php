@@ -2,14 +2,22 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+} else {
+    header('Location: auth.php');
+    exit();
+}
 
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
 $errors = [];
 $guestPage = false;
-$user = [4];
-$userID = 4;
+
+$userID = $user['id'];
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
