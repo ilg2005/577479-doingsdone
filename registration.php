@@ -2,7 +2,6 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
-$isProjectsTasksPage = false;
 $email = '';
 $password = '';
 $user = [];
@@ -65,8 +64,7 @@ $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,
     'user' => $user,
     'pageTitle' => $pageTitle,
-    'mainContent' => $mainContent,
-    'isProjectsTasksPage' => $isProjectsTasksPage
+    'mainContent' => $mainContent
 ]);
 
 print($layout);

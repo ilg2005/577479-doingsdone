@@ -4,7 +4,6 @@ require_once('functions.php');
 
 $guestPage = false;
 $user = [4];
-$isProjectsTasksPage = true;
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -30,8 +29,7 @@ $layout = includeTemplate('layout.php', [
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
-    'mainContent' => $mainContent,
-    'isProjectsTasksPage' => $isProjectsTasksPage
+    'mainContent' => $mainContent
 ]);
 
 print($layout);
