@@ -23,16 +23,6 @@ function includeTemplate($name, $data)
     return $result;
 }
 
-function filterUserInput($tasksArray)
-{
-    $filteredArray = [];
-    foreach ($tasksArray as $task) {
-        $filteredTask = array_map('htmlspecialchars', $task);
-        $filteredArray[] = $filteredTask;
-    }
-    return $filteredArray;
-}
-
 function checkTaskImportant($deadline)
 {
     if (strtotime($deadline)) {
@@ -86,16 +76,17 @@ function getProjects($link, $selectedUserID)
     return fetchData($link, $query, [$selectedUserID]);
 }
 
-function showNotFound() {
+function showNotFound()
+{
     header('HTTP/1.1 404 Not Found');
     die();
 }
 
 function getTasks($link, $selectedUserID)
 {
-    $projectDataByID = NULL;
+    $projectDataByID = null;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
-    $allTasks = 'SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
+    $allTasks = 'SELECT tasks.name, tasks.file_name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
     $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
 
     if (isset($_GET['project_id'])) {
@@ -111,6 +102,28 @@ function getTasks($link, $selectedUserID)
     }
 
     return $tasks;
+}
+
+function isCorrectDateFormat($format, $date)
+{
+    return (!$date || date_create_from_format($format, $date));
+}
+
+function checkPastDate($date)
+{
+    return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
+}
+
+function checkTaskExist($link, $taskName)
+{
+    $sql = 'SELECT id FROM tasks WHERE name = ? LIMIT 1';
+    $result = fetchData($link, $sql, [$taskName]);
+    return $result;
+}
+
+function isEmailValid($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 ?>
