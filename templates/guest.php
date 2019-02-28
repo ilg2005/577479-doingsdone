@@ -9,7 +9,7 @@
             сроки.</p>
     </div>
 
-    <a class="welcome__button button" href="register.html">Зарегистрироваться</a>
+    <a class="welcome__button button" href="/doingsdone/registration.php">Зарегистрироваться</a>
 </section>
 
 
