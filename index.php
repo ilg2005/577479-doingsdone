@@ -1,7 +1,8 @@
 <?php
 require_once('mysql_helper.php');
 require_once('functions.php');
-/*require_once('data.php');*/
+
+$isProjectsTasksPage = true;
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -16,7 +17,6 @@ if ($connection && $userData) {
     die('Произошла ошибка!');
 }
 
-$tasks = filterUserInput($tasks);
 $mainContent = includeTemplate('index.php', [
     'tasks' => $tasks,
     'show_complete_tasks' => $show_complete_tasks
@@ -26,8 +26,8 @@ $layout = includeTemplate('layout.php', [
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
-    'tasks' => $tasks,
-    'mainContent' => $mainContent
+    'mainContent' => $mainContent,
+    'isProjectsTasksPage' => $isProjectsTasksPage
 ]);
 
 print($layout);
