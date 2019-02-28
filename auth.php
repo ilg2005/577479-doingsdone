@@ -40,12 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $userSearch = 'SELECT * FROM users WHERE email = ? LIMIT 1';
-        $user = fetchData($connection, $userSearch, [$email]);
+        $user = fetchData($connection, $userSearch, [$email])[0];
 
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
         } else {
-            if (password_verify($form['password'], $user['password'])) {
+            $isPasswordValid = password_verify($form['password'], $user['password']);
+            if ($isPasswordValid) {
                 $_SESSION['user'] = $user;
                 header('Location: index.php');
             } else {
