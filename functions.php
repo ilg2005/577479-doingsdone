@@ -121,6 +121,13 @@ function checkTaskExist($link, $taskName)
     return $result;
 }
 
+function checkProjectExist($link, $projectName)
+{
+    $sql = 'SELECT id FROM projects WHERE name = ? LIMIT 1';
+    $result = fetchData($link, $sql, [$projectName]);
+    return $result;
+}
+
 function isEmailValid($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
