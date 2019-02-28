@@ -6,8 +6,9 @@ session_start();
 
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
+    $userID = $user['id'];
 } else {
-    header('Location: auth.php');
+    header('Location: guest.php');
     exit();
 }
 
@@ -17,7 +18,6 @@ $newTaskDate = '';
 $errors = [];
 $guestPage = false;
 
-$userID = $user['id'];
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 

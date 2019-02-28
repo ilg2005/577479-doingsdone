@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $addNewUser = 'INSERT INTO users (registration_date, email, name, password) VALUES (NOW(), ?, ?, ?)';
         $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
         if (mysqli_stmt_execute($stmt)) {
-            header('Location: index.php');
+            header('Location: auth.php');
         }
     }
 }
