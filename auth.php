@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($isPasswordValid) {
                 $_SESSION['user'] = $user;
                 header('Location: index.php');
+                exit();
             } else {
                 $errors['password'] = 'Неверный пароль';
             }
