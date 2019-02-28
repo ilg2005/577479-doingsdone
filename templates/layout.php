@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body>
+<body <?php if ($guestPage) : ?>class="body-background" <?php endif; ?>>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container <?php if(!$guestPage) : ?>container--with-sidebar<?php endif; ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if ($isProjectsTasksPage) : ?>
+                <?php if (!empty($user)) : ?>
                     <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
                         задачу</a>
 
@@ -43,8 +43,9 @@
         </header>
 
         <div class="content">
+            <?php if (!$guestPage) : ?>
             <section class="content__side">
-                <?php if ($isProjectsTasksPage) : ?>
+                <?php if (!empty($user)) : ?>
                     <h2 class="content__side-heading">Проекты</h2>
 
                     <nav class="main-navigation">
@@ -72,7 +73,11 @@
             <main class="content__main">
                 <?= $mainContent ?>
             </main>
+            <?php else : ?>
+            <?= $guestPageContent; ?>
+            <?php endif; ?>
         </div>
+
     </div>
 </div>
 
@@ -84,7 +89,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if ($isProjectsTasksPage) : ?>
+        <?php if ($user) : ?>
             <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
 

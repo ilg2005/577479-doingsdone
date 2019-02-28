@@ -8,6 +8,8 @@ $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
 $errors = [];
+$guestPage = false;
+$user = [4];
 $userID = 4;
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
@@ -75,6 +77,8 @@ $mainContent = includeTemplate('add.php', [
 ]);
 
 $layout = includeTemplate('layout.php', [
+    'guestPage' => $guestPage,
+    'user' => $user,
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,

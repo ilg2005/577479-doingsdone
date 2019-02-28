@@ -5,8 +5,11 @@ require_once('functions.php');
 $isProjectsTasksPage = false;
 $email = '';
 $password = '';
+$user = [];
 $userName = '';
+$guestPage = false;
 $errors = [];
+
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -59,6 +62,8 @@ $mainContent = includeTemplate('registration.php', [
 ]);
 
 $layout = includeTemplate('layout.php', [
+    'guestPage' => $guestPage,
+    'user' => $user,
     'pageTitle' => $pageTitle,
     'mainContent' => $mainContent,
     'isProjectsTasksPage' => $isProjectsTasksPage

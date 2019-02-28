@@ -2,6 +2,8 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
+$guestPage = false;
+$user = [4];
 $isProjectsTasksPage = true;
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
@@ -23,6 +25,8 @@ $mainContent = includeTemplate('index.php', [
 ]);
 
 $layout = includeTemplate('layout.php', [
+    'guestPage' => $guestPage,
+    'user' => $user,
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
