@@ -175,4 +175,25 @@ function applyBulkFilter($userID, $filter) {
         }
     }
 
+function applyProjectSpecificFilter($userID, $projectID, $filter) {
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
+    $todaySql = $allSql . ' AND t.deadline = CURDATE()';
+    $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
+    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
+
+    $filters = [
+        'all' => $allSql,
+        'today' => $todaySql,
+        'tomorrow' => $tomorrowSql,
+        'overdue' => $overdueSql
+    ];
+
+    $filteredTasks = fetchData($connection, $filters[$filter], [$userID, $projectID]);
+    if ($filteredTasks) {
+        return $filteredTasks;
+    }
+}
+
 ?>
