@@ -146,4 +146,17 @@ function isEmailValid($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
+function applyFilter($filter) {
+    /*$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    $todaySql = 'SELECT t.id, t.name, t.file_name, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
+
+    $tomorrowSql = 'UPDATE tasks SET is_done = ? WHERE id = ?';
+    $overdueSql = 'UPDATE tasks SET is_done = ? WHERE id = ?';
+        $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: /doingsdone/index.php?show_completed=1');
+        }*/
+    }
+
 ?>

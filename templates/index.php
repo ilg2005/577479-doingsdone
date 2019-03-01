@@ -8,10 +8,31 @@
 
 <div class="tasks-controls">
     <nav class="tasks-switch">
-        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-        <a href="/" class="tasks-switch__item">Повестка дня</a>
-        <a href="/" class="tasks-switch__item">Завтра</a>
-        <a href="/" class="tasks-switch__item">Просроченные</a>
+        <a href="/doingsdone/index.php?filter=all" class="tasks-switch__item
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
+        tasks-switch__item--active
+        <?php endif; ?>">Все задачи</a>
+
+        <a href="/doingsdone/index.php?filter=today" class="tasks-switch__item
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
+        tasks-switch__item--active
+        <?php endif; ?>">Повестка дня</a>
+
+        <a href="/doingsdone/index.php?filter=tomorrow" class="tasks-switch__item
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
+        tasks-switch__item--active
+        <?php endif; ?>">Завтра</a>
+
+        <a href="/doingsdone/index.php?filter=overdue" class="tasks-switch__item
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
+        tasks-switch__item--active
+        <?php endif; ?>">Просроченные</a>
+
+        <?php if (isset($_GET['filter'])) : ?>
+            <?php $filter = htmlspecialchars($_GET['filter']) ?>
+            <?php applyFilter($filter); ?>
+        <?php endif; ?>
+
     </nav>
 
     <label class="checkbox">
