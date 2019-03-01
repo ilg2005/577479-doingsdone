@@ -3,6 +3,7 @@ require_once('mysql_helper.php');
 require_once('functions.php');
 
 $guestPage = false;
+$show_complete_tasks = 1;
 session_start();
 
 if (isset($_SESSION['user'])) {

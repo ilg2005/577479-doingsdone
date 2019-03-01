@@ -3,7 +3,7 @@ const SECONDS_PER_DAY = 86400;
 $pageTitle = 'Дела в порядке';
 
 // показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+/*$show_complete_tasks = rand(0, 1);*/
 
 function includeTemplate($name, $data)
 {
