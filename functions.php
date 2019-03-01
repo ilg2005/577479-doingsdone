@@ -57,6 +57,19 @@ function fetchData($link, $sql, $data = [])
     return $result;
 }
 
+function fetchRow($link, $sql, $data = [])
+{
+    $result = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    checkDatabaseError($link, $res);
+    if ($res) {
+        $result = mysqli_fetch_array($res);
+    }
+    return $result;
+}
+
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';

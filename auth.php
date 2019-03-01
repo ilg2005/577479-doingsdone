@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $userSearch = 'SELECT * FROM users WHERE email = ? LIMIT 1';
-        $user = fetchData($connection, $userSearch, [$email])[0];
+        $user = fetchRow($connection, $userSearch, [$email]);
 
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
