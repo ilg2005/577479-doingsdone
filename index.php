@@ -8,18 +8,16 @@ if(isset($_GET['show_completed'])) {
     $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
 }
 session_start();
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
+    $userID = $user['id'];
+    $userData = isUserExist($connection, $userID);
 } else {
     header('Location: guest.php');
     exit();
 }
-
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-$userID = $user['id'];
-$userData = isUserExist($connection, $userID);
 
 if ($connection && $userData) {
     $userName = $userData['name'];
