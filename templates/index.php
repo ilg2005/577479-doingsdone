@@ -27,10 +27,8 @@
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Просроченные</a>
-
-        <?php if (isset($_GET['filter'])) : ?>
-            <?php $filter = htmlspecialchars($_GET['filter']) ?>
-            <?php applyFilter($filter); ?>
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue' && isset($_SESSION['user'])): ?>
+        <?php $tasks = applyBulkFilter($_SESSION['user']['id'], 'overdue');?>
         <?php endif; ?>
 
     </nav>
@@ -79,7 +77,7 @@
                 <td></td>
             <?php endif; ?>
 
-            <td class="task__date"><?= ($task['deadline'] != 0) ? $task['deadline'] : ''; ?>
+            <td class="task__date"><?= ($task['deadline'] != 0) ? date('d.m.Y', strtotime($task['deadline'])) : ''; ?>
             </td>
 
             <td class="task__controls">
