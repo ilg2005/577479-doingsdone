@@ -5,7 +5,7 @@ require_once('functions.php');
 $guestPage = false;
 $show_complete_tasks = 1;
 if(isset($_GET['show_completed'])) {
-    $show_complete_tasks = $_GET['show_completed'];
+    $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
 }
 session_start();
 
