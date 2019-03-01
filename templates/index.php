@@ -16,8 +16,8 @@
 
     <label class="checkbox">
         <input class="checkbox__input visually-hidden show_completed"
-               type="checkbox" <?php if (isset($_GET['show_completed'])) : ?>
-            <?= !$_GET['show_completed'] ?: 'checked'; ?>
+               type="checkbox" <?php if (isset($show_complete_tasks)) : ?>
+            <?= !$show_complete_tasks ?: 'checked'; ?>
         <?php else : ?>
             checked
         <?php endif; ?>>
