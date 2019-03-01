@@ -32,12 +32,12 @@
                         <div class="user-menu__data">
                             <p><?= $userName; ?></p>
 
-                            <a href="/doingsdone/logout.php">Выйти</a>
+                            <a href="/logout.php">Выйти</a>
                         </div>
                     </div>
                 <?php else : ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="/doingsdone/auth.php">Войти</a>
+                       href="/auth.php">Войти</a>
                 <?php endif; ?>
             </div>
         </header>
@@ -65,7 +65,7 @@
                 <?php else : ?>
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-                    <a class="button button--transparent content__side-button" href="/doingsdone/auth.php">Войти</a>
+                    <a class="button button--transparent content__side-button" href="/auth.php">Войти</a>
 
                 <?php endif; ?>
             </section>

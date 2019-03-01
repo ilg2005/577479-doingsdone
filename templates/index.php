@@ -8,22 +8,22 @@
 
 <div class="tasks-controls">
     <nav class="tasks-switch">
-        <a href="/doingsdone/index.php?filter=all" class="tasks-switch__item
+        <a href="/index.php?filter=all" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Все задачи</a>
 
-        <a href="/doingsdone/index.php?filter=today" class="tasks-switch__item
+        <a href="/index.php?filter=today" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Повестка дня</a>
 
-        <a href="/doingsdone/index.php?filter=tomorrow" class="tasks-switch__item
+        <a href="/index.php?filter=tomorrow" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Завтра</a>
 
-        <a href="/doingsdone/index.php?filter=overdue" class="tasks-switch__item
+        <a href="/index.php?filter=overdue" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Просроченные</a>
@@ -73,7 +73,7 @@
             </td>
             <?php if ($task['file_name']) : ?>
                 <td class="task__file">
-                    <a class="download-link" href="<?= '/doingsdone/' . $task['file_name']; ?>"></a>
+                    <a class="download-link" href="<?= '/' . $task['file_name']; ?>"></a>
                 </td>
             <?php else : ?>
                 <td></td>
