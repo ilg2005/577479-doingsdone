@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
-    session_destroy();
+    $_SESSION = [];
     header('Location: guest.php');
     exit();
 }
