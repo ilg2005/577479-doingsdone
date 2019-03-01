@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     }
-    if (checkTaskExist($connection, $newTaskName)) {
+    if (checkTaskExist($connection, $newTaskName, $userID)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {

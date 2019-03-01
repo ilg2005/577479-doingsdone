@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($newProjectName)) {
         $errors['newProjectName'] = 'Название проекта не может быть пустым';
     }
-    if (checkProjectExist($connection, $newProjectName)) {
+    if (checkProjectExist($connection, $newProjectName, $userID)) {
         $errors['newProjectNameRepeat'] = 'Проект с таким названием уже существует';
     }
 

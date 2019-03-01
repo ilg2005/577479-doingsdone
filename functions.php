@@ -140,17 +140,17 @@ function checkPastDate($date)
     return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
 }
 
-function checkTaskExist($link, $taskName)
+function checkTaskExist($link, $taskName, $userID)
 {
-    $sql = 'SELECT id FROM tasks WHERE name = ? LIMIT 1';
-    $result = fetchData($link, $sql, [$taskName]);
+    $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? LIMIT 1';
+    $result = fetchRow($link, $sql, [$taskName, $userID]);
     return $result;
 }
 
-function checkProjectExist($link, $projectName)
+function checkProjectExist($link, $projectName, $userID)
 {
-    $sql = 'SELECT id FROM projects WHERE name = ? LIMIT 1';
-    $result = fetchData($link, $sql, [$projectName]);
+    $sql = 'SELECT id FROM projects WHERE name = ? AND user_id = ? LIMIT 1';
+    $result = fetchRow($link, $sql, [$projectName, $userID]);
     return $result;
 }
 

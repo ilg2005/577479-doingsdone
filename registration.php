@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
-        $result = fetchData($connection, $sql, [$email]);
+        $result = fetchRow($connection, $sql, [$email]);
         if ($result) {
             $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
         }
