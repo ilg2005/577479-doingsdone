@@ -16,7 +16,9 @@
 
     <label class="checkbox">
         <input class="checkbox__input visually-hidden show_completed"
-               type="checkbox" <?= $show_complete_tasks !== 1 ?: 'checked'; ?>>
+               type="checkbox" <?php if(isset($_GET['show_completed'])) : ?>
+            <?= !$_GET['show_completed'] ?: 'checked'; ?>
+        <?php endif; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
     </label>
 </div>
