@@ -154,17 +154,25 @@ function isEmailValid($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function applyFilter($filter) {
-    /*$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+function applyBulkFilter($userID, $filter) {
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-    $todaySql = 'SELECT t.id, t.name, t.file_name, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
+    $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ?';
+    $todaySql = $allSql . ' AND t.deadline = CURDATE()';
+    $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
+    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
 
-    $tomorrowSql = 'UPDATE tasks SET is_done = ? WHERE id = ?';
-    $overdueSql = 'UPDATE tasks SET is_done = ? WHERE id = ?';
-        $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
-        if (mysqli_stmt_execute($stmt)) {
-            header('Location: /index.php?show_completed=1');
-        }*/
+    $filters = [
+        'all' => $allSql,
+        'today' => $todaySql,
+        'tomorrow' => $tomorrowSql,
+        'overdue' => $overdueSql
+    ];
+
+    $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
+        if ($filteredTasks) {
+            return $filteredTasks;
+        }
     }
 
 ?>
