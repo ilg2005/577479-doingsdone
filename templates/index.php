@@ -42,7 +42,7 @@
                         <?php if (isset($_GET['task_id'])) : ?>
                             <?php changeTaskStatusInDatabase(); ?>
                         <?php endif; ?>
-                        <?php if ($task['is_done'] && $show_complete_tasks === 1) : ?>
+                        <?php if ($task['is_done'] && $show_complete_tasks) : ?>
                             checked
                         <?php endif; ?>>
                     <span class="checkbox__text"><?= $task['name']; ?></span>

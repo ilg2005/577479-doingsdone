@@ -115,7 +115,7 @@ function changeTaskStatusInDatabase()
         $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
         $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
         if (mysqli_stmt_execute($stmt)) {
-            header('Location: index.php');
+            header('Location: /doingsdone/index.php?show_completed=1');
         }
     }
 }
