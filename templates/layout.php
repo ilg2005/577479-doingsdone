@@ -47,7 +47,9 @@
             <section class="content__side">
                 <?php if (!empty($user)) : ?>
                     <h2 class="content__side-heading">Проекты</h2>
-
+                <?php if (!isset($_GET['filter'])) : ?>
+                    <?php $_SESSION['project_id'] = 0; ?>
+                <?php endif; ?>
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $project): ?>
@@ -58,6 +60,9 @@
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+                        <?php if(isset($_GET['project_id'])) : ?>
+                        <?php $_SESSION['project_id'] = $_GET['project_id']; ?>
+                        <?php endif;?>
                     </nav>
 
                     <a class="button button--transparent button--plus content__side-button"

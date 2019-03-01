@@ -154,10 +154,14 @@ function isEmailValid($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function applyBulkFilter($userID, $filter) {
+function applyFilter($userID, $projectID, $filter) {
     $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-    $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ?';
+    if ($projectID) {
+        $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
+    } else {
+        $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ?';
+    }
     $todaySql = $allSql . ' AND t.deadline = CURDATE()';
     $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
     $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
@@ -169,28 +173,12 @@ function applyBulkFilter($userID, $filter) {
         'overdue' => $overdueSql
     ];
 
-    $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
-        if ($filteredTasks) {
-            return $filteredTasks;
-        }
+    if ($projectID) {
+        $filteredTasks = fetchData($connection, $filters[$filter], [$userID, $projectID]);
+    } else {
+        $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
     }
 
-function applyProjectSpecificFilter($userID, $projectID, $filter) {
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-    $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
-    $todaySql = $allSql . ' AND t.deadline = CURDATE()';
-    $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
-    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
-
-    $filters = [
-        'all' => $allSql,
-        'today' => $todaySql,
-        'tomorrow' => $tomorrowSql,
-        'overdue' => $overdueSql
-    ];
-
-    $filteredTasks = fetchData($connection, $filters[$filter], [$userID, $projectID]);
     if ($filteredTasks) {
         return $filteredTasks;
     }

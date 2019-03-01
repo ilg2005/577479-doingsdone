@@ -14,6 +14,7 @@ if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
     $userData = isUserExist($connection, $userID);
+
 } else {
     header('Location: guest.php');
     exit();
