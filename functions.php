@@ -73,9 +73,9 @@ function fetchRow($link, $sql, $data = [])
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
-    $result = fetchData($link, $query, [$selectedUserID]);
+    $result = fetchRow($link, $query, [$selectedUserID]);
     if ($result !== []) {
-        return $result[0];
+        return $result;
     }
     return null;
 }
