@@ -12,16 +12,25 @@
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Все задачи</a>
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all' && isset($_SESSION['user'])): ?>
+            <?php $tasks = applyBulkFilter($_SESSION['user']['id'], 'all');?>
+        <?php endif; ?>
 
         <a href="/index.php?filter=today" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Повестка дня</a>
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today' && isset($_SESSION['user'])): ?>
+            <?php $tasks = applyBulkFilter($_SESSION['user']['id'], 'today');?>
+        <?php endif; ?>
 
         <a href="/index.php?filter=tomorrow" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Завтра</a>
+        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow' && isset($_SESSION['user'])): ?>
+            <?php $tasks = applyBulkFilter($_SESSION['user']['id'], 'tomorrow');?>
+        <?php endif; ?>
 
         <a href="/index.php?filter=overdue" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
@@ -45,6 +54,7 @@
 </div>
 
 <table class="tasks">
+    <?php if($tasks) : ?>
     <?php foreach ($tasks as $task): ?>
         <?php if ($task['is_done'] && !$show_complete_tasks) : ?>
             <?php continue; ?>
@@ -84,4 +94,5 @@
             </td>
         </tr>
     <?php endforeach; ?>
+    <?php endif; ?>
 </table>
