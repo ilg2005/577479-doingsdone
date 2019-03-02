@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = [];
     if (empty($searchText)) {
         $errors['searchText'] = 'Поле поиска не может быть пустым';
+    } else {
+        $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
+        $tasks = fetchData($connection, $searchSql, [$searchText]);
     }
 }
 
