@@ -1,9 +1,12 @@
 <h2 class="content__main-heading">Список задач</h2>
 
 <form class="search-form" action="index.php" method="post">
-    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+    <input class="search-form__input <?php if(isset($errors['searchText'])) : ?>form__search--error<?php endif; ?>" type="text" name="text" value="<?= $searchText; ?>" placeholder="Поиск по задачам">
 
-    <input class="search-form__submit" type="submit" name="" value="Искать">
+    <input class="search-form__submit" type="submit" name="submit" value="Искать">
+    <?php if(isset($errors['searchText'])) : ?>
+        <p class="form__message"><?= $errors['searchText']; ?></p>
+    <?php endif; ?>
 </form>
 
 <div class="tasks-controls">

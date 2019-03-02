@@ -733,6 +733,10 @@ a:focus {
   border-color: #f84646;
 }
 
+.form__search--error {
+  border-color: #f84646;
+}
+
 .form__input--select {
   background: #ffffff url("../img/dropdown.svg") right 20px top 50% no-repeat;
 }

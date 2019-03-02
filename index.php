@@ -4,6 +4,9 @@ require_once('functions.php');
 
 $guestPage = false;
 $show_complete_tasks = 1;
+$searchText = '';
+
+
 if(isset($_GET['show_completed'])) {
     $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
 }
@@ -14,6 +17,7 @@ if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
     $userData = isUserExist($connection, $userID);
+    $errors = [];
 
 } else {
     header('Location: guest.php');
@@ -28,9 +32,20 @@ if ($connection && $userData) {
     die('Произошла ошибка!');
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $searchText = trim($_POST['text']) ?? '';
+    $searchText = htmlspecialchars($searchText);
+    $errors = [];
+    if (empty($searchText)) {
+        $errors['searchText'] = 'Поле поиска не может быть пустым';
+    }
+}
+
 $mainContent = includeTemplate('index.php', [
     'tasks' => $tasks,
-    'show_complete_tasks' => $show_complete_tasks
+    'show_complete_tasks' => $show_complete_tasks,
+    'searchText' => $searchText,
+    'errors' => $errors
 ]);
 
 $layout = includeTemplate('layout.php', [
