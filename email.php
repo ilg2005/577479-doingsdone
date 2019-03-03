@@ -16,14 +16,14 @@ try {
         ->setPassword('new_123');
 
 // Формирование сообщения
-    $message = new Swift_Message($subject);
-    $message->setTo('igor_test@list.ru');
-    $message->setBody($messageBody);
-    $message->setFrom('igor_test@list.ru', 'Администратор сервиса');
+    $message = (new Swift_Message($subject))
+        ->setTo('igor_test@list.ru')
+        ->setBody($messageBody)
+        ->setFrom('igor_test@list.ru', 'Администратор сервиса');
 
 // Отправка сообщения
-    $mailer = new Swift_Mailer($transport);
-    $mailer->send($message);
+    $mailer = (new Swift_Mailer($transport))
+        ->send($message);
 } catch (Exception $error) {
     echo $error->getMessage();
 }
