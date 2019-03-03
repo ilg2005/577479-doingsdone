@@ -17,9 +17,9 @@ try {
 
 // Формирование сообщения
     $message = new Swift_Message($subject);
-    $message->setTo(['igor_test@list.ru' => 'Игорь']);
+    $message->setTo('igor_test@list.ru');
     $message->setBody($messageBody);
-    $message->setFrom('igor_test@list.ru', 'Игорь');
+    $message->setFrom('igor_test@list.ru', 'Администратор сервиса');
 
 // Отправка сообщения
     $mailer = new Swift_Mailer($transport);
