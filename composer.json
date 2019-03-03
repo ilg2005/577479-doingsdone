@@ -1,11 +1,11 @@
 {
-  "name": "vendor_name/package_name",
+  "name": "ilg2005/doingsdone",
   "description": "description_text",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
-      "name": "author's name",
+      "name": "Igor",
       "email": "email@example.com"
     }
   ],
