@@ -135,6 +135,12 @@ function checkPastDate($date)
     return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
 }
 
+function checkTasksCloseToDeadline($link)
+{
+    $sql = "SELECT t.name AS task, t.deadline, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,'%Y%m%d') = CURDATE()";
+    return fetchData($link, $sql, []);
+}
+
 function checkTaskExist($link, $taskName, $userID)
 {
     $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? LIMIT 1';
@@ -154,7 +160,8 @@ function isEmailValid($email)
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function applyFilter($userID, $projectID, $filter) {
+function applyFilter($userID, $projectID, $filter)
+{
     $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
     if ($projectID) {

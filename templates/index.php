@@ -98,7 +98,7 @@
             </td>
         </tr>
     <?php endforeach; ?>
-    <? else : ?>
+    <? elseif ($searchText) : ?>
         <p class="content__main" style="color: red; text-align: center"><?= 'Не найдено:  ' . $searchText; ?></p>
     <?php endif; ?>
 </table>
