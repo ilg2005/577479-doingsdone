@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="css/flatpickr.min.css">
 </head>
 
-<body>
+<body <?php if ($guestPage) : ?>class="body-background" <?php endif; ?>>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container container--with-sidebar">
+    <div class="container <?php if(!$guestPage) : ?>container--with-sidebar<?php endif; ?>">
         <header class="main-header">
             <a href="/">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if ($isProjectsTasksPage) : ?>
+                <?php if (!empty($user)) : ?>
                     <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
                         задачу</a>
 
@@ -32,21 +32,24 @@
                         <div class="user-menu__data">
                             <p><?= $userName; ?></p>
 
-                            <a href="#">Выйти</a>
+                            <a href="/logout.php">Выйти</a>
                         </div>
                     </div>
                 <?php else : ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="form-authorization.html">Войти</a>
+                       href="/auth.php">Войти</a>
                 <?php endif; ?>
             </div>
         </header>
 
         <div class="content">
+            <?php if (!$guestPage) : ?>
             <section class="content__side">
-                <?php if ($isProjectsTasksPage) : ?>
+                <?php if (!empty($user)) : ?>
                     <h2 class="content__side-heading">Проекты</h2>
-
+                <?php if (!isset($_GET['filter'])) : ?>
+                    <?php $_SESSION['project_id'] = 0; ?>
+                <?php endif; ?>
                     <nav class="main-navigation">
                         <ul class="main-navigation__list">
                             <?php foreach ($projects as $project): ?>
@@ -57,14 +60,17 @@
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+                        <?php if(isset($_GET['project_id'])) : ?>
+                        <?php $_SESSION['project_id'] = $_GET['project_id']; ?>
+                        <?php endif;?>
                     </nav>
 
                     <a class="button button--transparent button--plus content__side-button"
-                       href="pages/form-project.html" target="project_add">Добавить проект</a>
+                       href="add-project.php" target="project_add">Добавить проект</a>
                 <?php else : ?>
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-                    <a class="button button--transparent content__side-button" href="form-authorization.html">Войти</a>
+                    <a class="button button--transparent content__side-button" href="/auth.php">Войти</a>
 
                 <?php endif; ?>
             </section>
@@ -72,7 +78,11 @@
             <main class="content__main">
                 <?= $mainContent ?>
             </main>
+            <?php else : ?>
+            <?= $guestPageContent; ?>
+            <?php endif; ?>
         </div>
+
     </div>
 </div>
 
@@ -84,7 +94,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
 
-        <?php if ($isProjectsTasksPage) : ?>
+        <?php if ($user) : ?>
             <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
         <?php endif; ?>
 

@@ -2,9 +2,6 @@
 const SECONDS_PER_DAY = 86400;
 $pageTitle = 'Дела в порядке';
 
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
-
 function includeTemplate($name, $data)
 {
     $name = 'templates/' . $name;
@@ -60,12 +57,20 @@ function fetchData($link, $sql, $data = [])
     return $result;
 }
 
+function fetchRow($link, $sql, $data = [])
+{
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_array($res);
+}
+
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
-    $result = fetchData($link, $query, [$selectedUserID]);
+    $result = fetchRow($link, $query, [$selectedUserID]);
     if ($result !== []) {
-        return $result[0];
+        return $result;
     }
     return null;
 }
@@ -86,8 +91,8 @@ function getTasks($link, $selectedUserID)
 {
     $projectDataByID = null;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
-    $allTasks = 'SELECT tasks.name, tasks.file_name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline,  tasks.is_done FROM tasks WHERE tasks.user_id = ?';
-    $projectSpecificTasks = $allTasks . ' AND tasks.project_id = ?';
+    $allTasks = 'SELECT t.id, t.name, t.file_name, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ?';
+    $projectSpecificTasks = $allTasks . ' AND t.project_id = ?';
 
     if (isset($_GET['project_id'])) {
         if (!is_numeric($_GET['project_id']) || $_GET['project_id'] === '') {
@@ -104,6 +109,22 @@ function getTasks($link, $selectedUserID)
     return $tasks;
 }
 
+function changeTaskStatusInDatabase()
+{
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    if (isset($_GET['task_id']) && isset($_GET['check'])) {
+        $taskID = $_GET['task_id'];
+        $status = $_GET['check'];
+
+        $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
+        $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
+        if (mysqli_stmt_execute($stmt)) {
+            header('Location: /index.php?show_completed=1');
+        }
+    }
+}
+
 function isCorrectDateFormat($format, $date)
 {
     return (!$date || date_create_from_format($format, $date));
@@ -114,16 +135,60 @@ function checkPastDate($date)
     return (strtotime($date) < mktime(0, 0, 0) && $date !== '');
 }
 
-function checkTaskExist($link, $taskName)
+function checkTasksCloseToDeadline($link)
 {
-    $sql = 'SELECT id FROM tasks WHERE name = ? LIMIT 1';
-    $result = fetchData($link, $sql, [$taskName]);
+    $sql = "SELECT t.name AS task, t.deadline, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,'%Y%m%d') = CURDATE()";
+    return fetchData($link, $sql, []);
+}
+
+function checkTaskExist($link, $taskName, $userID)
+{
+    $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? LIMIT 1';
+    $result = fetchRow($link, $sql, [$taskName, $userID]);
+    return $result;
+}
+
+function checkProjectExist($link, $projectName, $userID)
+{
+    $sql = 'SELECT id FROM projects WHERE name = ? AND user_id = ? LIMIT 1';
+    $result = fetchRow($link, $sql, [$projectName, $userID]);
     return $result;
 }
 
 function isEmailValid($email)
 {
     return filter_var($email, FILTER_VALIDATE_EMAIL);
+}
+
+function applyFilter($userID, $projectID, $filter)
+{
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    if ($projectID) {
+        $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
+    } else {
+        $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ?';
+    }
+    $todaySql = $allSql . ' AND t.deadline = CURDATE()';
+    $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
+    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
+
+    $filters = [
+        'all' => $allSql,
+        'today' => $todaySql,
+        'tomorrow' => $tomorrowSql,
+        'overdue' => $overdueSql
+    ];
+
+    if ($projectID) {
+        $filteredTasks = fetchData($connection, $filters[$filter], [$userID, $projectID]);
+    } else {
+        $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
+    }
+
+    if ($filteredTasks) {
+        return $filteredTasks;
+    }
 }
 
 ?>
