@@ -3,33 +3,33 @@ require_once('vendor/autoload.php');
 require_once('mysql_helper.php');
 require_once('functions.php');
 
-$user['name'] = " ";
-$task['name'] = "Отладить отправку почты";
-$task['deadline'] = "сегодня";
-
 $subject = "Уведомление от сервиса «Дела в порядке»";
 
-
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-$results = checkTasksCloseToDeadline($connection);
+$users = getUsersWithUrgentTasks($connection);
 
-if ($results) {
-    foreach ($results as $result) {
-        $taskName = $result['task'];
-        $userName = $result['name'];
-        $userEmail = $result['email'];
-        $taskDeadline = $result['deadline'];
+if ($users) {
+    $usersToNotify = [];
+    foreach ($users as $user) {
+        $tasks = checkTasksCloseToDeadline($connection, $user['id']);
+        $salutation = "Уважаемый, " . $user['user_name'] . "!<br><ul>";
+        $messageBody = "";
+        foreach ($tasks as $task) {
+            $messageBody .= "<li>У вас запланирована задача <strong><i>&laquo;" . $task['task_name'] . "&raquo;</i></strong> на <strong>" . date("d.m.Y", strtotime($task['deadline'])) . "</strong></li>";
+        }
+        $user['messageBody'] = $salutation . $messageBody . "</ul>";
+        $usersToNotify[$user['id']] = $user;
+    }
 
-        $messageBody = "Уважаемый, " . $userName . "!\nУ вас запланирована задача " . $taskName . " на " . $taskDeadline;
-
+    foreach ($usersToNotify as $user) {
         try {
             $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465, 'ssl'))
                 ->setUsername('igor_test@list.ru')
                 ->setPassword('new_123');
 
             $message = (new Swift_Message($subject))
-                ->setTo($userEmail)
-                ->setBody($messageBody)
+                ->setTo($user['email'])
+                ->setBody($user['messageBody'], 'text/html')
                 ->setFrom('igor_test@list.ru', 'Администратор сервиса');
 
             $mailer = (new Swift_Mailer($transport))

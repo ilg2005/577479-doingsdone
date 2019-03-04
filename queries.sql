@@ -17,7 +17,7 @@ INSERT INTO users
 VALUES ('igor@mail.ru', 'Игорь', 'password1'),
        ('olga@mail.ru', 'Ольга', 'password2'),
        ('oleg@mail.ru', 'Олег', 'password3'),
-       ('new@mail.ru', 'Новый', '$2y$10$bqRzoFvU5Pjgy/5/WLsiC..OekG5x/NyjBDBInCUDG9epE0mFD8vi');
+       ('igor_test@list.ru', 'Новый', '$2y$10$bqRzoFvU5Pjgy/5/WLsiC..OekG5x/NyjBDBInCUDG9epE0mFD8vi');
 
 # Добавление задач
 INSERT INTO tasks
