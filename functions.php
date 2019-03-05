@@ -149,8 +149,7 @@ function getUrgentTasks($link, $userID)
 function checkTaskExist($link, $taskName, $userID, $projectID)
 {
     $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? AND project_id = ? LIMIT 1';
-    $result = fetchRow($link, $sql, [$taskName, $userID, $projectID]);
-    return $result;
+    return fetchRow($link, $sql, [$taskName, $userID, $projectID]);
 }
 
 function checkProjectExist($link, $projectName, $userID)
