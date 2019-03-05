@@ -10,7 +10,6 @@ $userName = '';
 $projects = '';
 $guestPageContent = '';
 
-
 session_start();
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -36,6 +35,7 @@ if (isset($_SESSION['user'])) {
             'searchText' => $searchText,
             'errors' => $errors
         ]);
+
     } else {
         die('Произошла ошибка!');
     }

@@ -20,13 +20,6 @@ if (isset($_SESSION['user'])) {
         $projects = getProjects($connection, $userData['id']);
         $tasks = getTasks($connection, $userData['id']);
 
-        $mainContent = includeTemplate('add.php', [
-            'projects' => $projects,
-            'newTaskName' => $newTaskName,
-            'newTaskProjectID' => $newTaskProjectID,
-            'newTaskDate' => $newTaskDate,
-            'errors' => $errors
-        ]);
 
     } else {
         die('Произошла ошибка!');
@@ -87,6 +80,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$mainContent = includeTemplate('add.php', [
+    'projects' => $projects,
+    'newTaskName' => $newTaskName,
+    'newTaskProjectID' => $newTaskProjectID,
+    'newTaskDate' => $newTaskDate,
+    'errors' => $errors
+]);
 
 $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,

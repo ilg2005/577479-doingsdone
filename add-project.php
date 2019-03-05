@@ -10,21 +10,25 @@ session_start();
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
+
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+
+    $userData = isUserExist($connection, $userID);
+
+    if ($connection && $userData) {
+        $userName = $userData['name'];
+        $projects = getProjects($connection, $userData['id']);
+        $tasks = getTasks($connection, $userData['id']);
+
+
+
+
+    } else {
+        die('Произошла ошибка!');
+    }
 } else {
     header('Location: index.php');
     exit();
-}
-
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-$userData = isUserExist($connection, $userID);
-
-if ($connection && $userData) {
-    $userName = $userData['name'];
-    $projects = getProjects($connection, $userData['id']);
-    $tasks = getTasks($connection, $userData['id']);
-} else {
-    die('Произошла ошибка!');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $addNewProject = 'INSERT INTO projects (name, user_id) VALUES (?, ?)';
-        $stmt = db_get_prepare_stmt($connection, $addNewProject, [$newProjectName,  $userData['id']]);
+        $stmt = db_get_prepare_stmt($connection, $addNewProject, [$newProjectName, $userData['id']]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
         }
@@ -53,6 +57,7 @@ $mainContent = includeTemplate('add-project.php', [
     'newProjectName' => $newProjectName,
     'errors' => $errors
 ]);
+
 
 $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,
