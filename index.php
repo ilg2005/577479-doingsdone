@@ -20,25 +20,24 @@ if (isset($_SESSION['user'])) {
     $userData = isUserExist($connection, $userID);
     $errors = [];
 
-    if ($connection && $userData) {
-        $userName = $userData['name'];
-        $projects = getProjects($connection, $userData['id']);
-        $tasks = getTasks($connection, $userData['id']);
-
-        if(isset($_GET['show_completed'])) {
-            $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
-        }
-
-        $mainContent = includeTemplate('index.php', [
-            'tasks' => $tasks,
-            'show_complete_tasks' => $show_complete_tasks,
-            'searchText' => $searchText,
-            'errors' => $errors
-        ]);
-
-    } else {
+    if (!$connection && !$userData) {
         die('Произошла ошибка!');
     }
+
+    $userName = $userData['name'];
+    $projects = getProjects($connection, $userData['id']);
+    $tasks = getTasks($connection, $userData['id']);
+
+    if (isset($_GET['show_completed'])) {
+        $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
+    }
+
+    $mainContent = includeTemplate('index.php', [
+        'tasks' => $tasks,
+        'show_complete_tasks' => $show_complete_tasks,
+        'searchText' => $searchText,
+        'errors' => $errors
+    ]);
 } else {
     $guestPage = true;
     $mainContent = '';

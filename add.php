@@ -10,24 +10,22 @@ $errors = [];
 
 session_start();
 
-if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-    $userID = $user['id'];
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-    $userData = isUserExist($connection, $userID);
-    if ($connection && $userData) {
-        $userName = $userData['name'];
-        $projects = getProjects($connection, $userData['id']);
-        $tasks = getTasks($connection, $userData['id']);
-
-
-    } else {
-        die('Произошла ошибка!');
-    }
-} else {
+if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit();
 }
+
+$user = $_SESSION['user'];
+$userID = $user['id'];
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+$userData = isUserExist($connection, $userID);
+if (!$connection && !$userData) {
+    die('Произошла ошибка!');
+}
+$userName = $userData['name'];
+$projects = getProjects($connection, $userData['id']);
+$tasks = getTasks($connection, $userData['id']);
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = trim($_POST['name']) ?? '';
@@ -75,7 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $newTaskDate = 0;
         }
-        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
+        $stmt = db_get_prepare_stmt($connection, $addNewTask,
+            [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
         }
