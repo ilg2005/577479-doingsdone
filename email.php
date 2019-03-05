@@ -6,12 +6,12 @@ require_once('functions.php');
 $subject = "Уведомление от сервиса «Дела в порядке»";
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-$users = getUsersWithUrgentTasks($connection);
+$usersWithUrgentTasks = getUsersWithUrgentTasks($connection);
 
-if ($users) {
+if ($usersWithUrgentTasks) {
     $usersToNotify = [];
-    foreach ($users as $user) {
-        $tasks = checkTasksCloseToDeadline($connection, $user['id']);
+    foreach ($usersWithUrgentTasks as $user) {
+        $tasks = getUrgentTasks($connection, $user['id']);
         $salutation = "Уважаемый, " . $user['user_name'] . "!<br><ul>";
         $messageBody = "";
         foreach ($tasks as $task) {

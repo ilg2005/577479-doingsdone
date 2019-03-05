@@ -140,7 +140,7 @@ function getUsersWithUrgentTasks($link) {
     return fetchData($link, $sql, []);
 }
 
-function checkTasksCloseToDeadline($link, $userID)
+function getUrgentTasks($link, $userID)
 {
     $sql = "SELECT t.name AS task_name, t.deadline, t.user_id, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,'%Y%m%d') = CURDATE() AND t.is_done = 0 AND t.user_id = ?";
     return fetchData($link, $sql, [$userID]);
