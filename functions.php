@@ -175,7 +175,7 @@ function applyFilter($userID, $projectID, $filter)
     }
     $todaySql = $allSql . ' AND t.deadline = CURDATE()';
     $tomorrowSql = $allSql . ' AND t.deadline = CURDATE() + 1';
-    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.is_done = 0';
+    $overdueSql = $allSql . ' AND t.deadline < CURDATE() AND t.deadline <> 0 AND t.is_done = 0';
 
     $filters = [
         'all' => $allSql,
@@ -189,9 +189,6 @@ function applyFilter($userID, $projectID, $filter)
     } else {
         $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
     }
-
-    if ($filteredTasks) {
-        return $filteredTasks;
-    }
+    return $filteredTasks;
 }
 
