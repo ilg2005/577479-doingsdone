@@ -14,9 +14,9 @@ $errors = [];
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $form = $_POST;
-    $email = $form['email'] ?? '';
-    $password = $form['password'] ?? '';
+    $email = $_POST['email'];
+    $email = $email ?? '';
+    $password = $_POST['password'] ?? '';
     $errors = [];
 
     $requiredFields = [
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $email = mysqli_real_escape_string($connection, $form['email']);
+    $email = mysqli_real_escape_string($connection, $_POST['email']);
 
     if (!isEmailValid($email)) {
         $errors['email'] = 'E-mail введен некорректно';
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
         } else {
-            $isPasswordValid = password_verify($form['password'], $user['password']);
+            $isPasswordValid = password_verify($_POST['password'], $user['password']);
             if ($isPasswordValid) {
                 $_SESSION['user'] = $user;
                 header('Location: index.php');

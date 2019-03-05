@@ -13,10 +13,10 @@ $errors = [];
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = strip_tags($_POST['email']);
+    $email = $_POST['email'];
     $email = $email ?? '';
     $password = $_POST['password'] ?? '';
-    $userName = strip_tags($_POST['name']);
+    $userName = $_POST['name'];
     $userName = $userName ?? '';
 
 
