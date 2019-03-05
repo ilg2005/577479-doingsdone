@@ -33,9 +33,9 @@ if ($connection && $userData) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = trim($_POST['name']) ?? '';
-    $newTaskName = htmlspecialchars($newTaskName);
+    $newTaskName = strip_tags($newTaskName);
     $newTaskProjectID = $_POST['project'] ?? '';
-    $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
+    $newTaskDate = strip_tags($_POST['date']) ?? '';
 
     $errors = [];
     if (empty($newTaskName)) {
