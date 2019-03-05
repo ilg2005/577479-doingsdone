@@ -28,7 +28,8 @@ if ($connection && $userData) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $newProjectName = trim($_POST['name']) ?? '';
+    $newProjectName = strip_tags($_POST['name']);
+    $newProjectName = trim($newProjectName) ?? '';
 
     $errors = [];
     if (empty($newProjectName)) {
