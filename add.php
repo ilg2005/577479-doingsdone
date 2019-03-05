@@ -2,34 +2,38 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
-session_start();
-
-if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-    $userID = $user['id'];
-} else {
-    header('Location: index.php');
-    exit();
-}
-
 $guestPage = false;
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
 $errors = [];
 
+session_start();
 
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+    $userID = $user['id'];
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+    $userData = isUserExist($connection, $userID);
+    if ($connection && $userData) {
+        $userName = $userData['name'];
+        $projects = getProjects($connection, $userData['id']);
+        $tasks = getTasks($connection, $userData['id']);
 
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+        $mainContent = includeTemplate('add.php', [
+            'projects' => $projects,
+            'newTaskName' => $newTaskName,
+            'newTaskProjectID' => $newTaskProjectID,
+            'newTaskDate' => $newTaskDate,
+            'errors' => $errors
+        ]);
 
-$userData = isUserExist($connection, $userID);
-
-if ($connection && $userData) {
-    $userName = $userData['name'];
-    $projects = getProjects($connection, $userData['id']);
-    $tasks = getTasks($connection, $userData['id']);
+    } else {
+        die('Произошла ошибка!');
+    }
 } else {
-    die('Произошла ошибка!');
+    header('Location: index.php');
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -83,14 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-$mainContent = includeTemplate('add.php', [
-    'projects' => $projects,
-    'newTaskName' => $newTaskName,
-    'newTaskProjectID' => $newTaskProjectID,
-    'newTaskDate' => $newTaskDate,
-    'errors' => $errors
-]);
 
 $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,

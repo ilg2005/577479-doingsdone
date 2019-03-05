@@ -10,9 +10,7 @@ $userName = '';
 $projects = '';
 $guestPageContent = '';
 
-if(isset($_GET['show_completed'])) {
-    $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
-}
+
 session_start();
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -27,6 +25,10 @@ if (isset($_SESSION['user'])) {
         $userName = $userData['name'];
         $projects = getProjects($connection, $userData['id']);
         $tasks = getTasks($connection, $userData['id']);
+
+        if(isset($_GET['show_completed'])) {
+            $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
+        }
 
         $mainContent = includeTemplate('index.php', [
             'tasks' => $tasks,
