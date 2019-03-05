@@ -14,7 +14,7 @@ $errors = [];
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
+    $email = strip_tags($_POST['email']);
     $email = $email ?? '';
     $password = $_POST['password'] ?? '';
     $errors = [];
