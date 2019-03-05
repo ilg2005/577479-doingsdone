@@ -69,4 +69,4 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
-?>
+

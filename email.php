@@ -39,4 +39,4 @@ if ($usersWithUrgentTasks) {
         }
     }
 }
-?>
+

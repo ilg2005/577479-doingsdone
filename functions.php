@@ -200,4 +200,3 @@ function applyFilter($userID, $projectID, $filter)
     }
 }
 
-?>
