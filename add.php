@@ -32,7 +32,8 @@ if (isset($_SESSION['user'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = trim($_POST['name']) ?? '';
     $newTaskName = strip_tags($newTaskName);
-    $newTaskProjectID = $_POST['project'] ?? '';
+    $newTaskProjectID = strip_tags($_POST['project']);
+    $newTaskProjectID = $newTaskProjectID ?? '';
     $newTaskDate = strip_tags($_POST['date']) ?? '';
 
     $errors = [];
