@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
+            exit();
         }
     }
 }

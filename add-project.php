@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = db_get_prepare_stmt($connection, $addNewProject, [$newProjectName, $userData['id']]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
+            exit();
         }
     }
 }

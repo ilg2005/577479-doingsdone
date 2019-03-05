@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: auth.php');
+            exit();
         }
     }
 }
