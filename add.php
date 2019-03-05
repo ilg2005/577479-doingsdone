@@ -8,7 +8,7 @@ if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
 } else {
-    header('Location: guest.php');
+    header('Location: index.php');
     exit();
 }
 

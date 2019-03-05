@@ -78,7 +78,7 @@
             <main class="content__main">
                 <?= $mainContent ?>
             </main>
-            <?php else : ?>
+            <?php elseif (isset($guestPageContent)) : ?>
             <?= $guestPageContent; ?>
             <?php endif; ?>
         </div>
