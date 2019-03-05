@@ -140,13 +140,13 @@ function checkPastDate($date)
 }
 
 function getUsersWithUrgentTasks($link) {
-    $sql = "SELECT u.id, u.name AS user_name, u.email, t.name AS task_name, t.deadline FROM users u JOIN tasks t ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,'%Y%m%d') = CURDATE() AND t.is_done = 0";
+    $sql = 'SELECT u.id, u.name AS user_name, u.email, t.name AS task_name, t.deadline FROM users u JOIN tasks t ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,"%Y%m%d") = CURDATE() AND t.is_done = 0';
     return fetchData($link, $sql, []);
 }
 
 function getUrgentTasks($link, $userID)
 {
-    $sql = "SELECT t.name AS task_name, t.deadline, t.user_id, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,'%Y%m%d') = CURDATE() AND t.is_done = 0 AND t.user_id = ?";
+    $sql = 'SELECT t.name AS task_name, t.deadline, t.user_id, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,"%Y%m%d") = CURDATE() AND t.is_done = 0 AND t.user_id = ?';
     return fetchData($link, $sql, [$userID]);
 }
 
