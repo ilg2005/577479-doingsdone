@@ -68,11 +68,7 @@ function fetchRow($link, $sql, $data = [])
 function isUserExist($link, $selectedUserID)
 {
     $query = 'SELECT * FROM users WHERE id = ? LIMIT 1';
-    $result = fetchRow($link, $query, [$selectedUserID]);
-    if ($result !== []) {
-        return $result;
-    }
-    return null;
+    return fetchRow($link, $query, [$selectedUserID]);
 }
 
 function getProjects($link, $selectedUserID)
