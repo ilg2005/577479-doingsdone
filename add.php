@@ -44,6 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (checkTaskExist($connection, $newTaskName, $userID, $newTaskProjectID)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
+    if (!isProjectExist($newTaskProjectID)) {
+        $errors['projectNotExists'] = 'Сначала нужно создать проект';
+    }
+
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
         $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
     }

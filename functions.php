@@ -125,6 +125,10 @@ function changeTaskStatusInDatabase()
     }
 }
 
+function isProjectExist($projectID) {
+    return (isset($projectID) && $projectID !== '');
+}
+
 function isCorrectDateFormat($format, $date)
 {
     return (!$date || date_create_from_format($format, $date));

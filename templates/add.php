@@ -18,6 +18,7 @@
                         <label class="form__label" for="project">Проект</label>
 
                         <select class="form__input form__input--select" name="project" id="project">
+
                             <?php foreach ($projects as $project) : ?>
                             <option value="<?= $project['id']; ?>"
                             <?php if($project['id'] === (int) $newTaskProjectID) : ?>
@@ -26,7 +27,9 @@
                             ><?= $project['name']; ?></option>
                             <?php endforeach; ?>
                         </select>
-
+                        <?php if(isset($errors['projectNotExists']) && !$newTaskProjectID) : ?>
+                            <p class="form__message"><?= $errors['projectNotExists']; ?></p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="form__row">
