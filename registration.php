@@ -30,17 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (empty($errors)) {
         if (!isEmailValid($email)) {
             $errors['email'] = 'E-mail введен некорректно';
+        } else {
+            $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
+            $result = fetchRow($connection, $sql, [$email]);
+            if ($result) {
+                $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
+            }
         }
-
-        $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
-        $result = fetchRow($connection, $sql, [$email]);
-        if ($result) {
-            $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
-        }
-    }
 
     if (empty($errors)) {
         $password = password_hash($password, PASSWORD_DEFAULT);
