@@ -12,11 +12,12 @@ if (isset($_SESSION['user'])) {
     exit();
 }
 
+$guestPage = false;
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
 $errors = [];
-$guestPage = false;
+
 
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');

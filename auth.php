@@ -3,13 +3,14 @@ require_once('mysql_helper.php');
 require_once('functions.php');
 
 $guestPage = false;
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $email = '';
 $password = '';
 $user = [];
 $userName = '';
 $projects = [];
 $errors = [];
+
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 session_start();
 
