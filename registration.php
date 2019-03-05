@@ -15,7 +15,9 @@ $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
-    $userName = $_POST['name'] ?? '';
+    $userName = strip_tags($_POST['name']);
+    $userName = $userName ?? '';
+
 
     $requiredFields = [
         'email' => $email,
