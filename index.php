@@ -21,7 +21,7 @@ if (isset($_SESSION['user'])) {
     $errors = [];
 
     if (!$connection && !$userData) {
-        die('Произошла ошибка!');
+        exit('Произошла ошибка!');
     }
 
     $userName = $userData['name'];

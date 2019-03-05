@@ -20,7 +20,7 @@ $userID = $user['id'];
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $userData = isUserExist($connection, $userID);
 if (!$connection && !$userData) {
-    die('Произошла ошибка!');
+    exit('Произошла ошибка!');
 }
 $userName = $userData['name'];
 $projects = getProjects($connection, $userData['id']);

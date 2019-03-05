@@ -32,7 +32,7 @@ function checkDatabaseError($link, $result)
 {
     if (!$result) {
         print('Ошибка MySQL ' . mysqli_error($link));
-        die();
+        exit();
     }
 }
 
@@ -84,7 +84,7 @@ function getProjects($link, $selectedUserID)
 function showNotFound()
 {
     header('HTTP/1.1 404 Not Found');
-    die();
+    exit();
 }
 
 function getTasks($link, $selectedUserID)
