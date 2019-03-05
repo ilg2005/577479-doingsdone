@@ -30,8 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $email = mysqli_real_escape_string($connection, $_POST['email']);
-
     if (!isEmailValid($email)) {
         $errors['email'] = 'E-mail введен некорректно';
     }
