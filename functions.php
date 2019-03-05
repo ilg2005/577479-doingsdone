@@ -91,7 +91,7 @@ function getTasks($link, $selectedUserID)
 {
     $projectDataByID = null;
     $projectData = 'SELECT * FROM projects WHERE user_id = ? AND id = ?';
-    $allTasks = 'SELECT t.id, t.name, t.file_name, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ?';
+    $allTasks = 'SELECT t.id, t.name, t.file_name, t.project_id, DATE_FORMAT(t.deadline, "%d.%m.%Y") AS deadline,  t.is_done FROM tasks t WHERE t.user_id = ?';
     $projectSpecificTasks = $allTasks . ' AND t.project_id = ?';
 
     if (isset($_GET['project_id'])) {
@@ -146,10 +146,10 @@ function getUrgentTasks($link, $userID)
     return fetchData($link, $sql, [$userID]);
 }
 
-function checkTaskExist($link, $taskName, $userID)
+function checkTaskExist($link, $taskName, $userID, $projectID)
 {
-    $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? LIMIT 1';
-    $result = fetchRow($link, $sql, [$taskName, $userID]);
+    $sql = 'SELECT id FROM tasks WHERE name = ? AND user_id = ? AND project_id = ? LIMIT 1';
+    $result = fetchRow($link, $sql, [$taskName, $userID, $projectID]);
     return $result;
 }
 
