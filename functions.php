@@ -188,7 +188,7 @@ function changeTaskStatusInDatabase()
 {
     $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-    if (isset($_GET['task_id']) && isset($_GET['check'])) {
+    if (isset($_GET['task_id'], $_GET['check'])) {
         $taskID = $_GET['task_id'];
         $status = $_GET['check'];
 
