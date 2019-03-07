@@ -1,11 +1,9 @@
 <?php
 require_once 'mysql_helper.php';
 require_once 'functions.php';
+require_once 'init.php';
 
-$guestPage = false;
-$errors = [];
 $newProjectName = '';
-session_start();
 
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');

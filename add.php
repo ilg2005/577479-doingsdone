@@ -1,14 +1,7 @@
 <?php
 require_once 'mysql_helper.php';
 require_once 'functions.php';
-
-$guestPage = false;
-$newTaskName = '';
-$newTaskProjectID = '';
-$newTaskDate = '';
-$errors = [];
-
-session_start();
+require_once 'init.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
@@ -26,6 +19,9 @@ $userName = $userData['name'];
 $projects = getProjects($connection, $userData['id']);
 $tasks = getTasks($connection, $userData['id']);
 
+$newTaskName = '';
+$newTaskProjectID = '';
+$newTaskDate = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = trim($_POST['name']) ?? '';

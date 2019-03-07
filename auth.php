@@ -1,18 +1,12 @@
 <?php
 require_once 'mysql_helper.php';
 require_once 'functions.php';
+require_once 'init.php';
 
-$guestPage = false;
 $email = '';
 $password = '';
-$user = [];
-$userName = '';
-$projects = [];
-$errors = [];
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = strip_tags($_POST['email']);

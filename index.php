@@ -1,17 +1,7 @@
 <?php
 require_once 'mysql_helper.php';
 require_once 'functions.php';
-
-$guestPage = false;
-$show_complete_tasks = 1;
-$searchText = '';
-$user = '';
-$userName = '';
-$projects = '';
-$guestPageContent = '';
-$errors = [];
-
-session_start();
+require_once 'init.php';
 
 if (!isset($_SESSION['user'])) {
     $guestPage = true;
@@ -31,10 +21,12 @@ if (!isset($_SESSION['user'])) {
     $projects = getProjects($connection, $userData['id']);
     $tasks = getTasks($connection, $userData['id']);
 
+    $show_complete_tasks = 1;
     if (isset($_GET['show_completed'])) {
         $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
     }
 
+    $searchText = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $searchText = strip_tags($_POST['text']);
         $searchText = trim($searchText) ?? '';
