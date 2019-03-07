@@ -13,8 +13,11 @@ $guestPageContent = '';
 session_start();
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-if (isset($_SESSION['user'])) {
-    $guestPage = false;
+if (!isset($_SESSION['user'])) {
+    $guestPage = true;
+    $mainContent = '';
+    $guestPageContent = includeTemplate('guest.php', []);
+} else {
     $user = $_SESSION['user'];
     $userID = $user['id'];
     $userData = isUserExist($connection, $userID);
@@ -32,28 +35,23 @@ if (isset($_SESSION['user'])) {
         $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
     }
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $searchText = strip_tags($_POST['text']);
+        $searchText = trim($searchText) ?? '';
+        $errors = [];
+        if (empty($searchText)) {
+            $errors['searchText'] = 'Поле поиска не может быть пустым';
+        } else {
+            $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
+            $tasks = fetchData($connection, $searchSql, [$searchText]);
+        }
+    }
     $mainContent = includeTemplate('index.php', [
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
         'searchText' => $searchText,
         'errors' => $errors
     ]);
-} else {
-    $guestPage = true;
-    $mainContent = '';
-    $guestPageContent = includeTemplate('guest.php', []);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $searchText = trim($_POST['text']) ?? '';
-    $searchText = htmlspecialchars($searchText);
-    $errors = [];
-    if (empty($searchText)) {
-        $errors['searchText'] = 'Поле поиска не может быть пустым';
-    } else {
-        $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
-        $tasks = fetchData($connection, $searchSql, [$searchText]);
-    }
 }
 
 $layout = includeTemplate('layout.php', [
