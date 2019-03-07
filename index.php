@@ -9,9 +9,9 @@ $user = '';
 $userName = '';
 $projects = '';
 $guestPageContent = '';
+$errors = [];
 
 session_start();
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if (!isset($_SESSION['user'])) {
     $guestPage = true;
@@ -20,9 +20,9 @@ if (!isset($_SESSION['user'])) {
 } else {
     $user = $_SESSION['user'];
     $userID = $user['id'];
-    $userData = isUserExist($connection, $userID);
-    $errors = [];
 
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
+    $userData = isUserExist($connection, $userID);
     if (!$connection && !$userData) {
         exit('Произошла ошибка!');
     }
@@ -46,6 +46,7 @@ if (!isset($_SESSION['user'])) {
             $tasks = fetchData($connection, $searchSql, [$searchText]);
         }
     }
+
     $mainContent = includeTemplate('index.php', [
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
