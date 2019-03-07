@@ -91,7 +91,7 @@
                 <td></td>
             <?php endif; ?>
 
-            <td class="task__date"><?= ($task['deadline'] != 0) ? date('d.m.Y', strtotime($task['deadline'])) : ''; ?>
+            <td class="task__date"><?= ($task['deadline'] !== 0) ? date('d.m.Y', strtotime($task['deadline'])) : ''; ?>
             </td>
 
             <td class="task__controls">
