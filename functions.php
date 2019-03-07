@@ -20,7 +20,7 @@ function includeTemplate($name, $data)
     }
 
     ob_start();
-    extract($data);
+    extract($data, EXTR_OVERWRITE);
     require $name;
 
     $result = ob_get_clean();
