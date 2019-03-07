@@ -33,8 +33,13 @@ if (!isset($_SESSION['user'])) {
         $errors = [];
         if (empty($searchText)) {
             $errors['searchText'] = 'Поле поиска не может быть пустым';
+        }
+        $projectID = $_SESSION['project_id'] ?? '';
+        $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
+        if ($projectID) {
+            $searchInProjectSql =  $searchSql . ' AND tasks.project_id = ?';
+            $tasks = fetchData($connection, $searchInProjectSql, [$searchText, $projectID]);
         } else {
-            $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
             $tasks = fetchData($connection, $searchSql, [$searchText]);
         }
     }
