@@ -9,10 +9,11 @@ $password = '';
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = strip_tags($_POST['email']);
+    $email = htmlspecialchars($_POST['email']);
     $email = $email ?? '';
-    $password = $_POST['password'] ?? '';
-    $userName = strip_tags($_POST['name']);
+    $password = htmlspecialchars($_POST['password']);
+    $password = $password ?? '';
+    $userName = htmlspecialchars($_POST['name']);
     $userName = $userName ?? '';
 
 
