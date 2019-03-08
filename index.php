@@ -21,7 +21,7 @@ if (!isset($_SESSION['user'])) {
     $projects = getProjects($connection, $userData['id']);
     $tasks = getTasks($connection, $userData['id']);
 
-    $show_complete_tasks = 1;
+    $show_complete_tasks = 0;
     if (isset($_GET['show_completed'])) {
         $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
     }
