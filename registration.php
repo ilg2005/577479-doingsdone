@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $email ?? '';
     $password = htmlspecialchars($_POST['password']);
     $password = $password ?? '';
-    $userName = htmlspecialchars($_POST['name']);
+    $userName = strip_tags($_POST['name']);
     $userName = $userName ?? '';
 
 

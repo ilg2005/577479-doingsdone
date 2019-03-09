@@ -15,13 +15,13 @@
 <div class="page-wrapper">
     <div class="container <?php if(!$guestPage) : ?>container--with-sidebar<?php endif; ?>">
         <header class="main-header">
-            <a href="/">
+            <a href="/index.php">
                 <img src="img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
                 <?php if (!empty($user) && isset($_SESSION['user'])) : ?>
-                    <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить
+                    <a class="main-header__side-item button button--plus open-modal" href="/add.php">Добавить
                         задачу</a>
 
                     <div class="main-header__side-item user-menu">
@@ -66,7 +66,7 @@
                     </nav>
 
                     <a class="button button--transparent button--plus content__side-button"
-                       href="add-project.php" target="project_add">Добавить проект</a>
+                       href="/add-project.php" target="project_add">Добавить проект</a>
                 <?php else : ?>
                     <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
@@ -95,12 +95,12 @@
         </div>
 
         <?php if ($user) : ?>
-            <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
+            <a class="main-footer__button button button--plus" href="/add.php">Добавить задачу</a>
         <?php endif; ?>
 
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
-            <a class="social__link social__link--facebook" href="#">
+            <a class="social__link social__link--facebook" href="http://facebook.com">
                 <span class="visually-hidden">Facebook</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
                     <circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.667"/>
@@ -109,7 +109,7 @@
                 </svg>
             </a><span class="visually-hidden">
         ,</span>
-            <a class="social__link social__link--twitter" href="#">
+            <a class="social__link social__link--twitter" href="http://twitter.com">
                 <span class="visually-hidden">Twitter</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
                     <circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.687"/>
@@ -118,7 +118,7 @@
                 </svg>
             </a><span class="visually-hidden">
         ,</span>
-            <a class="social__link social__link--instagram" href="#">
+            <a class="social__link social__link--instagram" href="http://instagram.com">
                 <span class="visually-hidden">Instagram</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
                     <circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.687"/>
@@ -127,7 +127,7 @@
                 </svg>
             </a>
             <span class="visually-hidden">,</span>
-            <a class="social__link social__link--vkontakte" href="#">
+            <a class="social__link social__link--vkontakte" href="http://vk.com">
                 <span class="visually-hidden">Вконтакте</span>
                 <svg width="27" height="27" viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg">
                     <circle stroke="#879296" fill="none" cx="13.5" cy="13.5" r="12.666"/>
