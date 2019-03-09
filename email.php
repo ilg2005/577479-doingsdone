@@ -24,7 +24,7 @@ if ($usersWithUrgentTasks) {
         $messageBody = '';
         $tasks = $user['tasks'];
         foreach ($tasks as $task) {
-            (count($tasks) === 1 || $task === end($tasks)) ? $delimiter = '' : $delimiter = ', ';
+            $delimiter = (count($tasks) === 1 || $task === end($tasks)) ? '' : ', ';
             $messageBody .= '<strong><i>&laquo;' . $task . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($user['deadline'])) . '</strong>' . $delimiter;
         }
         $user['messageBody'] = $salutation . $notification . $messageBody;
