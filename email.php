@@ -9,18 +9,26 @@ $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $usersWithUrgentTasks = getUsersWithUrgentTasks($connection);
 
 if ($usersWithUrgentTasks) {
+    $users = [];
+    foreach ($usersWithUrgentTasks as $element) {
+        $users[$element['id']]['tasks'][] = $element['task_name'];
+        $users[$element['id']]['email'] = $element['email'];
+        $users[$element['id']]['user_name'] = $element['user_name'];
+        $users[$element['id']]['deadline'] = $element['deadline'];
+    }
+
     $usersToNotify = [];
-    foreach ($usersWithUrgentTasks as $user) {
-        $tasks = getUrgentTasks($connection, $user['id']);
+    foreach ($users as $user) {
         $salutation = 'Уважаемый, ' . $user['user_name'] . '!<br>';
         $notification = 'У вас запланирована задача: ';
         $messageBody = '';
+        $tasks = $user['tasks'];
         foreach ($tasks as $task) {
             (count($tasks) === 1 || $task === end($tasks)) ? $delimiter = '' : $delimiter = ', ';
-            $messageBody .= '<strong><i>&laquo;' . $task['task_name'] . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($task['deadline'])) . '</strong>' . $delimiter;
+            $messageBody .= '<strong><i>&laquo;' . $task . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($user['deadline'])) . '</strong>' . $delimiter;
         }
         $user['messageBody'] = $salutation . $notification . $messageBody;
-        $usersToNotify[$user['id']] = $user;
+        $usersToNotify[] = $user;
     }
 
     foreach ($usersToNotify as $user) {
@@ -41,4 +49,3 @@ if ($usersWithUrgentTasks) {
         }
     }
 }
-

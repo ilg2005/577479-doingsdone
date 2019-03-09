@@ -208,7 +208,8 @@ function changeTaskStatusInDatabase()
  *
  * @return bool -- true, если существует проект и непустое ID проекта
  */
-function isProjectExist($projectID) {
+function isProjectExist($projectID)
+{
     return (isset($projectID) && $projectID !== '');
 }
 
@@ -244,23 +245,10 @@ function checkPastDate($date)
  *
  * @return array|null -- массив пользователей и задач, содержащий все строки из базы данных на основе подготовленного запроса, или null
  */
-function getUsersWithUrgentTasks($link) {
+function getUsersWithUrgentTasks($link)
+{
     $sql = 'SELECT u.id, u.name AS user_name, u.email, t.name AS task_name, t.deadline FROM users u JOIN tasks t ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,"%Y%m%d") = CURDATE() AND t.is_done = 0';
     return fetchData($link, $sql, []);
-}
-
-/**
- * Получает для выбранного пользователя задачи со сроком сдачи сегодня
- *
- * @param $link -- объект, представляющий подключение к серверу MySQL
- * @param string $userID  -- строка с ID пользователя
- *
- * @return array|null -- массив задач, содержащий все строки из базы данных на основе подготовленного запроса, или null
- */
-function getUrgentTasks($link, $userID)
-{
-    $sql = 'SELECT t.name AS task_name, t.deadline, t.user_id, u.name, u.email FROM tasks t JOIN users u ON t.user_id = u.id WHERE STR_TO_DATE(t.deadline,"%Y%m%d") = CURDATE() AND t.is_done = 0 AND t.user_id = ?';
-    return fetchData($link, $sql, [$userID]);
 }
 
 /**
@@ -268,7 +256,7 @@ function getUrgentTasks($link, $userID)
  *
  * @param $link -- объект, представляющий подключение к серверу MySQL
  * @param string $taskName -- строка с именем задачи
- * @param string $userID  -- строка с ID пользователя
+ * @param string $userID -- строка с ID пользователя
  * @param string $projectID -- строка с ID проекта
  *
  * @return array|null -- массив, содержащий строку с задачей из базы данных на основе подготовленного запроса, или null
@@ -284,7 +272,7 @@ function checkTaskExist($link, $taskName, $userID, $projectID)
  *
  * @param $link -- объект, представляющий подключение к серверу MySQL
  * @param string $projectName - строка с названием проекта
- * @param string $userID  -- строка с ID пользователя
+ * @param string $userID -- строка с ID пользователя
  *
  * @return array|null-- массив, содержащий строку с проектом из базы данных на основе подготовленного запроса, или null
  */
@@ -310,7 +298,7 @@ function isEmailValid($email)
 /**
  * Применяет фильтр, позволяющий сортировать задачи в соответствии с критериями ("все задачи", "повестка дня", "завтра", "просроченные")
  *
- * @param string $userID  -- строка с ID пользователя
+ * @param string $userID -- строка с ID пользователя
  * @param string $projectID -- строка с ID проекта
  * @param array $filter -- ассоциативный массив, содержащий ключи с именами критериев и значения с соответсвующими SQL запросами
  *
