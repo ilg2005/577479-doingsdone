@@ -4,7 +4,7 @@ $guestPage = false;
 
 $user = '';
 $userName = '';
-$projects = '';
+$projects = [];
 $guestPageContent = '';
 $errors = [];
 

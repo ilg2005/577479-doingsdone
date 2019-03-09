@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (!isEmailValid($email)) {
+    if (empty($errors) && !isEmailValid($email)) {
         $errors['email'] = 'E-mail введен некорректно';
     }
 
@@ -36,16 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
-        } else {
-            $isPasswordValid = password_verify($_POST['password'], $user['password']);
-            if ($isPasswordValid) {
-                $_SESSION['user'] = $user;
-                header('Location: index.php');
-                exit();
-            } else {
-                $errors['password'] = 'Неверный пароль';
-            }
         }
+    }
+
+    if (empty($errors)) {
+        $isPasswordValid = password_verify($_POST['password'], $user['password']);
+        if (!$isPasswordValid) {
+            $errors['password'] = 'Неверный пароль';
+        }
+    }
+
+    if (empty($errors)) {
+        $_SESSION['user'] = $user;
+        header('Location: index.php');
+        exit();
     }
 }
 
