@@ -10,11 +10,11 @@ $usersWithUrgentTasks = getUsersWithUrgentTasks($connection);
 
 if ($usersWithUrgentTasks) {
     $users = [];
-    foreach ($usersWithUrgentTasks as $element) {
-        $users[$element['id']]['tasks'][] = $element['task_name'];
-        $users[$element['id']]['email'] = $element['email'];
-        $users[$element['id']]['user_name'] = $element['user_name'];
-        $users[$element['id']]['deadline'] = $element['deadline'];
+    foreach ($usersWithUrgentTasks as $key) {
+        $users[$key['id']]['tasks'][] = $key['task_name'];
+        $users[$key['id']]['email'] = $key['email'];
+        $users[$key['id']]['user_name'] = $key['user_name'];
+        $users[$key['id']]['deadline'] = $key['deadline'];
     }
 
     $usersToNotify = [];
