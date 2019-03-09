@@ -12,12 +12,14 @@ if ($usersWithUrgentTasks) {
     $usersToNotify = [];
     foreach ($usersWithUrgentTasks as $user) {
         $tasks = getUrgentTasks($connection, $user['id']);
-        $salutation = 'Уважаемый, ' . $user['user_name'] . '!<br><ul>';
+        $salutation = 'Уважаемый, ' . $user['user_name'] . '!<br>';
+        $notification = 'У вас запланирована задача: ';
         $messageBody = '';
         foreach ($tasks as $task) {
-            $messageBody .= '<li>У вас запланирована задача <strong><i>&laquo;' . $task['task_name'] . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($task['deadline'])) . '</strong></li>';
+            (count($tasks) === 1 || $task === end($tasks)) ? $delimiter = '' : $delimiter = ', ';
+            $messageBody .= '<strong><i>&laquo;' . $task['task_name'] . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($task['deadline'])) . '</strong>' . $delimiter;
         }
-        $user['messageBody'] = $salutation . $messageBody . '</ul>';
+        $user['messageBody'] = $salutation . $notification . $messageBody;
         $usersToNotify[$user['id']] = $user;
     }
 
