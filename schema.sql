@@ -49,7 +49,7 @@ create index tasks_deadline_index
   on tasks (deadline);
 create index tasks_file_name_index
   on tasks (file_name);
-create index tasks_name_index
+create FULLTEXT INDEX tasks_name_index
   on tasks (name);
 create index tasks_is_done_index
   on tasks (is_done);

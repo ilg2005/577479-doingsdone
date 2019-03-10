@@ -2,11 +2,13 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
-$isProjectsTasksPage = false;
 $email = '';
 $password = '';
+$user = [];
 $userName = '';
+$guestPage = false;
 $errors = [];
+
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
-        $result = fetchData($connection, $sql, [$email]);
+        $result = fetchRow($connection, $sql, [$email]);
         if ($result) {
             $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
         }
@@ -46,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $addNewUser = 'INSERT INTO users (registration_date, email, name, password) VALUES (NOW(), ?, ?, ?)';
         $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
         if (mysqli_stmt_execute($stmt)) {
-            header('Location: index.php');
+            header('Location: auth.php');
         }
     }
 }
@@ -59,9 +61,10 @@ $mainContent = includeTemplate('registration.php', [
 ]);
 
 $layout = includeTemplate('layout.php', [
+    'guestPage' => $guestPage,
+    'user' => $user,
     'pageTitle' => $pageTitle,
-    'mainContent' => $mainContent,
-    'isProjectsTasksPage' => $isProjectsTasksPage
+    'mainContent' => $mainContent
 ]);
 
 print($layout);
