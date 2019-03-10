@@ -17,7 +17,7 @@ INSERT INTO users
 VALUES ('igor@mail.ru', 'Игорь', 'password1'),
        ('olga@mail.ru', 'Ольга', 'password2'),
        ('oleg@mail.ru', 'Олег', 'password3'),
-       ('new@mail.ru', 'Новый', '$2y$10$bqRzoFvU5Pjgy/5/WLsiC..OekG5x/NyjBDBInCUDG9epE0mFD8vi');
+       ('igor_test@list.ru', 'Игорь', '$2y$10$bqRzoFvU5Pjgy/5/WLsiC..OekG5x/NyjBDBInCUDG9epE0mFD8vi');
 
 # Добавление задач
 INSERT INTO tasks
@@ -84,7 +84,7 @@ SELECT COUNT(projects.id) FROM projects LEFT JOIN tasks ON tasks.project_id = pr
 SELECT p.id, p.name, count(t.id) as task_count FROM projects p LEFT JOIN tasks t ON t.project_id = p.id WHERE p.user_id = 4 GROUP BY p.id;
 
 #Выбор задач, соответствующих проекту
-SELECT tasks.name, DATE_FORMAT(tasks.deadline, "%d.%m.%Y") AS deadline, tasks.is_done FROM tasks WHERE tasks.user_id = 4 AND tasks.project_id = 8;
+SELECT tasks.name, DATE_FORMAT(tasks.deadline, '%d.%m.%Y') AS deadline, tasks.is_done FROM tasks WHERE tasks.user_id = 4 AND tasks.project_id = 8;
 
 #Проверка существования строки
 SELECT * FROM projects WHERE projects.id = 9;
