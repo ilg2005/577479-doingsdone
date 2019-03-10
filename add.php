@@ -2,13 +2,22 @@
 require_once('mysql_helper.php');
 require_once('functions.php');
 
-$isProjectsTasksPage = true;
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];
+    $userID = $user['id'];
+} else {
+    header('Location: guest.php');
+    exit();
+}
 
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
 $errors = [];
-$userID = 4;
+$guestPage = false;
+
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
@@ -32,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     }
-    if (checkTaskExist($connection, $newTaskName)) {
+    if (checkTaskExist($connection, $newTaskName, $userID)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
@@ -44,7 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['preview'])) {
         $newTaskFileName = $_FILES['preview']['name'];
-        $uniqueFileName = date('YmdHis') . '_' . $newTaskFileName;
+        if ($newTaskFileName) {
+            $uniqueFileName = date('YmdHis') . '_' . $newTaskFileName;
+        } else {
+            $uniqueFileName = '';
+        }
         $newTaskFilePathFull = __DIR__ . '\\' . $uniqueFileName;
         $res = move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
         if ($newTaskFileName && !$res) {
@@ -75,11 +88,12 @@ $mainContent = includeTemplate('add.php', [
 ]);
 
 $layout = includeTemplate('layout.php', [
+    'guestPage' => $guestPage,
+    'user' => $user,
     'pageTitle' => $pageTitle,
     'userName' => $userName,
     'projects' => $projects,
-    'mainContent' => $mainContent,
-    'isProjectsTasksPage' => $isProjectsTasksPage
+    'mainContent' => $mainContent
 ]);
 
 print($layout);
