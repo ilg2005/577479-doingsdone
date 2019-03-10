@@ -1,58 +1,60 @@
 <?php
-require_once('mysql_helper.php');
-require_once('functions.php');
+require_once 'mysql_helper.php';
+require_once 'functions.php';
+require_once 'init.php';
 
-$guestPage = false;
-$show_complete_tasks = 1;
-$searchText = '';
-
-
-if(isset($_GET['show_completed'])) {
-    $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
-}
-session_start();
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-if (isset($_SESSION['user'])) {
+if (!isset($_SESSION['user'])) {
+    $guestPage = true;
+    $mainContent = '';
+    $guestPageContent = includeTemplate('guest.php', []);
+} else {
     $user = $_SESSION['user'];
     $userID = $user['id'];
+
+    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
     $userData = isUserExist($connection, $userID);
-    $errors = [];
+    if (!$connection && !$userData) {
+        exit('Произошла ошибка!');
+    }
 
-} else {
-    header('Location: guest.php');
-    exit();
-}
-
-if ($connection && $userData) {
     $userName = $userData['name'];
     $projects = getProjects($connection, $userData['id']);
     $tasks = getTasks($connection, $userData['id']);
-} else {
-    die('Произошла ошибка!');
-}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $searchText = trim($_POST['text']) ?? '';
-    $searchText = htmlspecialchars($searchText);
-    $errors = [];
-    if (empty($searchText)) {
-        $errors['searchText'] = 'Поле поиска не может быть пустым';
-    } else {
-        $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
-        $tasks = fetchData($connection, $searchSql, [$searchText]);
+    $show_complete_tasks = 0;
+    if (isset($_GET['show_completed'])) {
+        $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
     }
-}
 
-$mainContent = includeTemplate('index.php', [
-    'tasks' => $tasks,
-    'show_complete_tasks' => $show_complete_tasks,
-    'searchText' => $searchText,
-    'errors' => $errors
-]);
+    $searchText = '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $searchText = strip_tags($_POST['text']);
+        $searchText = trim($searchText) ?? '';
+        $errors = [];
+        if (empty($searchText)) {
+            $errors['searchText'] = 'Поле поиска не может быть пустым';
+        }
+        $projectID = $_SESSION['project_id'] ?? '';
+        $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
+        if ($projectID) {
+            $searchInProjectSql =  $searchSql . ' AND tasks.project_id = ?';
+            $tasks = fetchData($connection, $searchInProjectSql, [$searchText, $projectID]);
+        } else {
+            $tasks = fetchData($connection, $searchSql, [$searchText]);
+        }
+    }
+
+    $mainContent = includeTemplate('index.php', [
+        'tasks' => $tasks,
+        'show_complete_tasks' => $show_complete_tasks,
+        'searchText' => $searchText,
+        'errors' => $errors
+    ]);
+}
 
 $layout = includeTemplate('layout.php', [
     'guestPage' => $guestPage,
+    'guestPageContent' => $guestPageContent,
     'user' => $user,
     'pageTitle' => $pageTitle,
     'userName' => $userName,
@@ -62,4 +64,3 @@ $layout = includeTemplate('layout.php', [
 
 print($layout);
 
-?>

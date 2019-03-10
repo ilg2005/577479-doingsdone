@@ -1,35 +1,45 @@
 <?php
-require_once('vendor/autoload.php');
-require_once('mysql_helper.php');
-require_once('functions.php');
+require_once 'vendor/autoload.php';
+require_once 'mysql_helper.php';
+require_once 'functions.php';
 
-$user['name'] = " ";
-$task['name'] = "Отладить отправку почты";
-$task['deadline'] = "сегодня";
-
-$subject = "Уведомление от сервиса «Дела в порядке»";
-
+$subject = 'Уведомление от сервиса «Дела в порядке»';
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-$results = checkTasksCloseToDeadline($connection);
+$usersWithUrgentTasks = getUsersWithUrgentTasks($connection);
 
-if ($results) {
-    foreach ($results as $result) {
-        $taskName = $result['task'];
-        $userName = $result['name'];
-        $userEmail = $result['email'];
-        $taskDeadline = $result['deadline'];
+if ($usersWithUrgentTasks) {
+    $users = [];
+    foreach ($usersWithUrgentTasks as $key) {
+        $users[$key['id']]['tasks'][] = $key['task_name'];
+        $users[$key['id']]['email'] = $key['email'];
+        $users[$key['id']]['user_name'] = $key['user_name'];
+        $users[$key['id']]['deadline'] = $key['deadline'];
+    }
 
-        $messageBody = "Уважаемый, " . $userName . "!\nУ вас запланирована задача " . $taskName . " на " . $taskDeadline;
+    $usersToNotify = [];
+    foreach ($users as $user) {
+        $salutation = 'Уважаемый, ' . $user['user_name'] . '!<br>';
+        $notification = 'У вас запланирована задача: ';
+        $messageBody = '';
+        $tasks = $user['tasks'];
+        foreach ($tasks as $task) {
+            $delimiter = (count($tasks) === 1 || $task === end($tasks)) ? '' : ', ';
+            $messageBody .= '<strong><i>&laquo;' . $task . '&raquo;</i></strong> на <strong>' . date('d.m.Y', strtotime($user['deadline'])) . '</strong>' . $delimiter;
+        }
+        $user['messageBody'] = $salutation . $notification . $messageBody;
+        $usersToNotify[] = $user;
+    }
 
+    foreach ($usersToNotify as $user) {
         try {
             $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465, 'ssl'))
                 ->setUsername('igor_test@list.ru')
                 ->setPassword('new_123');
 
             $message = (new Swift_Message($subject))
-                ->setTo($userEmail)
-                ->setBody($messageBody)
+                ->setTo($user['email'])
+                ->setBody($user['messageBody'], 'text/html')
                 ->setFrom('igor_test@list.ru', 'Администратор сервиса');
 
             $mailer = (new Swift_Mailer($transport))
@@ -39,4 +49,3 @@ if ($results) {
         }
     }
 }
-?>

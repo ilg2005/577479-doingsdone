@@ -1,21 +1,21 @@
 <?php
-require_once('mysql_helper.php');
-require_once('functions.php');
+require_once 'mysql_helper.php';
+require_once 'functions.php';
+require_once 'init.php';
 
 $email = '';
 $password = '';
-$user = [];
-$userName = '';
-$guestPage = false;
-$errors = [];
-
 
 $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $userName = $_POST['name'] ?? '';
+    $email = htmlspecialchars($_POST['email']);
+    $email = $email ?? '';
+    $password = htmlspecialchars($_POST['password']);
+    $password = $password ?? '';
+    $userName = strip_tags($_POST['name']);
+    $userName = $userName ?? '';
+
 
     $requiredFields = [
         'email' => $email,
@@ -30,17 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (empty($errors)) {
         if (!isEmailValid($email)) {
             $errors['email'] = 'E-mail введен некорректно';
+        } else {
+            $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
+            $result = fetchRow($connection, $sql, [$email]);
+            if ($result) {
+                $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
+            }
         }
-
-        $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
-        $result = fetchRow($connection, $sql, [$email]);
-        if ($result) {
-            $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
-        }
-    }
 
     if (empty($errors)) {
         $password = password_hash($password, PASSWORD_DEFAULT);
@@ -49,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: auth.php');
+            exit();
         }
     }
 }
@@ -68,4 +67,4 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
-?>
+
