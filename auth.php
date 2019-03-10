@@ -1,58 +1,52 @@
 <?php
-require_once('mysql_helper.php');
-require_once('functions.php');
+require_once 'mysql_helper.php';
+require_once 'functions.php';
+require_once 'init.php';
 
-$guestPage = false;
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $email = '';
 $password = '';
-$user = [];
-$userName = '';
-$projects = [];
-$errors = [];
 
-session_start();
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $form = $_POST;
-    $email = $form['email'] ?? '';
-    $password = $form['password'] ?? '';
-    $errors = [];
+    $email = htmlspecialchars($_POST['email']);
+    $email = $email ?? '';
+    $password = htmlspecialchars($_POST['password']);
+    $password = $password ?? '';
+
 
     $requiredFields = [
         'email' => $email,
         'password' => $password
     ];
 
+    $errors = [];
     foreach ($requiredFields as $key => $value) {
         if (empty(trim($value))) {
             $errors[$key] = 'Это поле нужно заполнить';
         }
     }
 
-    $email = mysqli_real_escape_string($connection, $form['email']);
-
-    if (empty($errors)) {
-        if (!isEmailValid($email)) {
-            $errors['email'] = 'E-mail введен некорректно';
-        }
+    if (!isset($errors['email']) && !isEmailValid($email)) {
+        $errors['email'] = 'E-mail введен некорректно';
     }
 
     if (empty($errors)) {
         $userSearch = 'SELECT * FROM users WHERE email = ? LIMIT 1';
         $user = fetchRow($connection, $userSearch, [$email]);
-
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
+        }
+    }
+
+    if (empty($errors)) {
+        $isPasswordValid = password_verify($_POST['password'], $user['password']);
+        if (!$isPasswordValid) {
+            $errors['password'] = 'Неверный пароль';
         } else {
-            $isPasswordValid = password_verify($form['password'], $user['password']);
-            if ($isPasswordValid) {
-                $_SESSION['user'] = $user;
-                header('Location: index.php');
-                exit();
-            } else {
-                $errors['password'] = 'Неверный пароль';
-            }
+            $_SESSION['user'] = $user;
+            header('Location: index.php');
+            exit();
         }
     }
 }
@@ -74,4 +68,3 @@ $layout = includeTemplate('layout.php', [
 
 print($layout);
 
-?>

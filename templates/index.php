@@ -1,7 +1,7 @@
 <h2 class="content__main-heading">Список задач</h2>
 
 <form class="search-form" action="index.php" method="post">
-    <input class="search-form__input <?php if(isset($errors['searchText'])) : ?>form__search--error<?php endif; ?>" type="text" name="text" value="<?= $searchText; ?>" placeholder="Поиск по задачам">
+    <input class="search-form__input <?php if(isset($errors['searchText'])) : ?>form__search--error<?php endif; ?>" type="text" name="text" value="<?php if(isset($_POST['text'])) : ?><?= $searchText; ?><?php endif; ?>" placeholder="Поиск по задачам">
 
     <input class="search-form__submit" type="submit" name="submit" value="Искать">
     <?php if(isset($errors['searchText'])) : ?>
@@ -91,7 +91,7 @@
                 <td></td>
             <?php endif; ?>
 
-            <td class="task__date"><?= ($task['deadline'] != 0) ? date('d.m.Y', strtotime($task['deadline'])) : ''; ?>
+            <td class="task__date"><?= ($task['deadline'] !== 0) ? date('d.m.Y', strtotime($task['deadline'])) : ''; ?>
             </td>
 
             <td class="task__controls">

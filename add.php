@@ -1,49 +1,46 @@
 <?php
-require_once('mysql_helper.php');
-require_once('functions.php');
+require_once 'mysql_helper.php';
+require_once 'functions.php';
+require_once 'init.php';
 
-session_start();
-
-if (isset($_SESSION['user'])) {
-    $user = $_SESSION['user'];
-    $userID = $user['id'];
-} else {
-    header('Location: guest.php');
+if (!isset($_SESSION['user'])) {
+    header('Location: index.php');
     exit();
 }
+
+$user = $_SESSION['user'];
+$userID = $user['id'];
+$connection = connect2Database('localhost', 'root', '', 'doingsdone');
+$userData = isUserExist($connection, $userID);
+if (!$connection && !$userData) {
+    exit('Произошла ошибка!');
+}
+$userName = $userData['name'];
+$projects = getProjects($connection, $userData['id']);
+$tasks = getTasks($connection, $userData['id']);
 
 $newTaskName = '';
 $newTaskProjectID = '';
 $newTaskDate = '';
-$errors = [];
-$guestPage = false;
-
-
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
-$userData = isUserExist($connection, $userID);
-
-if ($connection && $userData) {
-    $userName = $userData['name'];
-    $projects = getProjects($connection, $userData['id']);
-    $tasks = getTasks($connection, $userData['id']);
-} else {
-    die('Произошла ошибка!');
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newTaskName = trim($_POST['name']) ?? '';
-    $newTaskName = htmlspecialchars($newTaskName);
-    $newTaskProjectID = $_POST['project'] ?? '';
-    $newTaskDate = htmlspecialchars($_POST['date']) ?? '';
+    $newTaskName = strip_tags($newTaskName);
+    $newTaskProjectID = strip_tags($_POST['project']);
+    $newTaskProjectID = $newTaskProjectID ?? '';
+    $newTaskDate = strip_tags($_POST['date']) ?? '';
 
     $errors = [];
     if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     }
-    if (checkTaskExist($connection, $newTaskName, $userID)) {
+    if (checkTaskExist($connection, $newTaskName, $userID, $newTaskProjectID)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
+    if (!isProjectExist($newTaskProjectID)) {
+        $errors['projectNotExists'] = 'Сначала нужно создать проект';
+    }
+
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
         $errors['newTaskDate'] = 'Дата должна быть в формате ДД.ММ.ГГГГ';
     }
@@ -72,9 +69,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $newTaskDate = 0;
         }
-        $stmt = db_get_prepare_stmt($connection, $addNewTask, [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
+        $stmt = db_get_prepare_stmt($connection, $addNewTask,
+            [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
         if (mysqli_stmt_execute($stmt)) {
             header('Location: index.php');
+            exit();
         }
     }
 }
@@ -98,4 +97,4 @@ $layout = includeTemplate('layout.php', [
 
 print($layout);
 
-?>
+
