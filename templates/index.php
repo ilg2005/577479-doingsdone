@@ -13,7 +13,7 @@
 
     <nav class="tasks-switch">
         <a href="/index.php?filter=all<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
-        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
+        <?php if (!isset($_GET['filter']) || $_GET['filter'] === 'all'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Все задачи</a>
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all' && isset($_SESSION['user'])): ?>
