@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $newTaskFilePathFull = __DIR__ . '\\' . $uniqueFileName;
         $res = move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
-        if ($newTaskFileName && !$res) {
+        if ($newTaskFileName && !$res  && !is_readable($newTaskFileName)) {
             $errors['fileSave'] = 'Файл не загружен';
         }
     }
