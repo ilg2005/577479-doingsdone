@@ -12,7 +12,7 @@
 <div class="tasks-controls">
 
     <nav class="tasks-switch">
-        <a href="/index.php?filter=all" class="tasks-switch__item
+        <a href="/index.php?filter=all<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Все задачи</a>
@@ -20,7 +20,7 @@
             <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'all');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=today" class="tasks-switch__item
+        <a href="/index.php?filter=today<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Повестка дня</a>
@@ -28,7 +28,7 @@
             <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'today');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=tomorrow" class="tasks-switch__item
+        <a href="/index.php?filter=tomorrow<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Завтра</a>
@@ -36,7 +36,7 @@
             <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'tomorrow');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=overdue" class="tasks-switch__item
+        <a href="/index.php?filter=overdue<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Просроченные</a>
