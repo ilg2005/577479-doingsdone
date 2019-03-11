@@ -1,7 +1,7 @@
 <h2 class="content__main-heading">Список задач</h2>
 
 <form class="search-form" action="index.php" method="post">
-    <input class="search-form__input <?php if(isset($errors['searchText'])) : ?>form__search--error<?php endif; ?>" type="text" name="text" value="<?php if(isset($_POST['text'])) : ?><?= $searchText; ?><?php endif; ?>" placeholder="Поиск по задачам">
+    <input class="search-form__input <?php if(isset($errors['searchText'])) : ?>form__search--error<?php endif; ?>" type="text" name="text" value="<?php if(isset($_POST['text'])) : ?><?= htmlspecialchars($searchText); ?><?php endif; ?>" placeholder="Поиск по задачам">
 
     <input class="search-form__submit" type="submit" name="submit" value="Искать">
     <?php if(isset($errors['searchText'])) : ?>
@@ -94,6 +94,6 @@
         </tr>
     <?php endforeach; ?>
     <? elseif ($searchText) : ?>
-        <p class="content__main" style="color: red; text-align: center"><?= 'Не найдено:  ' . $searchText; ?></p>
+        <p class="content__main" style="color: red; text-align: center"><?= 'Не найдено:  ' . htmlspecialchars($searchText); ?></p>
     <?php endif; ?>
 </table>
