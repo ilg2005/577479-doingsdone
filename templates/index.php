@@ -48,9 +48,7 @@
 
     <label class="checkbox">
         <input class="checkbox__input visually-hidden show_completed"
-               type="checkbox" <?php if (isset($show_complete_tasks)) : ?>
-            <?= !$show_complete_tasks ?: 'checked'; ?>
-        <?php else : ?>
+               type="checkbox" <?php if (isset($show_complete_tasks) && $show_complete_tasks) : ?>
             checked
         <?php endif; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
@@ -74,9 +72,6 @@
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" name="task_id"
                            value="<?= $task['id'] ?>"
-                        <?php if (isset($_GET['task_id'])) : ?>
-                            <?php changeTaskStatusInDatabase(); ?>
-                        <?php endif; ?>
                         <?php if ($task['is_done'] && $show_complete_tasks) : ?>
                             checked
                         <?php endif; ?>>

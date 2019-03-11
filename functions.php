@@ -188,16 +188,14 @@ function changeTaskStatusInDatabase()
 {
     $connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
-    if (isset($_GET['task_id'], $_GET['check'])) {
-        $taskID = $_GET['task_id'];
-        $status = $_GET['check'];
+    $taskID = $_GET['task_id'];
+    $status = $_GET['check'];
 
-        $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
-        $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
-        if (mysqli_stmt_execute($stmt)) {
-            header('Location: /index.php?show_completed=1');
-            exit();
-        }
+    $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
+    $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
+    if (mysqli_stmt_execute($stmt)) {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
     }
 }
 

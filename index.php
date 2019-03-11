@@ -26,6 +26,10 @@ if (!isset($_SESSION['user'])) {
         $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
     }
 
+    if (isset($_GET['task_id'], $_GET['check'])) {
+        changeTaskStatusInDatabase();
+    }
+
     $searchText = '';
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $searchText = strip_tags($_POST['text']);
@@ -37,7 +41,7 @@ if (!isset($_SESSION['user'])) {
         $projectID = $_SESSION['project_id'] ?? '';
         $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
         if ($projectID) {
-            $searchInProjectSql =  $searchSql . ' AND tasks.project_id = ?';
+            $searchInProjectSql = $searchSql . ' AND tasks.project_id = ?';
             $tasks = fetchData($connection, $searchInProjectSql, [$searchText, $projectID]);
         } else {
             $tasks = fetchData($connection, $searchSql, [$searchText]);
