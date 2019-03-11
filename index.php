@@ -2,6 +2,7 @@
 require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'connect.php';
 
 if (!isset($_SESSION['user'])) {
     $guestPage = true;
@@ -11,9 +12,8 @@ if (!isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
 
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
     $userData = isUserExist($connection, $userID);
-    if (!$connection && !$userData) {
+    if (!$userData) {
         exit('Произошла ошибка!');
     }
 
@@ -27,7 +27,7 @@ if (!isset($_SESSION['user'])) {
     }
 
     if (isset($_GET['task_id'], $_GET['check'])) {
-        changeTaskStatusInDatabase();
+        changeTaskStatusInDatabase($connection);
     }
 
     $searchText = '';
@@ -49,6 +49,7 @@ if (!isset($_SESSION['user'])) {
     }
 
     $mainContent = includeTemplate('index.php', [
+        'connection' => $connection,
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
         'searchText' => $searchText,

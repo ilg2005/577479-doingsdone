@@ -1,4 +1,6 @@
 <?php
+require_once 'connect.php';
+
 const SECONDS_PER_DAY = 86400;
 $pageTitle = 'Дела в порядке';
 
@@ -55,24 +57,6 @@ function checkDatabaseError($link, $result)
         print('Ошибка MySQL ' . mysqli_error($link));
         exit();
     }
-}
-
-/**
- * Устанавливает соединение с базой данных MySQL
- *
- * @param string $hostName -- строка с именем хоста
- * @param string $userName -- строка с именем пользователя MySQL
- * @param string $pwd -- пароль пользователя MySQL
- * @param string $dbName -- строка с именем базы данных MySQL
- *
- * @return mysqli $link -- объект, представляющий подключение к серверу MySQL
- */
-function connect2Database($hostName, $userName, $pwd, $dbName)
-{
-    $link = mysqli_connect($hostName, $userName, $pwd, $dbName);
-    mysqli_set_charset($link, 'utf8');
-    checkDatabaseError($link, $link);
-    return $link;
 }
 
 /**
@@ -185,11 +169,11 @@ function getTasks($link, $selectedUserID)
 
 /**
  * Меняет статус задачи в базе данных (выполнена/не выполнена) при клике на чекбокс перед именем задачи
+ *
+ * @param $connection -- ресурс соединения с базой данных
  */
-function changeTaskStatusInDatabase()
+function changeTaskStatusInDatabase($connection)
 {
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
     $taskID = $_GET['task_id'];
     $status = $_GET['check'];
 
@@ -298,16 +282,15 @@ function isEmailValid($email)
 /**
  * Применяет фильтр, позволяющий сортировать задачи в соответствии с критериями ("все задачи", "повестка дня", "завтра", "просроченные")
  *
+ * @param $connection -- ресурс соединения с базой данных
  * @param string $userID -- строка с ID пользователя
  * @param string $projectID -- строка с ID проекта
  * @param array $filter -- ассоциативный массив, содержащий ключи с именами критериев и значения с соответсвующими SQL запросами
  *
  * @return array|null -- массив задач, содержащий строки из базы данных на основе подготовленного запроса, или null
  */
-function applyFilter($userID, $projectID, $filter)
+function applyFilter($connection, $userID, $projectID, $filter)
 {
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
     if ($projectID) {
         $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
     } else {

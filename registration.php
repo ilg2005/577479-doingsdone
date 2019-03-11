@@ -2,11 +2,10 @@
 require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'connect.php';
 
 $email = '';
 $password = '';
-
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars($_POST['email']);
