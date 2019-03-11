@@ -148,6 +148,8 @@ function getProjects($link, $selectedUserID)
 function showNotFound()
 {
     header('HTTP/1.1 404 Not Found');
+    echo '<title>Дела в порядке</title>
+          <h2>Ошибка 404: Такой страницы не существует!</h2>';
     exit();
 }
 
