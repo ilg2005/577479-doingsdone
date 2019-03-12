@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
     if (!isProjectExist($newTaskProjectID)) {
-        $errors['projectNotExists'] = 'Сначала нужно создать проект';
+        $errors['projectNotExists'] = 'Нужно выбрать проект';
     }
 
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
