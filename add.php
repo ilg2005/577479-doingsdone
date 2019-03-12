@@ -2,6 +2,7 @@
 require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'connect.php';
 
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
@@ -10,9 +11,8 @@ if (!isset($_SESSION['user'])) {
 
 $user = $_SESSION['user'];
 $userID = $user['id'];
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $userData = isUserExist($connection, $userID);
-if (!$connection && !$userData) {
+if (!$userData) {
     exit('Произошла ошибка!');
 }
 $userName = $userData['name'];
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
     if (!isProjectExist($newTaskProjectID)) {
-        $errors['projectNotExists'] = 'Сначала нужно создать проект';
+        $errors['projectNotExists'] = 'Нужно выбрать проект';
     }
 
     if (!isCorrectDateFormat('d.m.Y', $newTaskDate)) {
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $newTaskFilePathFull = __DIR__ . '\\' . $uniqueFileName;
         $res = move_uploaded_file($_FILES['preview']['tmp_name'], $newTaskFilePathFull);
-        if ($newTaskFileName && !$res) {
+        if ($newTaskFileName && !$res  && !is_readable($newTaskFileName)) {
             $errors['fileSave'] = 'Файл не загружен';
         }
     }
@@ -96,5 +96,3 @@ $layout = includeTemplate('layout.php', [
 ]);
 
 print($layout);
-
-

@@ -2,6 +2,7 @@
 require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'connect.php';
 
 if (!isset($_SESSION['user'])) {
     $guestPage = true;
@@ -11,9 +12,8 @@ if (!isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
     $userID = $user['id'];
 
-    $connection = connect2Database('localhost', 'root', '', 'doingsdone');
     $userData = isUserExist($connection, $userID);
-    if (!$connection && !$userData) {
+    if (!$userData) {
         exit('Произошла ошибка!');
     }
 
@@ -24,6 +24,10 @@ if (!isset($_SESSION['user'])) {
     $show_complete_tasks = 0;
     if (isset($_GET['show_completed'])) {
         $show_complete_tasks = htmlspecialchars($_GET['show_completed']);
+    }
+
+    if (isset($_GET['task_id'], $_GET['check'])) {
+        changeTaskStatusInDatabase($connection);
     }
 
     $searchText = '';
@@ -37,7 +41,7 @@ if (!isset($_SESSION['user'])) {
         $projectID = $_SESSION['project_id'] ?? '';
         $searchSql = 'SELECT * FROM tasks WHERE MATCH(name) AGAINST(? IN BOOLEAN MODE)';
         if ($projectID) {
-            $searchInProjectSql =  $searchSql . ' AND tasks.project_id = ?';
+            $searchInProjectSql = $searchSql . ' AND tasks.project_id = ?';
             $tasks = fetchData($connection, $searchInProjectSql, [$searchText, $projectID]);
         } else {
             $tasks = fetchData($connection, $searchSql, [$searchText]);
@@ -45,6 +49,7 @@ if (!isset($_SESSION['user'])) {
     }
 
     $mainContent = includeTemplate('index.php', [
+        'connection' => $connection,
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
         'searchText' => $searchText,

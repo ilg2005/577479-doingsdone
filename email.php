@@ -2,10 +2,10 @@
 require_once 'vendor/autoload.php';
 require_once 'mysql_helper.php';
 require_once 'functions.php';
+require_once 'connect.php';
 
 $subject = 'Уведомление от сервиса «Дела в порядке»';
 
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
 $usersWithUrgentTasks = getUsersWithUrgentTasks($connection);
 
 if ($usersWithUrgentTasks) {

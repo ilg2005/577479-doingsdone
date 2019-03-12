@@ -20,21 +20,22 @@
             <label class="form__label" for="project">Проект</label>
 
             <select class="form__input form__input--select" name="project" id="project">
+                <option value=""></option>
                 <?php if (isset($_GET['project_id'])) : ?>
                     <?php foreach ($projects as $project) : ?>
-                        <option value="<?= $_GET['project_id']; ?>"
-                            <?php if ($project['id'] === (int)$_GET['project_id']) : ?>
+                        <option value="<?= htmlspecialchars($_GET['project_id']); ?>"
+                            <?php if ($project['id'] === (int)htmlspecialchars($_GET['project_id'])) : ?>
                                 selected
                             <?php endif; ?>
-                        ><?= $project['name']; ?></option>
+                        ><?= htmlspecialchars($project['name']); ?></option>
                     <?php endforeach; ?>
                 <?php else : ?>
                     <?php foreach ($projects as $project) : ?>
-                        <option value="<?= $project['id']; ?>"
+                        <option value="<?= htmlspecialchars($project['id']); ?>"
                             <?php if ($project['id'] === (int)$newTaskProjectID) : ?>
                                 selected
                             <?php endif; ?>
-                        ><?= $project['name']; ?></option>
+                        ><?= htmlspecialchars($project['name']); ?></option>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </select>

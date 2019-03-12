@@ -2,6 +2,7 @@
 require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
+require_once 'connect.php';
 
 $newProjectName = '';
 
@@ -11,12 +12,9 @@ if (!isset($_SESSION['user'])) {
 }
 $user = $_SESSION['user'];
 $userID = $user['id'];
-
-$connection = connect2Database('localhost', 'root', '', 'doingsdone');
-
 $userData = isUserExist($connection, $userID);
 
-if (!$connection && !$userData) {
+if (!$userData) {
     exit('Произошла ошибка!');
 }
 
