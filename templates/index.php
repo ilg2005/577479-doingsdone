@@ -12,45 +12,43 @@
 <div class="tasks-controls">
 
     <nav class="tasks-switch">
-        <a href="/index.php?filter=all" class="tasks-switch__item
-        <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all'): ?>
+        <a href="/index.php?filter=all<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
+        <?php if (!isset($_GET['filter']) || $_GET['filter'] === 'all'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Все задачи</a>
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'all' && isset($_SESSION['user'])): ?>
-            <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'all');?>
+            <?php $tasks = applyFilter($connection, $_SESSION['user']['id'], $_SESSION['project_id'], 'all');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=today" class="tasks-switch__item
+        <a href="/index.php?filter=today<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Повестка дня</a>
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'today' && isset($_SESSION['user'])): ?>
-            <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'today');?>
+            <?php $tasks = applyFilter($connection, $_SESSION['user']['id'], $_SESSION['project_id'], 'today');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=tomorrow" class="tasks-switch__item
+        <a href="/index.php?filter=tomorrow<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Завтра</a>
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'tomorrow' && isset($_SESSION['user'])): ?>
-            <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'tomorrow');?>
+            <?php $tasks = applyFilter($connection, $_SESSION['user']['id'], $_SESSION['project_id'], 'tomorrow');?>
         <?php endif; ?>
 
-        <a href="/index.php?filter=overdue" class="tasks-switch__item
+        <a href="/index.php?filter=overdue<?= '&show_completed=' . $show_complete_tasks; ?>" class="tasks-switch__item
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue'): ?>
         tasks-switch__item--active
         <?php endif; ?>">Просроченные</a>
         <?php if (isset($_GET['filter']) && $_GET['filter'] === 'overdue' && isset($_SESSION['user'])): ?>
-        <?php $tasks = applyFilter($_SESSION['user']['id'], $_SESSION['project_id'], 'overdue');?>
+        <?php $tasks = applyFilter($connection, $_SESSION['user']['id'], $_SESSION['project_id'], 'overdue');?>
         <?php endif; ?>
 
     </nav>
 
     <label class="checkbox">
         <input class="checkbox__input visually-hidden show_completed"
-               type="checkbox" <?php if (isset($show_complete_tasks)) : ?>
-            <?= !$show_complete_tasks ?: 'checked'; ?>
-        <?php else : ?>
+               type="checkbox" <?php if (isset($show_complete_tasks) && $show_complete_tasks) : ?>
             checked
         <?php endif; ?>>
         <span class="checkbox__text">Показывать выполненные</span>
@@ -74,9 +72,6 @@
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" name="task_id"
                            value="<?= $task['id'] ?>"
-                        <?php if (isset($_GET['task_id'])) : ?>
-                            <?php changeTaskStatusInDatabase(); ?>
-                        <?php endif; ?>
                         <?php if ($task['is_done'] && $show_complete_tasks) : ?>
                             checked
                         <?php endif; ?>>
