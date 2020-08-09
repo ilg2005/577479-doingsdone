@@ -1,5 +1,4 @@
 <?php
-require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
 require_once 'connect.php';
@@ -32,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $userSearch = 'SELECT * FROM users WHERE email = ? LIMIT 1';
-        $user = fetchRow($connection, $userSearch, [$email]);
+        $user = fetchRow($pdo, $userSearch, [$email]);
         if (!$user) {
             $errors['email'] = 'Такой пользователь не найден';
         }

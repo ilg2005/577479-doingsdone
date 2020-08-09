@@ -1,5 +1,4 @@
 <?php
-require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
 require_once 'connect.php';
@@ -33,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors['email'] = 'E-mail введен некорректно';
         } else {
             $sql = 'SELECT id FROM users WHERE email = ? LIMIT 1';
-            $result = fetchRow($connection, $sql, [$email]);
+            $result = fetchRow($pdo, $sql, [$email]);
             if ($result) {
                 $errors['email'] = 'Пользователь с таким email уже зарегистрирован';
             }
@@ -43,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($password, PASSWORD_DEFAULT);
 
         $addNewUser = 'INSERT INTO users (registration_date, email, name, password) VALUES (NOW(), ?, ?, ?)';
-        $stmt = db_get_prepare_stmt($connection, $addNewUser, [$email, $userName, $password]);
-        if (mysqli_stmt_execute($stmt)) {
+        if (execute($pdo, $addNewUser, [$email, $userName, $password])) {
             header('Location: auth.php');
             exit();
         }

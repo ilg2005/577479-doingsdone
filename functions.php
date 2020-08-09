@@ -46,18 +46,24 @@ function checkTaskImportant($deadline)
 }
 
 /**
- * Выводит строку с описанием последней ошибки MySQL, если не получено данных из таблицы MySQL
+ * Выполняет запрос в базу данных
  *
- * @param $link -- объект, представляющий подключение к серверу MySQL
- * @param array $result -- массив с данными результирующей таблицы
+ * @param $pdo -- соединение с базой данных
+ * @param $sql  -- запрос в БД
+ * @param $params -- массив параметров переменных для запроса
+ * @return mixed -- объект PDO statement
  */
-function checkDatabaseError($link, $result)
-{
-    if (!$result) {
-        print('Ошибка MySQL ' . mysqli_error($link));
+function execute($pdo, $sql, $params = []) {
+    try {
+        $stm = $pdo->prepare($sql);
+        $stm->execute($params);
+        return $stm;
+    } catch (PDOException $err) {
+        printf("Ошибка выполнения запроса: %s.\n", $err->getMessage());
         exit();
     }
 }
+
 
 /**
  * Получает все строки данных из базы данных MySQL в соответствии с запросом
@@ -70,15 +76,8 @@ function checkDatabaseError($link, $result)
  */
 function fetchData($link, $sql, $data = [])
 {
-    $result = [];
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    checkDatabaseError($link, $res);
-    if ($res) {
-        $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    }
-    return $result;
+    $stm = execute($link, $sql, $data);
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /**
@@ -92,10 +91,8 @@ function fetchData($link, $sql, $data = [])
  */
 function fetchRow($link, $sql, $data = [])
 {
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-    mysqli_stmt_execute($stmt);
-    $res = mysqli_stmt_get_result($stmt);
-    return mysqli_fetch_array($res);
+    $stm = execute($link, $sql, $data);
+    return $stm->fetch(PDO::FETCH_ASSOC);
 }
 
 /**
@@ -170,16 +167,17 @@ function getTasks($link, $selectedUserID)
 /**
  * Меняет статус задачи в базе данных (выполнена/не выполнена) при клике на чекбокс перед именем задачи
  *
- * @param $connection -- ресурс соединения с базой данных
+ * @param $pdo -- ресурс соединения с базой данных
  */
-function changeTaskStatusInDatabase($connection)
+function changeTaskStatusInDatabase($pdo)
 {
     $taskID = $_GET['task_id'];
     $status = $_GET['check'];
+    $implementationDate = $status ? date_format(new DateTime('NOW'), 'Y-m-d H:i:s') : null;
 
-    $taskStatusUpdate = 'UPDATE tasks SET is_done = ? WHERE id = ?';
-    $stmt = db_get_prepare_stmt($connection, $taskStatusUpdate, [$status, $taskID]);
-    if (mysqli_stmt_execute($stmt)) {
+    $taskStatusUpdate = 'UPDATE tasks SET is_done = ?, implementation_date = ? WHERE id = ?';
+
+    if (execute($pdo, $taskStatusUpdate, [$status, $implementationDate, $taskID])) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();
     }
@@ -282,14 +280,14 @@ function isEmailValid($email)
 /**
  * Применяет фильтр, позволяющий сортировать задачи в соответствии с критериями ("все задачи", "повестка дня", "завтра", "просроченные")
  *
- * @param $connection -- ресурс соединения с базой данных
+ * @param $link -- ресурс соединения с базой данных
  * @param string $userID -- строка с ID пользователя
  * @param string $projectID -- строка с ID проекта
  * @param array $filter -- ассоциативный массив, содержащий ключи с именами критериев и значения с соответсвующими SQL запросами
  *
  * @return array|null -- массив задач, содержащий строки из базы данных на основе подготовленного запроса, или null
  */
-function applyFilter($connection, $userID, $projectID, $filter)
+function applyFilter($link, $userID, $projectID, $filter)
 {
     if ($projectID) {
         $allSql = 'SELECT * FROM tasks t WHERE t.user_id = ? AND t.project_id = ?';
@@ -308,9 +306,9 @@ function applyFilter($connection, $userID, $projectID, $filter)
     ];
 
     if ($projectID) {
-        $filteredTasks = fetchData($connection, $filters[$filter], [$userID, $projectID]);
+        $filteredTasks = fetchData($link, $filters[$filter], [$userID, $projectID]);
     } else {
-        $filteredTasks = fetchData($connection, $filters[$filter], [$userID]);
+        $filteredTasks = fetchData($link, $filters[$filter], [$userID]);
     }
     return $filteredTasks;
 }

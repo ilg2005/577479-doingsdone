@@ -1,5 +1,4 @@
 <?php
-require_once 'mysql_helper.php';
 require_once 'functions.php';
 require_once 'init.php';
 require_once 'connect.php';
@@ -11,13 +10,13 @@ if (!isset($_SESSION['user'])) {
 
 $user = $_SESSION['user'];
 $userID = $user['id'];
-$userData = isUserExist($connection, $userID);
+$userData = isUserExist($pdo, $userID);
 if (!$userData) {
     exit('Произошла ошибка!');
 }
 $userName = $userData['name'];
-$projects = getProjects($connection, $userData['id']);
-$tasks = getTasks($connection, $userData['id']);
+$projects = getProjects($pdo, $userData['id']);
+$tasks = getTasks($pdo, $userData['id']);
 
 $newTaskName = '';
 $newTaskProjectID = '';
@@ -34,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($newTaskName)) {
         $errors['newTaskName'] = 'Название задачи не может быть пустым';
     }
-    if (checkTaskExist($connection, $newTaskName, $userID, $newTaskProjectID)) {
+    if (checkTaskExist($pdo, $newTaskName, $userID, $newTaskProjectID)) {
         $errors['newTaskNameRepeat'] = 'Задача с таким названием уже существует';
     }
     if (!isProjectExist($newTaskProjectID)) {
@@ -69,9 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $newTaskDate = 0;
         }
-        $stmt = db_get_prepare_stmt($connection, $addNewTask,
-            [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID]);
-        if (mysqli_stmt_execute($stmt)) {
+        if (execute($pdo, $addNewTask,
+            [$newTaskName, $uniqueFileName, $newTaskDate, $userData['id'], $newTaskProjectID])) {
             header('Location: index.php');
             exit();
         }

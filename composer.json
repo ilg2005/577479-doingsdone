@@ -10,6 +10,8 @@
     }
   ],
   "require": {
-    "swiftmailer/swiftmailer": "v6.0.0"
+    "swiftmailer/swiftmailer": "v6.0.0",
+    "ext-pdo": "*",
+    "ext-mysqli": "*"
   }
 }

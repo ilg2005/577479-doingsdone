@@ -36,7 +36,7 @@ CREATE TABLE tasks
 (
   id                  int AUTO_INCREMENT PRIMARY KEY,
   creation_date       TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,
-  implementation_date TIMESTAMP DEFAULT NULL,
+  implementation_date TIMESTAMP,
   is_done             TINYINT(1) DEFAULT 0,
   name                VARCHAR(128) NOT NULL,
   file_name           VARCHAR(128),
